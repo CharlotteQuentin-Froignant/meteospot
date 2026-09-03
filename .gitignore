@@ -1,0 +1,12 @@
+#Fichier d'environnement
+.env
+
+#Fichiers systèmes
+Thumbs.db
+
+#Fichiers d'IDE
+.vscode/
+
+#Fichiers de dépendances et logs
+node_modules/
+*.log
