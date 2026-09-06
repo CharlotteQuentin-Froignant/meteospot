@@ -1,0 +1,58 @@
+
+/*VARIABLES*/
+:root{
+    /* font types*/
+    --font-titles: "Newsreader", serif;
+    --font-secondary : "Manrope", sans-serif;
+
+    /* font colours*/
+    --text-primary: #1A1A18;
+    --text-secondary : #5F5E5A;
+    --text-other: #9B9A92;
+
+    /* font wieghts*/
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+
+    /* font sizes (mobile), rem base 16px*/
+    --font-size-app-name: 1.4rem;
+    --font-size-city-name: 0.9rem;
+    --font-size-hero: 4.7rem;
+    --font-size-section-title: 1rem;
+    --font-size-forecast-temp: 1.1rem;
+    --font-size-ui: 0.7rem;
+
+    /* borders*/
+    --border: #E5E3DC;
+    --border-width-accent: 3px;
+
+    /* radius */
+    --radius-card: 12px;
+    --radius-block: 16px;
+    --radius-app: 14px;
+
+    /* spacing */
+    --spacing-block: 22px;
+    --spacing-card-gap: 8px;
+
+    /*colours*/
+    --background-color:#FFFFFF;
+    --background-section :#f3f3f7;
+
+
+    /*default values for the temperature color picker; colors will be dynamically integrated using JS*/
+    --temp-accent:#4FD1E8;
+    --temp-gradient-text : linear-gradient(120deg, #0E5C66 0%, #4FD1E8 70%);
+    --temp-gradient-background:linear-gradient(160deg, #FFFFFF, #E3F7FA);
+}
+
+main{
+    background: #E3F7FA;
+    color: var(--text-primary);
+}
+
+section{
+    background: var(--temp-gradient-background);
+    color: var(--text-secondary);
+}
