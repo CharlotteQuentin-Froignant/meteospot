@@ -78,6 +78,12 @@ Choix définitifs, à charger via Google Fonts :
 
 > ⚠️ Newsreader a des chiffres "old-style" par défaut (hauteurs irrégulières) — forcer les chiffres "lining" (hauteur uniforme) via les réglages OpenType (`font-feature-settings: "lnum"`) pour que le gros chiffre de température reste bien aligné visuellement.
 
+> Les plages ci-dessus couvrent mobile à desktop. En CSS, seule la valeur basse de chaque plage est utilisée comme variable de base (mobile-first). Les valeurs hautes seront appliquées via les media queries tablette/desktop.
+
+- **Note Technique - unités de taille de police**
+Les tailles de police ont finalement été converties en `rem` (plutôt que `px`) pour :
+  * faciliter le responsive desgin
+  * améliorer l'accessibilité (les valeurs en `rem` respectent la préférence de taille de police définie par l'utilisateur dans son navigateur, contrairement au `px` qui reste figé).
 ---
 
 ## 3. Icônes météo (SVG, style trait fin)
@@ -450,6 +456,8 @@ Pour le bloc ville actuelle, les icones sont plus grandes (88x88) et sont animé
 <circle cx="[même x/y]" r="16" fill="[couleur accent]" opacity="0.25"/>
 ```
 La position du soleil sur l'arc doit être calculée dynamiquement selon l'heure actuelle entre le lever et le coucher (0% = lever à gauche, 100% = coucher à droite).
+
+> **Cas nocturne** : entre le coucher et le lever du soleil, aucune position n'est calculée sur l'arc (l'heure actuelle est hors de la plage [lever, coucher]). L'arc reste affiché en trait neutre/discret, sans point, accompagné d'une indication textuelle du prochain lever ("Prochain lever : 06:52") à la place de la donnée habituellement associée au point.
 
 ---
 
