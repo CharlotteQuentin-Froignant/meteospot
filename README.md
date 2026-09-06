@@ -1,15 +1,16 @@
-# MétéoSpot 🌤️
+# MétéoSpot ![icone soleil](assets/icones/statiques/sunny.svg)
 
-Application météo mobile-first, développée en HTML/CSS/JS vanilla dans le cadre de ma formation CDA (Concepteur Développeur d'Applications), démarrée le 8 juin 2026.
+Application météo mobile-first, développée en HTML/CSS/JS vanilla.
 
 ## Contexte
 
-Projet personnel réalisé en dehors des heures de formation, avec un temps disponible qui varie d'un jour à l'autre selon la charge de cours
-Objectif : développer une application météo tout en m'entraînant à structurer un développement de A à Z.
+Point de départ : un exercice de ma formation CDA (Concepteur Développeur d'Applications, démarrée le 8 juin 2026) pour pratiquer la manipulation du DOM et les appels API fetch. Le scope initial étant limité, j'ai choisi de le transformer en un vrai projet personnel complet avec un design, une structure de backlog priorisée, afin de développer une petite application complète plutôt que de coder une fonctionnalité isolée.
+
+Ce travail est réalisé en dehors des heures de formation, avec un temps disponible qui varie d'un jour à l'autre selon la charge de cours.
 
 ## Méthode
 
-Vu que je travaille seule et avec un temps disponible qui varie d'un jour à l'autre, je n'ai pas retenu la notion de sprint à durée fixe mais j'ai plutôt adapté deux outils agiles à mon contexte :
+Vu que je travaille seule et avec une disponibilité réduite, je n'ai pas retenu la notion de sprint mais j'ai plutôt adapté deux outils agiles à mon contexte :
 
 - **Priorisation MoSCoW** pour trancher ce qui est indispensable de ce qui est un bonus (voir plus bas)
 - **Backlog priorisé sur GitHub Projects** [https://github.com/users/CharlotteQuentin-Froignant/projects/1], avec un rétroplanning par ticket (date de début/fin propre à chaque tâche)
@@ -27,7 +28,7 @@ Vu que je travaille seule et avec un temps disponible qui varie d'un jour à l'a
 - [ ] Icônes météo cohérentes et distinctes selon la météo
 - [ ] Géolocalisation
 - [ ] Gestion des différents états (erreur API, bienvenue, localisation désactivée)
-- [ ] Prévisions sur 7 jours
+- [ ] Prévisions sur 5 jours
 - [ ] Palette dynamique selon la température
 - [ ] Responsive tablette
 
@@ -47,7 +48,7 @@ Vu que je travaille seule et avec un temps disponible qui varie d'un jour à l'a
 
 - HTML5 / CSS3 vanilla / JavaScript vanilla
 - API météo : [OpenWeatherMap](https://openweathermap.org/)
-- Pas de framework JS ni de librairie CSS — choix volontaire pour ce projet d'apprentissage : travailler sans abstraction m'oblige à comprendre le DOM et le CSS en profondeur
+- Pas de framework JS ni de librairie CSS — choix volontaire pour comprendre le DOM et le CSS en profondeur avant de m'appuyer sur des outils plus automatisés
 
 ## Design
 
@@ -76,10 +77,13 @@ Dans les trois cas, la règle est la même : comprendre avant d'intégrer, et v�
 
 ## Avancement
 
-Suivi détaillé sur le [GitHub Project](lien vers ton board).
+Suivi détaillé sur le GitHub Project [https://github.com/users/CharlotteQuentin-Froignant/projects/1]
 
-### En cours
-- [ ] à compléter au fil de l'eau
+- [x] Initialisation du projet (GitHub Project #1)
+- [x] HTML sémantique + variables CSS de base (GitHub Project #2)
+    - vérification : pas d'erreur de console ni de requêtes
+
+![Console DevTools sans erreur](docs/progress/1_app-T2-console-sans-erreur.png)
 
 ## Installation
 
