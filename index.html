@@ -18,7 +18,22 @@
     <title>MétéoSpot</title>
 </head>
 <body>
-    <header>MétéoSpot</header>
+    <header>
+        <div id="header-titles">
+            <h1 id="app-title">MétéoSpot</h1>
+            <p id="app-slogan">Votre météo d'ici et d'ailleurs</p>
+        </div>
+        <div id="search">
+            <input id="search-bar" type="search" value="" placeholder="Rechercher une ville ...">
+        </div>
+        <div class="searched-towns">
+            <!-- attribuer une double classe pour l'onglet actif-->
+            <!--type button pour gérer l'accessibilité et l'interaction avec le clavier-->
+            <button class="town-tab active">Bordeaux</button>
+            <button class="town-tab">Paris</button>
+            <button class="town-tab">Tokyo</button>
+        </div>
+    </header>
     <main>
         <section class="current-weather"></section>
         <section class="hourly-forecast"></section>
