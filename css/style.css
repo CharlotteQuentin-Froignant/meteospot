@@ -2,8 +2,8 @@
 /*VARIABLES*/
 :root{
     /* font types*/
-    --font-titles: "Newsreader", serif;
-    --font-secondary : "Manrope", sans-serif;
+    --font-family-titles: "Newsreader", serif;
+    --font-family-secondary : "Manrope", sans-serif;
 
     /* font colours*/
     --text-primary: #1A1A18;
@@ -35,10 +35,11 @@
     /* spacing */
     --spacing-block: 22px;
     --spacing-card-gap: 8px;
+    --spacing-app : 0px 15px 8px 15px;
 
     /*colours*/
     --background-color:#FFFFFF;
-    --background-section :#f3f3f7;
+    --background-section :#f3f3f758;
 
 
     /*default values for the temperature color picker; colors will be dynamically integrated using JS*/
@@ -47,12 +48,103 @@
     --temp-gradient-background:linear-gradient(160deg, #FFFFFF, #E3F7FA);
 }
 
-main{
-    background: #E3F7FA;
+/*CSS GENERAL*/
+*{
+    box-sizing: border-box;
+    background-color: var(--background-color);
+}
+
+body{
+    max-width: 768px;
+    margin: auto 0;
+}
+
+/*suppression des marges et padding par défaut*/
+h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+}
+
+/*HEADER*/
+header{
+    display: flex;
+    flex-direction: column;
+}
+
+#header-titles{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: var(--spacing-block);
+    gap: 1px;
+}
+
+#app-title{
+    font-family: var(--font-family-titles);
+    font-size: var(--font-size-app-name);
+    font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
 }
 
-section{
-    background: var(--temp-gradient-background);
+#app-slogan{
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
+}
+
+#search{
+    display: inline-flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: var(--spacing-app);
+    margin-bottom: var(--spacing-block);
+    position: relative;
+}
+
+#search::before{
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    background: url('../assets/icons/static/search.svg') no-repeat center / contain;
+}
+
+#search-bar{
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding-left: 45px;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-secondary);
+    background-color: var(--background-section);
+}
+
+.searched-towns{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+    margin: var(--spacing-app);
+}
+
+.town-tab{
+    /*enlever les propriétés button par défaut*/
+    border: none;
+    background-color: transparent;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.town-tab.active{
+    border-bottom: 2px solid #FF9A44;
 }
