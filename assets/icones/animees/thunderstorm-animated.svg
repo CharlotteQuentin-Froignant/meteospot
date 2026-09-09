@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="88" height="88">
-  <style>
-    @keyframes boltFlash { 0%, 88%, 100% { opacity: 1; } 91%, 95% { opacity: 0.25; } }
-    .bolt { animation: boltFlash 3s ease-in-out infinite; }
-  </style>
-  <path d="M22 49.5 Q16.5 49.5 16.5 41.25 Q16.5 33 24.75 33 Q24.75 19.25 41.25 19.25 Q57.75 19.25 60.5 33 Q74.25 33 74.25 44 Q74.25 49.5 66 49.5 Z"
-        fill="none" stroke="#5F5E5A" stroke-width="2.22" stroke-linejoin="round"/>
-  <path class="bolt" d="M46.75 52.25 L35.75 68.75 L46.75 68.75 L38.5 82.5 L60.5 60.5 L49.5 60.5 Z" fill="#F2A93B" stroke="#F2A93B" stroke-width="1.39" stroke-linejoin="round"/>
-</svg>

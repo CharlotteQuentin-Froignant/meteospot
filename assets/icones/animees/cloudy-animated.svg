@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="88" height="88">
-  <style>
-    @keyframes cloudDrift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(1.5px); } }
-    .cloud-shape { animation: cloudDrift 6s ease-in-out infinite; }
-  </style>
-  <path class="cloud-shape" d="M19.25 66 Q13.75 66 13.75 57.75 Q13.75 49.5 22 49.5 Q22 33 41.25 33 Q57.75 33 60.5 49.5 Q74.25 49.5 74.25 60.5 Q74.25 66 66 66 Z"
-        fill="none" stroke="#9B9A92" stroke-width="2.22" stroke-linejoin="round"/>
-</svg>
