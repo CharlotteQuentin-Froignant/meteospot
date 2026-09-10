@@ -145,6 +145,10 @@ header{
     cursor: pointer;
 }
 
+.town-tab{
+    border-bottom: 2px solid transparent;
+}
+
 .town-tab.active{
     border-bottom: 2px solid #FF9A44;
 }
