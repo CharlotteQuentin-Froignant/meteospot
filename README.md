@@ -1,4 +1,4 @@
-# MétéoSpot ![icone soleil](assets/icones/statiques/sunny.svg)
+# MétéoSpot ![icone soleil](assets/icons/static/sunny.svg)
 
 Application météo mobile-first, développée en HTML/CSS/JS vanilla.
 
@@ -81,9 +81,10 @@ Suivi détaillé sur le GitHub Project [https://github.com/users/CharlotteQuenti
 
 - [x] Initialisation du projet (GitHub Project #1)
 - [x] HTML sémantique + variables CSS de base (GitHub Project #2)
-    - vérification : pas d'erreur de console ni de requêtes
-
-![Console DevTools sans erreur](docs/progress/1_app-T2-console-sans-erreur.png)
+    - vérification : pas d'erreur de console ni de requêtes [voir la capture](docs/progress/1_app-T2-console-sans-erreur.png)
+- [x] HTML et CSS : header, barre de recherche et onglets villes recherchées (GitHub Project #3)
+    - vérifications intermédiaires effectuées via les DevTools du navigateur
+    - suivi visuel sur simulateur iPhone SE 2016 avec l'extension chrome MOBILEFIRST et test sur appareil réel (Galaxy S23) [voir la capture](docs/progress/2_app-T3-visuel-entete_barre-recherche_onglets.png)
 
 ## Installation
 

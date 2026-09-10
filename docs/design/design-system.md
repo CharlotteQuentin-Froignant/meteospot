@@ -43,6 +43,12 @@ Ces valeurs sont des équivalents approchés des tokens utilisés dans le mockup
 ```
 ---
 
+| Élément | Valeur actuelle | Historique | Ticket |
+|---|---|---|
+| Fond de page | `#FFFFFF` | ~~#F7F6F3~~| (changé ticket #3) |
+| Fond barre de recherche | `#f3f3f758` |          | (ajouté ticket #3) |
+
+
 ## 2. Typographie
 
 Choix définitifs, à charger via Google Fonts :
@@ -67,14 +73,17 @@ Choix définitifs, à charger via Google Fonts :
   - Boutons / éléments d'interaction
   - Informations secondaires
 
-| Élément | Police | Taille | Poids |
-|---|---|---|---|
+| Élément | Police | Taille | Poids | Ticket - update |
+|---|---|---|---|---|
 | Nom d'app (header) | Newsreader | 22px | 500-600 (SemiBold) |
 | Nom de ville (bloc principal) | Newsreader | 15-20px | 500-600 |
 | Chiffre de température (bloc principal) | Newsreader | 76-80px | 600 (SemiBold) — validé visuellement, le 400 manquait de présence |
 | Titres de section | Newsreader | 16px | 500-600 |
 | Température (carte horaire / extrêmes) | Newsreader | 17-24px | 500-600 |
 | Recherche, onglets, labels, stats, boutons | Manrope | 11-14px | 400-500 |
+| Slogan | Manrope | 0.7 rem | 500 | (ajouté ticket #3)
+
+
 
 > ⚠️ Newsreader a des chiffres "old-style" par défaut (hauteurs irrégulières) — forcer les chiffres "lining" (hauteur uniforme) via les réglages OpenType (`font-feature-settings: "lnum"`) pour que le gros chiffre de température reste bien aligné visuellement.
 
