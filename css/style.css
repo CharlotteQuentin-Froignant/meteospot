@@ -24,7 +24,7 @@
     --font-size-ui: 0.7rem;
 
     /* borders*/
-    --border: #E5E3DC;
+    --border: #f5f5f4; 
     --border-width-accent: 3px;
 
     /* radius */
@@ -43,20 +43,20 @@
 
 
     /*default values for the temperature color picker; colors will be dynamically integrated using JS*/
-    --temp-accent:#4FD1E8;
-    --temp-gradient-text : linear-gradient(120deg, #0E5C66 0%, #4FD1E8 70%);
-    --temp-gradient-background:linear-gradient(160deg, #FFFFFF, #E3F7FA);
+    --temp-accent:#FF9A44;
+    --temp-gradient-text : linear-gradient(120deg, #C43A2E 0%, #FFA83D 70%);
+    --temp-gradient-background:linear-gradient(160deg, #FFFFFF, #FCF0E7);
 }
 
 /*CSS GENERAL*/
 *{
     box-sizing: border-box;
-    background-color: var(--background-color);
 }
 
 body{
     max-width: 768px;
     margin: auto 0;
+    background-color: var(--background-color);
 }
 
 /*suppression des marges et padding par défaut*/
@@ -143,12 +143,95 @@ header{
     font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
     cursor: pointer;
-}
-
-.town-tab{
     border-bottom: 2px solid transparent;
+    margin-bottom: var(--spacing-block);
 }
 
 .town-tab.active{
     border-bottom: 2px solid #FF9A44;
 }
+
+/* CURRENT WEATHER*/
+.weather-card{
+    display: flex;
+    flex-direction: column;
+    margin: var(--spacing-app);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-block);
+    background: var(--temp-gradient-background);
+    margin: var(--spacing-app);
+    overflow: hidden; /* permet de couper proprement les angles des éléments enfants*/
+}
+
+/* Top informations*/
+.main-infos{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.main-text{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.main-icon{
+    width: 50%;
+    transform: scale(0.8) translateX(15px);
+}
+
+.city-name, .main-temperature{
+    font-family: var(--font-family-titles);
+}
+
+.city-name{
+    font-size: 1.6rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+}
+
+.main-temperature{
+    font-size: 3.5rem;
+    font-weight: var(--font-weight-semibold);
+    background: var(--temp-gradient-text);
+
+    /* ajout d'un dégradé sur du texte*/
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.secondary-text, .secondary-infos{
+    display: flex;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-ui);
+    color: var(--text-secondary);
+}
+.secondary-text{
+    gap : 4px;
+}
+
+.main-temperature-felt::before{
+    content: "- ";
+}
+
+/*Bottom informations*/
+.secondary-infos{
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: relative;
+}
+
+.secondary-infos::before{
+    content: "";
+    position: absolute;
+    width: 90%;
+    height : 1px;
+    top : 0;
+    left: 5%;
+    background-color:rgb(235, 227, 227);
+}
+
