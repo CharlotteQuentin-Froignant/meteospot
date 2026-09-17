@@ -1,3 +1,4 @@
+// CURRENT WEATHER
 // set de données factices
 let data = {
     name : "Bordeaux",
@@ -9,7 +10,7 @@ let data = {
     rain : 0.2,
 }
 
-//insertion des données principales dans bloc current-weather avec protection contre faille XSS
+//configuration des données principales dans bloc current-weather avec protection contre faille XSS
 let weatherCard = document.createElement("div");
 weatherCard.className = "weather-card";
 
@@ -42,7 +43,7 @@ secondaryText.appendChild(mainWeather);
 
 let mainTemperatureFelt = document.createElement("span");
 mainTemperatureFelt.className = "main-temperature-felt";
-mainTemperatureFelt.textContent = "ressenti" + " " + data["temperature_felt"] +"°C";
+mainTemperatureFelt.textContent = "Ressenti " + " " + data["temperature_felt"] +"°C";
 secondaryText.appendChild(mainTemperatureFelt);
 
 let mainIcon = document.createElement("img");
@@ -51,25 +52,55 @@ mainIcon.src = "assets/icons/animated/sunny-animated.svg";
 mainIcon.alt = data["weather"];
 mainInfos.appendChild(mainIcon);
 
-//insertion des données secondaires dans bloc current-weather avec protection contre faille XSS
+//configuration des données secondaires dans bloc current-weather avec protection contre faille XSS
 let secondaryInfos = document.createElement("div");
 secondaryInfos.className = "secondary-infos";
 weatherCard.appendChild(secondaryInfos);
 
 let mainHumidity = document.createElement("span");
-mainHumidity.className = "main-humidity";
-mainHumidity.textContent = "Humidité:" + " " + data["humidity"] + " %";
+mainHumidity.className  = "main-humidity";
 secondaryInfos.appendChild(mainHumidity);
+
+// découpage de chaque section en plusieurs spans afin de gérer les très petits écrans
+let humidityLabel = document.createElement("span");
+humidityLabel.className = "label";
+humidityLabel.textContent = "Humidité: ";
+mainHumidity.appendChild(humidityLabel);
+
+let humidityValue = document.createElement("span");
+humidityValue.className = "value";
+humidityValue.textContent = data["humidity"] + " %";
+mainHumidity.appendChild(humidityValue);
 
 let mainWind = document.createElement("span");
 mainWind.className = "main-wind";
-mainWind.textContent = "Vent:" + " " + data["wind"] + " km/h";
 secondaryInfos.appendChild(mainWind);
+
+let windLabel = document.createElement("span");
+windLabel.className = "label";
+windLabel.textContent = "Vent: ";
+mainWind.appendChild(windLabel);
+
+let windValue = document.createElement("span");
+windValue.className = "value";
+windValue.textContent = data["wind"] + " km/h";
+mainWind.appendChild(windValue);
 
 let mainRain = document.createElement("span");
 mainRain.className = "main-rain";
-mainRain.textContent = "Précipitations:" + " " + data["rain"] + " mm";
 secondaryInfos.appendChild(mainRain);
 
+let rainLabel = document.createElement("span");
+rainLabel.className = "label";
+rainLabel.textContent = "Précipitations: ";
+mainRain.appendChild(rainLabel);
+
+let rainValue = document.createElement("span");
+rainValue.className = "value";
+rainValue.textContent = data["rain"] + " mm";
+mainRain.appendChild(rainValue);
+
+// insertion des données
 let target = document.querySelector(".current-weather");
 target.appendChild(weatherCard);
+

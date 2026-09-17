@@ -235,3 +235,33 @@ header{
     background-color:rgb(235, 227, 227);
 }
 
+
+/* MEDIA QUERY PETITS ECRANS <340px */
+@media screen and (max-width:340px) {
+
+    .main-text{
+        gap:5px;
+    }
+
+    .city-name{
+        padding-top: 8px;
+    }
+
+    .main-temperature{
+        font-size: 3rem;
+    }
+    .secondary-text{
+        flex-direction: column;
+        margin-bottom: 5px;
+    }
+
+    .main-temperature-felt::before{
+    display: none;
+    }
+
+    .main-humidity, .main-rain, .main-wind{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
