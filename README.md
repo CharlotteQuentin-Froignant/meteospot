@@ -55,11 +55,9 @@ Vu que je travaille seule et avec une disponibilité réduite, je n'ai pas reten
 Maquette conçue par itérations successives avec l'aide de l'IA (échanges de prompts et retours, sans passer par Figma). Point de départ : une direction type dashboard bleu/glassmorphism, jugée trop générique, puis retravaillée vers une identité plus sobre et distinctive (fond pastel, typographie
 Newsreader + Manrope, palette évolutive).
 
-Détail complet du processus (points de bascule, versions intermédiaires) :
-[docs/design/process.md](docs/design/process.md)
+Détail complet du processus (points de bascule, versions intermédiaires) : [docs/design/process.md](docs/design/process.md)
 
-Référence technique d'implémentation (palette, typographie, icônes, ...):
-[docs/design/design-system](docs/design/design-system.md)
+Référence technique d'implémentation (palette, typographie, icônes, ...): [docs/design/design-system](docs/design/design-system.md)
 
 **Particularité visuelle du projet :** le fond du bloc météo actuelle, le dégradé du chiffre de température et la couleur des icônes changent selon la température de la ville affichée (7 paliers, de "très froid" à "canicule"), pour donner une indication visuelle immédiate du ressenti climatique.
 
@@ -77,14 +75,8 @@ Dans les trois cas, la règle est la même : comprendre avant d'intégrer, et v�
 
 ## Avancement
 
-Suivi détaillé sur le GitHub Project [https://github.com/users/CharlotteQuentin-Froignant/projects/1]
-
-- [x] Initialisation du projet (GitHub Project #1)
-- [x] HTML sémantique + variables CSS de base (GitHub Project #2)
-    - vérification : pas d'erreur de console ni de requêtes [voir la capture](docs/progress/1_app-T2-console-sans-erreur.png)
-- [x] HTML et CSS : header, barre de recherche et onglets villes recherchées (GitHub Project #3)
-    - vérifications intermédiaires effectuées via les DevTools du navigateur
-    - suivi visuel sur simulateur iPhone SE 2016 avec l'extension chrome MOBILEFIRST et test sur appareil réel (Galaxy S23) [voir la capture](docs/progress/2_app-T3-visuel-entete_barre-recherche_onglets.png)
+Suivi détaillé sur le GitHub Project : https://github.com/users/CharlotteQuentin-Froignant/projects/1
+Journal visuel des étapes clés : [docs/progress/](docs/progress)
 
 ## Installation
 

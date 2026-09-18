@@ -1,0 +1,36 @@
+# Journal de progression — MétéoSpot
+
+Ce dossier regroupe les captures illustrant l'avancement visuel du projet.
+Le suivi détaillé des tickets se fait sur le GitHub Project [https://github.com/users/CharlotteQuentin-Froignant/projects/1].
+
+---
+
+## Ticket #1 — Initialisation du projet
+
+Pas de capture associée : mise en place du repo, structure de dossiers,
+GitHub Project. Aucun rendu visuel à ce stade.
+
+## Ticket #2 — Structure HTML sémantique + variables CSS
+
+Étape sans rendu visuel notable (sections vides, variables CSS déclarées).
+Vérification effectuée : aucune erreur de console, toutes les requêtes en succès (favicon, polices, feuille de style).
+[Voir la capture](1_app-T2-console-sans-erreur.png)
+
+## Ticket #3 — Header, barre de recherche, onglets villes
+
+Premier rendu visuel de l'application. Vérifications intermédiaires avec les DevTools, puis test final sur simulateur (iPhone SE 2016 via l'extension Chrome Mobile FIRST) et sur appareil réel (Galaxy S23).
+[Voir la capture](2_app-T3-visuel-entete_barre-recherche_onglets.png)
+
+**Correctif apporté après cette capture** : décalage vertical de l'onglet actif corrigé. La bordure inférieure était appliquée uniquement sur l'onglet actif, ce qui décalait sa hauteur par rapport aux autres. Voir `fix/ticket3-active-tab-border`.
+
+## Ticket #4 — Bloc météo actuelle avec données statiques
+
+Rendu visuel avec le bloc météo actuelle et la correction du décalage de l'onglet actif. Lors du test sur petits écrans avec l'iPhone SE 2016 des problèmes d'affichage ont été relevés sur la température ressentie et les données météo secondaires.
+
+**Correctif apporté après cette capture** : modification de la disposition des éléments dans le fichier main.js et création d'une média query CSS dédiée afin d'améliorer le rendu esthétique de l'application sur petits écrans, sans perte d'informations. [voir la capture](3_app-T4-visuel-meteo-actuelle.png).
+
+---
+
+## Convention de nommage
+
+Chaque capture est préfixée d'un numéro croissant pour garder l'ordre chronologique dans l'explorateur de fichiers, suivi du ticket concerné et d'une courte description. (Exemple : `3_app-T4-meteo-actuelle.png` pour la 3ème capture du dossier, correspondant au Ticket 4).
