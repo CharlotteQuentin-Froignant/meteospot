@@ -43,10 +43,12 @@ Ces valeurs sont des équivalents approchés des tokens utilisés dans le mockup
 ```
 ---
 
+
 | Élément | Valeur actuelle | Historique | Ticket |
-|---|---|---|
+|---|---|---|---|
 | Fond de page | `#FFFFFF` | ~~#F7F6F3~~| (changé ticket #3) |
-| Fond barre de recherche | `#f3f3f758` |          | (ajouté ticket #3) |
+| Fond barre de recherche | `#f3f3f758` |     N/A     | (ajouté ticket #3) |
+| Border | `#f5f5f4` | ~~#E5E3DC~~|  (changé ticket #4) |
 
 
 ## 2. Typographie
@@ -73,15 +75,15 @@ Choix définitifs, à charger via Google Fonts :
   - Boutons / éléments d'interaction
   - Informations secondaires
 
-| Élément | Police | Taille | Poids | Ticket - update |
-|---|---|---|---|---|
+| Élément | Police | Taille | Poids |
+|---|---|---|---|
 | Nom d'app (header) | Newsreader | 22px | 500-600 (SemiBold) |
 | Nom de ville (bloc principal) | Newsreader | 15-20px | 500-600 |
 | Chiffre de température (bloc principal) | Newsreader | 76-80px | 600 (SemiBold) — validé visuellement, le 400 manquait de présence |
 | Titres de section | Newsreader | 16px | 500-600 |
 | Température (carte horaire / extrêmes) | Newsreader | 17-24px | 500-600 |
 | Recherche, onglets, labels, stats, boutons | Manrope | 11-14px | 400-500 |
-| Slogan | Manrope | 0.7 rem | 500 | (ajouté ticket #3)
+| Slogan | Manrope | 0.7 rem | 500 |
 
 
 
@@ -93,6 +95,12 @@ Choix définitifs, à charger via Google Fonts :
 Les tailles de police ont finalement été converties en `rem` (plutôt que `px`) pour :
   * faciliter le responsive desgin
   * améliorer l'accessibilité (les valeurs en `rem` respectent la préférence de taille de police définie par l'utilisateur dans son navigateur, contrairement au `px` qui reste figé).
+
+
+| Élément | Valeur actuelle | Historique | Ticket |
+|---|---|---|---|
+| Nom de ville (bloc principal) | `1.6rem` | ~~0.9rem~~| (changé ticket #4) |
+| Chiffre de température (bloc principal) | `3.5rem` |    ~~4.7rem~~      | (changé ticket #4) |
 ---
 
 ## 3. Icônes météo (SVG, style trait fin)
