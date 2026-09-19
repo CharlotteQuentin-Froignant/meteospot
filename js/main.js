@@ -1,4 +1,4 @@
-// CURRENT WEATHER
+// === CURRENT WEATHER ===
 // set de données factices
 let data = {
     name : "Bordeaux",
@@ -104,3 +104,63 @@ mainRain.appendChild(rainValue);
 let target = document.querySelector(".current-weather");
 target.appendChild(weatherCard);
 
+
+// === HOURLY FORECAST ===
+// set de données factices
+
+let forecastTable = [
+    {
+        "time" : "10",
+        "weather-icon" :"assets/icons/static/sunny.svg",
+        "temperature" : "28",
+    },
+    {
+        "time" : "13",
+        "weather-icon" :"assets/icons/static/sunny.svg",
+        "temperature" : "30",
+    },
+    {
+        "time" : "16",
+        "weather-icon" :"assets/icons/static/cloudy.svg",
+        "temperature" : "31",
+    },
+    {
+        "time" : "19",
+        "weather-icon" :"assets/icons/static/partly-cloudy-day.svg",
+        "temperature" : "29",
+    },
+    {
+        "time" : "22",
+        "weather-icon" :"assets/icons/static/partly-cloudy-night.svg",
+        "temperature" : "27",
+    },
+]
+
+let hourlyForecastCard = document.createElement("div");
+hourlyForecastCard.className = "hourly-forecast-card";
+
+for (let item in forecastTable){
+
+    let hour = document.createElement("div");
+    hour.className = "hour";
+    hourlyForecastCard.appendChild(hour);
+
+    let hourlyTime = document.createElement("p");
+    hourlyTime.className = "hourly-time";
+    hourlyTime.textContent = forecastTable[item]["time"] + "h";
+    hour.appendChild(hourlyTime);
+
+    let hourlyIcon = document.createElement("img");
+    hourlyIcon.className = "hourly-icon";
+    hourlyIcon.src = forecastTable[item]["weather-icon"];
+    hourlyIcon.alt = "weather-icon";
+    hour.appendChild(hourlyIcon);
+
+    let hourlyTemperature = document.createElement("p");
+    hourlyTemperature.className = "hourly-temperature";
+    hourlyTemperature.textContent = forecastTable[item]["temperature"] + "°C";
+    hour.appendChild(hourlyTemperature);
+};
+
+let targetHours = document.querySelector(".hourly-forecast h2");
+targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);

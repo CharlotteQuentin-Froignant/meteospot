@@ -1,5 +1,5 @@
 
-/*VARIABLES*/
+/* === VARIABLES ===*/
 :root{
     /* font types*/
     --font-family-titles: "Newsreader", serif;
@@ -24,7 +24,7 @@
     --font-size-ui: 0.7rem;
 
     /* borders*/
-    --border: #f5f5f4; 
+    --border: #f5f5f4;
     --border-width-accent: 3px;
 
     /* radius */
@@ -48,7 +48,7 @@
     --temp-gradient-background:linear-gradient(160deg, #FFFFFF, #FCF0E7);
 }
 
-/*CSS GENERAL*/
+/* === CSS GENERAL === */
 *{
     box-sizing: border-box;
 }
@@ -65,7 +65,7 @@ h1, h2, h3, p {
     padding: 0;
 }
 
-/*HEADER*/
+/* == HEADER == */
 header{
     display: flex;
     flex-direction: column;
@@ -151,7 +151,7 @@ header{
     border-bottom: 2px solid #FF9A44;
 }
 
-/* CURRENT WEATHER*/
+/* == CURRENT WEATHER == */
 .weather-card{
     display: flex;
     flex-direction: column;
@@ -160,6 +160,7 @@ header{
     border-radius: var(--radius-block);
     background: var(--temp-gradient-background);
     margin: var(--spacing-app);
+    margin-bottom: var(--spacing-block);
     overflow: hidden; /* permet de couper proprement les angles des éléments enfants*/
 }
 
@@ -235,9 +236,48 @@ header{
     background-color:rgb(235, 227, 227);
 }
 
+/* == HOURLY - FORECAST == */
 
-/* MEDIA QUERY PETITS ECRANS <340px */
-@media screen and (max-width:340px) {
+.hourly-forecast h2{
+    margin: var(--spacing-app);
+    margin-bottom: 15px;
+    font-family: var(--font-family-titles);
+    font-size: 1.4rem;
+    font-weight: var(--font-weight-medium);
+}
+
+.hourly-forecast-card{
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-card-gap);
+    margin: var(--spacing-app);
+
+    /* ajout barre de scroll horizontale uniquement si nécessaire */
+    overflow-x: auto;
+    scrollbar-width: none; /* firefox*/
+}
+
+/* masquage barre de scroll pour navigateurs webkit*/
+.hourly-forecast-card::-webkit-scrollbar{
+    display: none;
+}
+
+.hour{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background-color: var(--background-section);
+    flex-shrink: 0; /* évite le rétrécissement des cartes*/
+}
+
+
+/* === MEDIA QUERY PETITS ECRANS <340px === */
+@media screen and (max-width:339px) {
 
     .main-text{
         gap:5px;
