@@ -29,6 +29,10 @@ Rendu visuel avec le bloc météo actuelle et la correction du décalage de l'on
 
 **Correctif apporté après cette capture** : modification de la disposition des éléments dans le fichier main.js et création d'une média query CSS dédiée afin d'améliorer le rendu esthétique de l'application sur petits écrans, sans perte d'informations. [voir la capture](3_app-T4-visuel-meteo-actuelle.png).
 
+## Ticket #5 - Bloc prévisions horaires avec données statiques
+
+Rendu visuel avec l'ajout du bloc prévisions haoraires. Pour s'adapter à la taille des écrans, une barre de scroll horizontal a été mise en place, et masquée à l'affichage pour éviter une surcharge visuelle. [voir la capture](4_app-T5-visuel-previsions-horaires.png)
+
 ---
 
 ## Convention de nommage
