@@ -99,8 +99,9 @@ Les tailles de police ont finalement été converties en `rem` (plutôt que `px`
 
 | Élément | Valeur actuelle | Historique | Ticket |
 |---|---|---|---|
-| Nom de ville (bloc principal) | `1.6rem` | ~~0.9rem~~| (changé ticket #4) |
-| Chiffre de température (bloc principal) | `3.5rem` |    ~~4.7rem~~      | (changé ticket #4) |
+| Nom de ville (bloc principal) | `1.6rem` | ~~0.9rem~~ | (changé ticket #4) |
+| Chiffre de température (bloc principal) | `3.5rem` | ~~4.7rem~~ | (changé ticket #4) |
+| Titres de section | `1.4rem` | ~~1rem~~ | (changé ticket #5) |
 ---
 
 ## 3. Icônes météo (SVG, style trait fin)
