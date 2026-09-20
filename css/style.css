@@ -272,6 +272,10 @@ header{
     border: 1px solid var(--border);
     border-radius: var(--radius-card);
     background-color: var(--background-section);
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-forecast-temp);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
     flex-shrink: 0; /* évite le rétrécissement des cartes*/
 }
 
