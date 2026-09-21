@@ -213,6 +213,7 @@ header{
 }
 .secondary-text{
     gap : 4px;
+    text-transform: capitalize;
 }
 
 .main-temperature-felt::before{
@@ -292,7 +293,7 @@ header{
     }
 
     .main-temperature{
-        font-size: 3rem;
+        font-size: 2.8rem;
     }
     .secondary-text{
         flex-direction: column;

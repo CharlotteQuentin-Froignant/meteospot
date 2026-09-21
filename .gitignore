@@ -1,6 +1,9 @@
 #Fichier d'environnement
 .env
 
+# Fichiers d'API
+config.js
+
 #Fichiers systèmes
 Thumbs.db
 

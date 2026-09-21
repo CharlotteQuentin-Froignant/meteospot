@@ -1,108 +1,130 @@
+// APIKEY import
+import {APIKEY} from "./config.js";
+
 // === CURRENT WEATHER ===
-// set de données factices
-let data = {
-    name : "Bordeaux",
-    temperature : 29,
-    weather : "Ensoleillé",
-    temperature_felt : 30,
-    humidity : 48,
-    wind : 11,
-    rain : 0.2,
-}
+// Request configuration
+const LANG = "fr";
+const UNIT = "metric";
+const CITY = "Bordeaux";
+let URL = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
 
-//configuration des données principales dans bloc current-weather avec protection contre faille XSS
-let weatherCard = document.createElement("div");
-weatherCard.className = "weather-card";
+// Requête vers open weather map
 
-let mainInfos = document.createElement("div");
-mainInfos.className = "main-infos";
-weatherCard.appendChild(mainInfos);
+async function current_weather_request(URL){
+    try{
+        const RESPONSE = await fetch(URL);
+        let data = await RESPONSE.json();
 
-let mainText = document.createElement("div");
-mainText.className = "main-text";
-mainInfos.appendChild(mainText);
+        if (!RESPONSE.ok){
+            console.log("Problème: ", data.message);
+            return
+        }
 
-let cityName = document.createElement("p");
-cityName.textContent = data["name"];
-cityName.className = "city-name";
-mainText.appendChild(cityName);
+        console.log("données", data);
 
-let mainTemp = document.createElement("p");
-mainTemp.className = "main-temperature";
-mainTemp.textContent = data["temperature"] +"°C";
-mainText.appendChild(mainTemp);
+        // build primary DOM elements
+        let weatherCard = document.createElement("div");
+        weatherCard.className = "weather-card";
 
-let secondaryText = document.createElement("p");
-secondaryText.className = "secondary-text";
-mainText.appendChild(secondaryText);
+        let mainInfos = document.createElement("div");
+        mainInfos.className = "main-infos";
+        weatherCard.appendChild(mainInfos);
 
-let mainWeather = document.createElement("span");
-mainWeather.className = "main-weather";
-mainWeather.textContent = data["weather"];
-secondaryText.appendChild(mainWeather);
+        let mainText = document.createElement("div");
+        mainText.className = "main-text";
+        mainInfos.appendChild(mainText);
 
-let mainTemperatureFelt = document.createElement("span");
-mainTemperatureFelt.className = "main-temperature-felt";
-mainTemperatureFelt.textContent = "Ressenti " + " " + data["temperature_felt"] +"°C";
-secondaryText.appendChild(mainTemperatureFelt);
+        // top data configuration with XSS protection
+        let cityName = document.createElement("p");
+        cityName.textContent = data["name"];
+        cityName.className = "city-name";
+        mainText.appendChild(cityName);
 
-let mainIcon = document.createElement("img");
-mainIcon.className = "main-icon";
-mainIcon.src = "assets/icons/animated/sunny-animated.svg";
-mainIcon.alt = data["weather"];
-mainInfos.appendChild(mainIcon);
+        let mainTemp = document.createElement("p");
+        mainTemp.className = "main-temperature";
+        mainTemp.textContent = ((data["main"]["temp"]).toFixed(1)) + "°C";
+        mainText.appendChild(mainTemp);
 
-//configuration des données secondaires dans bloc current-weather avec protection contre faille XSS
-let secondaryInfos = document.createElement("div");
-secondaryInfos.className = "secondary-infos";
-weatherCard.appendChild(secondaryInfos);
+        let secondaryText = document.createElement("p");
+        secondaryText.className = "secondary-text";
+        mainText.appendChild(secondaryText);
 
-let mainHumidity = document.createElement("span");
-mainHumidity.className  = "main-humidity";
-secondaryInfos.appendChild(mainHumidity);
+        let mainWeather = document.createElement("span");
+        mainWeather.className = "main-weather";
+        mainWeather.textContent = data["weather"][0]["description"];
+        secondaryText.appendChild(mainWeather);
 
-// découpage de chaque section en plusieurs spans afin de gérer les très petits écrans
-let humidityLabel = document.createElement("span");
-humidityLabel.className = "label";
-humidityLabel.textContent = "Humidité: ";
-mainHumidity.appendChild(humidityLabel);
+        let mainTemperatureFelt = document.createElement("span");
+        mainTemperatureFelt.className = "main-temperature-felt";
+        mainTemperatureFelt.textContent = "Ressenti " + " " + (data["main"]["feels_like"]).toFixed(1) +"°C";
+        secondaryText.appendChild(mainTemperatureFelt);
 
-let humidityValue = document.createElement("span");
-humidityValue.className = "value";
-humidityValue.textContent = data["humidity"] + " %";
-mainHumidity.appendChild(humidityValue);
+        let mainIcon = document.createElement("img");
+        mainIcon.className = "main-icon";
+        mainIcon.src = "assets/icons/animated/sunny-animated.svg";
+        mainIcon.alt = " icone" + data["weather"][0]["description"];
+        mainInfos.appendChild(mainIcon);
 
-let mainWind = document.createElement("span");
-mainWind.className = "main-wind";
-secondaryInfos.appendChild(mainWind);
+        // build secondary DOM elements
+        let secondaryInfos = document.createElement("div");
+        secondaryInfos.className = "secondary-infos";
+        weatherCard.appendChild(secondaryInfos);
 
-let windLabel = document.createElement("span");
-windLabel.className = "label";
-windLabel.textContent = "Vent: ";
-mainWind.appendChild(windLabel);
+        // bottom data configuration with XSS protection
+        // each parameter is spliced for better viewing in smallest screens
+        let mainHumidity = document.createElement("span");
+        mainHumidity.className  = "main-humidity";
+        secondaryInfos.appendChild(mainHumidity);
 
-let windValue = document.createElement("span");
-windValue.className = "value";
-windValue.textContent = data["wind"] + " km/h";
-mainWind.appendChild(windValue);
+        let humidityLabel = document.createElement("span");
+        humidityLabel.className = "label";
+        humidityLabel.textContent = "Humidité: ";
+        mainHumidity.appendChild(humidityLabel);
 
-let mainRain = document.createElement("span");
-mainRain.className = "main-rain";
-secondaryInfos.appendChild(mainRain);
+        let humidityValue = document.createElement("span");
+        humidityValue.className = "value";
+        humidityValue.textContent = data["main"]["humidity"] + " %";
+        mainHumidity.appendChild(humidityValue);
 
-let rainLabel = document.createElement("span");
-rainLabel.className = "label";
-rainLabel.textContent = "Précipitations: ";
-mainRain.appendChild(rainLabel);
+        let mainWind = document.createElement("span");
+        mainWind.className = "main-wind";
+        secondaryInfos.appendChild(mainWind);
 
-let rainValue = document.createElement("span");
-rainValue.className = "value";
-rainValue.textContent = data["rain"] + " mm";
-mainRain.appendChild(rainValue);
+        let windLabel = document.createElement("span");
+        windLabel.className = "label";
+        windLabel.textContent = "Vent: ";
+        mainWind.appendChild(windLabel);
 
-// insertion des données
-let target = document.querySelector(".current-weather");
-target.appendChild(weatherCard);
+        let windValue = document.createElement("span");
+        windValue.className = "value";
+        let windSpeed = (data["wind"]["speed"])*3.6;
+        windValue.textContent = (windSpeed).toFixed(1) + " km/h";
+        mainWind.appendChild(windValue);
+
+        let mainRain = document.createElement("span");
+        mainRain.className = "main-rain";
+        secondaryInfos.appendChild(mainRain);
+
+        let rainLabel = document.createElement("span");
+        rainLabel.className = "label";
+        rainLabel.textContent = "Précipitations: ";
+        mainRain.appendChild(rainLabel);
+
+        let rainValue = document.createElement("span");
+        rainValue.className = "value";
+        rainValue.textContent = data["rain"] + " mm";
+        mainRain.appendChild(rainValue);
+
+        // data insertion
+        let target = document.querySelector(".current-weather");
+        target.appendChild(weatherCard);
+
+    } catch(error){
+        console.log(error);
+    }
+};
+
+current_weather_request(URL);
 
 
 // === HOURLY FORECAST ===
