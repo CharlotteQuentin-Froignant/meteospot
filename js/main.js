@@ -1,8 +1,51 @@
 // APIKEY import
 import {APIKEY} from "./config.js";
 
+
+// === FUNCTIONS ===
+
+function getIcon(weatherID, iconCode){
+    if (weatherID === 906){
+            return "assets/icons/animated/hail-animated.svg";
+        } else {
+            switch(iconCode){
+                case "01d":
+                    return "assets/icons/animated/sunny-animated.svg";
+                case "01n":
+                    return "assets/icons/animated/clear-night-animated.svg";
+                case "02d":
+                    return "assets/icons/animated/partly-cloudy-day-animated.svg";
+                case "02n":
+                    return "assets/icons/animated/partly-cloudy-night-animated.svg";
+                case "03d":
+                case "03n":
+                    return "assets/icons/animated/cloudy-animated.svg";
+                case "04d":
+                case "04n":
+                    return "assets/icons/animated/overcast-animated.svg";
+                case "09d":
+                case "09n":
+                    return "assets/icons/animated/drizzle-animated.svg";
+                case "10d":
+                case "10n":
+                    return "assets/icons/animated/rain-animated.svg";
+                case "11d":
+                case "11n":
+                    return "assets/icons/animated/thunderstorm-animated.svg";
+                case "13d":
+                case "13n":
+                    return "assets/icons/animated/snow-animated.svg";
+                case "50d":
+                case "50n":
+                    return "assets/icons/animated/fog-animated.svg";
+                default:
+                    return "assets/icons/animated/cloudy-animated.svg";
+            }
+        };
+};
+
 // === CURRENT WEATHER ===
-// Request configuration
+// Variables et constantes pour requête
 const LANG = "fr";
 const UNIT = "metric";
 const CITY = "Bordeaux";
@@ -11,18 +54,24 @@ let URL = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API
 // Requête vers open weather map
 
 async function current_weather_request(URL){
+    // gestion des erreurs
     try{
         const RESPONSE = await fetch(URL);
         let data = await RESPONSE.json();
 
         if (!RESPONSE.ok){
+            if (RESPONSE.status === 404){
+                console.log("Ville introuvable");
+                alert("La ville recherchée est introuvable, veuillez vérifier l'orthographe");
+            } else {
             console.log("Problème: ", data.message);
-            return
+            };
+            return;
         }
 
         console.log("données", data);
 
-        // build primary DOM elements
+        // configuration des éléments à injecter dans le DOM
         let weatherCard = document.createElement("div");
         weatherCard.className = "weather-card";
 
@@ -34,7 +83,7 @@ async function current_weather_request(URL){
         mainText.className = "main-text";
         mainInfos.appendChild(mainText);
 
-        // top data configuration with XSS protection
+        // configuration des données à récupérer et à insérer avec protection contre failles XSS
         let cityName = document.createElement("p");
         cityName.textContent = data["name"];
         cityName.className = "city-name";
@@ -61,17 +110,18 @@ async function current_weather_request(URL){
 
         let mainIcon = document.createElement("img");
         mainIcon.className = "main-icon";
-        mainIcon.src = "assets/icons/animated/sunny-animated.svg";
+        let weatherID = data["weather"][0]["id"];
+        let iconCode = data["weather"][0]["icon"];
+        mainIcon.src = getIcon(weatherID, iconCode);
         mainIcon.alt = " icone" + data["weather"][0]["description"];
         mainInfos.appendChild(mainIcon);
 
-        // build secondary DOM elements
+        // préparation des éléments secondaires
         let secondaryInfos = document.createElement("div");
         secondaryInfos.className = "secondary-infos";
         weatherCard.appendChild(secondaryInfos);
 
-        // bottom data configuration with XSS protection
-        // each parameter is spliced for better viewing in smallest screens
+        // pour les données secondaires, chaque élément a été divisé pour faciliter la gestion de l'affichage sur petits et moyens écrans
         let mainHumidity = document.createElement("span");
         mainHumidity.className  = "main-humidity";
         secondaryInfos.appendChild(mainHumidity);
@@ -107,15 +157,20 @@ async function current_weather_request(URL){
 
         let rainLabel = document.createElement("span");
         rainLabel.className = "label";
-        rainLabel.textContent = "Précipitations: ";
+        rainLabel.textContent = "Précipitations récentes: ";
         mainRain.appendChild(rainLabel);
 
         let rainValue = document.createElement("span");
         rainValue.className = "value";
-        rainValue.textContent = data["rain"] + " mm";
+        let rain = data["rain"];
+        if (rain == undefined){
+            rainValue.textContent = 0 + " mm";
+        } else {
+            rainValue.textContent = (data["rain"]["1h"]).toFixed(1) + " mm";
+        };
         mainRain.appendChild(rainValue);
 
-        // data insertion
+        // insertion des données dans le bloc "météo actuelle"
         let target = document.querySelector(".current-weather");
         target.appendChild(weatherCard);
 
