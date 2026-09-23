@@ -281,11 +281,16 @@ header{
 }
 
 
-/* === MEDIA QUERY PETITS ECRANS <340px === */
-@media screen and (max-width:339px) {
+/* === MEDIA QUERY PETITS ECRANS <400px === */
+@media screen and (max-width:400px) {
 
     .main-text{
         gap:5px;
+        width: 60%;
+    }
+
+    .main-icon{
+        width: 40%;
     }
 
     .city-name{
