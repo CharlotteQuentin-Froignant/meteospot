@@ -33,6 +33,14 @@ Rendu visuel avec le bloc météo actuelle et la correction du décalage de l'on
 
 Rendu visuel avec l'ajout du bloc prévisions haoraires. Pour s'adapter à la taille des écrans, une barre de scroll horizontal a été mise en place, et masquée à l'affichage pour éviter une surcharge visuelle. [voir la capture](4_app-T5-visuel-previsions-horaires.png)
 
+## Ticket #6 - Intégration API OpenWeatherMap dans le bloc météo actuelle
+
+Lors de l'intégration des données OpenWeatherMap, un décalage similaire à celui décrit au ticket 4 a pu être observé sur les écrans mobiles de taille moyenne (340 - 390px) affectant la température ressentie et les données secondaires. Pour y remédier, la media query a été modifiée avec:
+- augmentation du seuil pour englober en plus les téléphones dont la taille d'écran est inférieure à 400px (contre 340px auparavant)
+- modification de la répartition texte/icone du bloc météo actuelle avec 60% pour le texte et 40% pour l'icône (contre 50/50 auparavant)
+
+Le visuel montre la correction apportée sur l'iPhone 12 Mini (taille d'écran 360px) via l'extension Mobile First, avec en comparatif l'iPhone 14 Pro (taille 428px) comme témoin d'appareil non concerné par le problème. [voir la capture](5_app_T6-fix-affichage.png)
+
 ---
 
 ## Convention de nommage
