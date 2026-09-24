@@ -44,6 +44,46 @@ function getIcon(weatherID, iconCode){
         };
 };
 
+function getStaticIcon(hourlyWeatherID, hourlyIconCode){
+    if (hourlyWeatherID === 906){
+            return "assets/icons/static/hail.svg";
+        } else {
+            switch(hourlyIconCode){
+                case "01d":
+                    return "assets/icons/static/sunny.svg";
+                case "01n":
+                    return "assets/icons/static/clear-night.svg";
+                case "02d":
+                    return "assets/icons/static/partly-cloudy-day.svg";
+                case "02n":
+                    return "assets/icons/static/partly-cloudy-night.svg";
+                case "03d":
+                case "03n":
+                    return "assets/icons/static/cloudy.svg";
+                case "04d":
+                case "04n":
+                    return "assets/icons/static/overcast.svg";
+                case "09d":
+                case "09n":
+                    return "assets/icons/static/drizzle.svg";
+                case "10d":
+                case "10n":
+                    return "assets/icons/static/rain.svg";
+                case "11d":
+                case "11n":
+                    return "assets/icons/static/thunderstorm.svg";
+                case "13d":
+                case "13n":
+                    return "assets/icons/static/snow.svg";
+                case "50d":
+                case "50n":
+                    return "assets/icons/static/fog.svg";
+                default:
+                    return "assets/icons/static/cloudy.svg";
+            }
+        };
+};
+
 // === CURRENT WEATHER ===
 // Variables et constantes pour requête
 const LANG = "fr";
@@ -185,59 +225,123 @@ current_weather_request(URL);
 // === HOURLY FORECAST ===
 // set de données factices
 
-let forecastTable = [
-    {
-        "time" : "10",
-        "weather-icon" :"assets/icons/static/sunny.svg",
-        "temperature" : "28",
-    },
-    {
-        "time" : "13",
-        "weather-icon" :"assets/icons/static/sunny.svg",
-        "temperature" : "30",
-    },
-    {
-        "time" : "16",
-        "weather-icon" :"assets/icons/static/cloudy.svg",
-        "temperature" : "31",
-    },
-    {
-        "time" : "19",
-        "weather-icon" :"assets/icons/static/partly-cloudy-day.svg",
-        "temperature" : "29",
-    },
-    {
-        "time" : "22",
-        "weather-icon" :"assets/icons/static/partly-cloudy-night.svg",
-        "temperature" : "27",
-    },
-]
+let urlHourlyForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${CITY}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
 
-let hourlyForecastCard = document.createElement("div");
-hourlyForecastCard.className = "hourly-forecast-card";
+async function getHourlyForecast(urlHourlyForecast){
+    try {
+        const RESPONSE = await fetch(urlHourlyForecast);
+        let fullData = await RESPONSE.json();
 
-for (let item in forecastTable){
+        if (!RESPONSE.ok){
+            console.log("Problème:", data.message)
+            return;
+        }
 
-    let hour = document.createElement("div");
-    hour.className = "hour";
-    hourlyForecastCard.appendChild(hour);
+        let hourlyData = fullData["list"].slice(1,9);
 
-    let hourlyTime = document.createElement("p");
-    hourlyTime.className = "hourly-time";
-    hourlyTime.textContent = forecastTable[item]["time"] + "h";
-    hour.appendChild(hourlyTime);
+        console.log("Prévisions horaires:", hourlyData);
 
-    let hourlyIcon = document.createElement("img");
-    hourlyIcon.className = "hourly-icon";
-    hourlyIcon.src = forecastTable[item]["weather-icon"];
-    hourlyIcon.alt = "weather-icon";
-    hour.appendChild(hourlyIcon);
+        let hourlyForecastCard = document.createElement("div");
+        hourlyForecastCard.className = "hourly-forecast-card";
 
-    let hourlyTemperature = document.createElement("p");
-    hourlyTemperature.className = "hourly-temperature";
-    hourlyTemperature.textContent = forecastTable[item]["temperature"] + "°C";
-    hour.appendChild(hourlyTemperature);
+        for (let item in hourlyData){
+            let hour = document.createElement("div");
+            hour.className = "hour";
+            hourlyForecastCard.appendChild(hour);
+
+            let hourlyTime = document.createElement("p");
+            hourlyTime.className = "hourly-time";
+
+            // récupération du timestamp
+            let timestamp = hourlyData[item]["dt"];
+
+            // utilisation de la classe Date pour créer un objet date
+            // conversion du timestamp openweathermap (s) en timestamp js (ms)
+            let dateObjet = new Date(timestamp *1000);
+
+            // obtenir uniquement l'heure
+            let time = dateObjet.getHours();
+
+            hourlyTime.textContent = time + "h";
+            hour.appendChild(hourlyTime);
+
+            let hourlyIcon = document.createElement("img");
+            hourlyIcon.className = "hourly-icon";
+            let hourlyWeatherID = hourlyData[item]["weather"][0]["id"];
+            let hourlyIconCode = hourlyData[item]["weather"][0]["icon"];
+            hourlyIcon.src = getStaticIcon(hourlyWeatherID, hourlyIconCode);
+            hourlyIcon.alt = "icone" + hourlyData[item]["weather"][0]["description"];
+            hour.appendChild(hourlyIcon);
+
+            let hourlyTemperature = document.createElement("p");
+            hourlyTemperature.className = "hourly-temperature";
+            hourlyTemperature.textContent = Math.round(hourlyData[item]["main"]["temp"]) + "°C";
+            hour.appendChild(hourlyTemperature);
+        };
+
+        let targetHours = document.querySelector(".hourly-forecast h2");
+        targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
+
+    } catch(error){
+        console.log(error);
+    }
 };
 
-let targetHours = document.querySelector(".hourly-forecast h2");
-targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
+getHourlyForecast(urlHourlyForecast);
+
+// let forecastTable = [
+//     {
+//         "time" : "10",
+//         "weather-icon" :"assets/icons/static/sunny.svg",
+//         "temperature" : "28",
+//     },
+//     {
+//         "time" : "13",
+//         "weather-icon" :"assets/icons/static/sunny.svg",
+//         "temperature" : "30",
+//     },
+//     {
+//         "time" : "16",
+//         "weather-icon" :"assets/icons/static/cloudy.svg",
+//         "temperature" : "31",
+//     },
+//     {
+//         "time" : "19",
+//         "weather-icon" :"assets/icons/static/partly-cloudy-day.svg",
+//         "temperature" : "29",
+//     },
+//     {
+//         "time" : "22",
+//         "weather-icon" :"assets/icons/static/partly-cloudy-night.svg",
+//         "temperature" : "27",
+//     },
+// ]
+
+// let hourlyForecastCard = document.createElement("div");
+// hourlyForecastCard.className = "hourly-forecast-card";
+
+// for (let item in forecastTable){
+
+//     let hour = document.createElement("div");
+//     hour.className = "hour";
+//     hourlyForecastCard.appendChild(hour);
+
+//     let hourlyTime = document.createElement("p");
+//     hourlyTime.className = "hourly-time";
+//     hourlyTime.textContent = forecastTable[item]["time"] + "h";
+//     hour.appendChild(hourlyTime);
+
+//     let hourlyIcon = document.createElement("img");
+//     hourlyIcon.className = "hourly-icon";
+//     hourlyIcon.src = forecastTable[item]["weather-icon"];
+//     hourlyIcon.alt = "weather-icon";
+//     hour.appendChild(hourlyIcon);
+
+//     let hourlyTemperature = document.createElement("p");
+//     hourlyTemperature.className = "hourly-temperature";
+//     hourlyTemperature.textContent = forecastTable[item]["temperature"] + "°C";
+//     hour.appendChild(hourlyTemperature);
+// };
+
+// let targetHours = document.querySelector(".hourly-forecast h2");
+// targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
