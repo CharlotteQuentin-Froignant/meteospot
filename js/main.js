@@ -223,7 +223,6 @@ current_weather_request(URL);
 
 
 // === HOURLY FORECAST ===
-// set de données factices
 
 let urlHourlyForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${CITY}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
 
@@ -232,12 +231,18 @@ async function getHourlyForecast(urlHourlyForecast){
         const RESPONSE = await fetch(urlHourlyForecast);
         let fullData = await RESPONSE.json();
 
-        if (!RESPONSE.ok){
-            console.log("Problème:", data.message)
-            return;
-        }
 
-        let hourlyData = fullData["list"].slice(1,9);
+        if (!RESPONSE.ok){
+            // gestion de l'erreur ville introuvable sans alerte pour ne pas avoir 2 popups qui apparaissent
+            if (RESPONSE.status === 404){
+                console.log("Ville introuvable");
+            } else {
+            console.log("Problème: ", data.message);
+            };
+            return;
+        };
+
+        let hourlyData = fullData["list"].slice(0,8);
 
         console.log("Prévisions horaires:", hourlyData);
 
