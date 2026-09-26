@@ -2,6 +2,10 @@
 import {APIKEY} from "./config.js";
 
 
+//  === CARIABLES ET CONSTANTES ===
+const LANG = "fr";
+const UNIT = "metric";
+
 // === FUNCTIONS ===
 
 function getIcon(weatherID, iconCode){
@@ -84,19 +88,22 @@ function getStaticIcon(hourlyWeatherID, hourlyIconCode){
         };
 };
 
-// === CURRENT WEATHER ===
-// Variables et constantes pour requête
-const LANG = "fr";
-const UNIT = "metric";
-const CITY = "Bordeaux";
-let URL = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+function getCurrentWeatherUrl(city, APIKEY, LANG, UNIT){
+    let currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+    return currentUrl;
+};
 
-// Requête vers open weather map
+function getHourlyForecastUrl(city, APIKEY, LANG, UNIT){
+    let urlHourlyForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+    return urlHourlyForecast;
+}
 
-async function current_weather_request(URL){
+// == REQUETE CURRENT WEATHER ==
+
+async function getCurrentWeather(url){
     // gestion des erreurs
     try{
-        const RESPONSE = await fetch(URL);
+        const RESPONSE = await fetch(url);
         let data = await RESPONSE.json();
 
         if (!RESPONSE.ok){
@@ -219,12 +226,10 @@ async function current_weather_request(URL){
     }
 };
 
-current_weather_request(URL);
+// getCurrentWeather(url);
 
 
-// === HOURLY FORECAST ===
-
-let urlHourlyForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${CITY}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+// == REQUETE HOURLY FORECAST ==
 
 async function getHourlyForecast(urlHourlyForecast){
     try {
@@ -292,61 +297,26 @@ async function getHourlyForecast(urlHourlyForecast){
     }
 };
 
-getHourlyForecast(urlHourlyForecast);
+// getHourlyForecast(urlHourlyForecast);
 
-// let forecastTable = [
-//     {
-//         "time" : "10",
-//         "weather-icon" :"assets/icons/static/sunny.svg",
-//         "temperature" : "28",
-//     },
-//     {
-//         "time" : "13",
-//         "weather-icon" :"assets/icons/static/sunny.svg",
-//         "temperature" : "30",
-//     },
-//     {
-//         "time" : "16",
-//         "weather-icon" :"assets/icons/static/cloudy.svg",
-//         "temperature" : "31",
-//     },
-//     {
-//         "time" : "19",
-//         "weather-icon" :"assets/icons/static/partly-cloudy-day.svg",
-//         "temperature" : "29",
-//     },
-//     {
-//         "time" : "22",
-//         "weather-icon" :"assets/icons/static/partly-cloudy-night.svg",
-//         "temperature" : "27",
-//     },
-// ]
+// === GESTION DES REQUETES ===
 
-// let hourlyForecastCard = document.createElement("div");
-// hourlyForecastCard.className = "hourly-forecast-card";
+// == RECUPERATION VILLE SEARCH BAR ==
+let searchBar = document.querySelector("#search");
+let searchInput = document.querySelector("#search-bar");
+searchBar.addEventListener("submit", (getCityName) => {
+    getCityName.preventDefault();
+    let cityName = (searchInput.value).toLowerCase().trim();
+    console.log("Ville:", cityName);
 
-// for (let item in forecastTable){
+    let url = getCurrentWeatherUrl(cityName, APIKEY, LANG, UNIT);
+    let urlNextHours = getHourlyForecastUrl(cityName, APIKEY, LANG, UNIT);
 
-//     let hour = document.createElement("div");
-//     hour.className = "hour";
-//     hourlyForecastCard.appendChild(hour);
+    getCurrentWeather(url);
+    getHourlyForecast(urlNextHours);
+});
 
-//     let hourlyTime = document.createElement("p");
-//     hourlyTime.className = "hourly-time";
-//     hourlyTime.textContent = forecastTable[item]["time"] + "h";
-//     hour.appendChild(hourlyTime);
 
-//     let hourlyIcon = document.createElement("img");
-//     hourlyIcon.className = "hourly-icon";
-//     hourlyIcon.src = forecastTable[item]["weather-icon"];
-//     hourlyIcon.alt = "weather-icon";
-//     hour.appendChild(hourlyIcon);
 
-//     let hourlyTemperature = document.createElement("p");
-//     hourlyTemperature.className = "hourly-temperature";
-//     hourlyTemperature.textContent = forecastTable[item]["temperature"] + "°C";
-//     hour.appendChild(hourlyTemperature);
-// };
 
-// let targetHours = document.querySelector(".hourly-forecast h2");
-// targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
+
