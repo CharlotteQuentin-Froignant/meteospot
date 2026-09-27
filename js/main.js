@@ -226,8 +226,6 @@ async function getCurrentWeather(url){
     }
 };
 
-// getCurrentWeather(url);
-
 
 // == REQUETE HOURLY FORECAST ==
 
@@ -242,7 +240,7 @@ async function getHourlyForecast(urlHourlyForecast){
             if (RESPONSE.status === 404){
                 console.log("Ville introuvable");
             } else {
-            console.log("Problème: ", data.message);
+            console.log("Problème: ", fullData.message);
             };
             return;
         };
@@ -297,25 +295,62 @@ async function getHourlyForecast(urlHourlyForecast){
     }
 };
 
-// getHourlyForecast(urlHourlyForecast);
+// == FONCTION MAKE TAB ==
 
-// === GESTION DES REQUETES ===
+function makeTab(item){
+    let targetTab = document.querySelector(".searched-towns");
+    let searchedTowns = document.createElement("div");
+    let tab = document.createElement("button");
+    tab.className = "town-tab active";
+
+    tab.value = item;
+    tab.textContent = item;
+    searchedTowns.appendChild(tab);
+    targetTab.appendChild(searchedTowns);
+};
+
+
+// === CODE PRINCIPAL ===
 
 // == RECUPERATION VILLE SEARCH BAR ==
 let searchBar = document.querySelector("#search");
 let searchInput = document.querySelector("#search-bar");
+
 searchBar.addEventListener("submit", (getCityName) => {
     getCityName.preventDefault();
     let cityName = (searchInput.value).toLowerCase().trim();
     console.log("Ville:", cityName);
-
     let url = getCurrentWeatherUrl(cityName, APIKEY, LANG, UNIT);
     let urlNextHours = getHourlyForecastUrl(cityName, APIKEY, LANG, UNIT);
 
-    getCurrentWeather(url);
-    getHourlyForecast(urlNextHours);
-});
+    // == gestion des onglets ==
+    let townList = document.querySelectorAll(".town-tab");
 
+    if (townList != null){
+        let townFound = false;
+        for (let item of townList){
+            if ((cityName === item.textContent) && (item.getAttribute("class") === "town-tab active")){
+                getCurrentWeather(url);
+                getHourlyForecast(urlNextHours);
+                townFound = true;
+            } else if ((cityName === item.textContent) && (item.getAttribute("class") !== "town-tab active")){
+                let activeItem = document.querySelector(".town-tab.active");
+                activeItem.className = "town-tab";
+                item.className = "town-tab active";
+                getCurrentWeather(url);
+                getHourlyForecast(urlNextHours);
+                townFound = true;
+            }
+        };
+        if (townFound === false) {
+            let activeItem = document.querySelector(".town-tab.active");
+            activeItem.className = "town-tab";
+            makeTab(cityName);
+            getCurrentWeather(url);
+            getHourlyForecast(urlNextHours);
+        };
+    };
+});
 
 
 
