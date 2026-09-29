@@ -1,12 +1,12 @@
-// APIKEY import
+// === APIKEY import ===
 import {APIKEY} from "./config.js";
 
 
-//  === CARIABLES ET CONSTANTES ===
+// === VARIABLES ET CONSTANTES ===
 const LANG = "fr";
 const UNIT = "metric";
 
-// === FUNCTIONS ===
+// === FONCTIONS ===
 
 function getIcon(weatherID, iconCode){
     if (weatherID === 906){
@@ -88,6 +88,7 @@ function getStaticIcon(hourlyWeatherID, hourlyIconCode){
         };
 };
 
+// == Fonctions de création des urls ==
 function getCurrentWeatherUrl(city, APIKEY, LANG, UNIT){
     let currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
     return currentUrl;
@@ -98,7 +99,7 @@ function getHourlyForecastUrl(city, APIKEY, LANG, UNIT){
     return urlHourlyForecast;
 }
 
-// == REQUETE CURRENT WEATHER ==
+// == Requête météo actuelle ==
 
 async function getCurrentWeather(url){
     // gestion des erreurs
@@ -113,7 +114,9 @@ async function getCurrentWeather(url){
             } else {
             console.log("Problème: ", data.message);
             };
-            return;
+
+            // retourne false si une erreur existe
+            return false;
         }
 
         console.log("données", data);
@@ -226,6 +229,7 @@ async function getCurrentWeather(url){
             existingCurrentCard.remove();
         };
 
+
         // insertion des nouvelles données
         target.appendChild(weatherCard);
 
@@ -234,11 +238,13 @@ async function getCurrentWeather(url){
 
     } catch(error){
         console.log(error);
-    }
+
+    // retourne true si la requête se passe bien
+    } return true;
 };
 
 
-// == REQUETE HOURLY FORECAST ==
+// == Requête prévisions horaires ==
 
 async function getHourlyForecast(urlHourlyForecast){
     try {
@@ -253,7 +259,7 @@ async function getHourlyForecast(urlHourlyForecast){
             } else {
             console.log("Problème: ", fullData.message);
             };
-            return;
+            return false;
         };
 
         let hourlyData = fullData["list"].slice(0,8);
@@ -312,21 +318,38 @@ async function getHourlyForecast(urlHourlyForecast){
 
     } catch(error){
         console.log(error);
-    }
+    } return true;
 };
 
-// == FONCTION MAKE TAB ==
+// == Rendre les onglets de villes cliquables ==
+function attachTabListener(tab){
+    tab.addEventListener("click", (event) =>{
+        event.preventDefault();
+        let clickedCity = (tab.textContent).toLowerCase().trim();
+        let urlTab = getCurrentWeatherUrl(clickedCity, APIKEY, LANG, UNIT);
+        let urlNextHoursTab = getHourlyForecastUrl(clickedCity, APIKEY, LANG,  UNIT);
+        getCurrentWeather(urlTab);
+        getHourlyForecast(urlNextHoursTab);
+        let activeTab = document.querySelector(".town-tab.active");
+        activeTab.className = "town-tab";
+        tab.className = "town-tab active";
+    })
+};
+
+
+// == Créer les onglets ==
 
 function insertNewTab(item){
     let targetTab = document.querySelector(".searched-towns");
     let searchedTowns = document.createElement("div");
     let tab = document.createElement("button");
     tab.className = "town-tab active";
-
     tab.value = item;
     tab.textContent = item;
     searchedTowns.appendChild(tab);
     targetTab.appendChild(searchedTowns);
+
+    attachTabListener(tab);
 };
 
 
@@ -337,7 +360,7 @@ let searchBar = document.querySelector("#search");
 let searchInput = document.querySelector("#search-bar");
 
 // == Lancement des requêtes depuis barre de recherche ==
-searchBar.addEventListener("submit", (getCityName) => {
+searchBar.addEventListener("submit", async (getCityName) => {
     getCityName.preventDefault();
     let cityName = (searchInput.value).toLowerCase().trim();
     console.log("Ville:", cityName);
@@ -347,6 +370,7 @@ searchBar.addEventListener("submit", (getCityName) => {
     // == Gestion des onglets ==
     // = Sélection de tous les onglets =
     let townList = document.querySelectorAll(".town-tab");
+    console.log(townList);
 
     // = Si onglet(s) existant(s) =
     if (townList != null){
@@ -367,30 +391,29 @@ searchBar.addEventListener("submit", (getCityName) => {
             }
         };
 
-         // = Si aucun onglet existant =
+        // = Si aucun onglet existant =
         if (townFound === false) {
+
+            let success = await getCurrentWeather(url);
+            if (success){
                 let activeItem = document.querySelector(".town-tab.active");
-                activeItem.className = "town-tab";
+                if (activeItem){
+                    activeItem.className = "town-tab";
+                };
                 insertNewTab(cityName);
-                getCurrentWeather(url);
-                getHourlyForecast(urlNextHours);
             };
 
-        // == Lancement de la requête via clic sur onglet ==
-        for (let town of townList){
-            town.addEventListener("click", (event) =>{
-                event.preventDefault();
-                cityName = (town.textContent).toLowerCase().trim();
-                let urlTab = getCurrentWeatherUrl(cityName, APIKEY, LANG, UNIT);
-                let urlNextHoursTab = getHourlyForecastUrl(cityName, APIKEY, LANG,  UNIT);
-                getCurrentWeather(urlTab);
-                getHourlyForecast(urlNextHoursTab);
-                let activeTab = document.querySelector(".town-tab.active");
-                activeTab.className = "town-tab";
-                town.className = "town-tab active";
-            })
+            getHourlyForecast(urlNextHours);
+
         };
-    }
+        townList = document.querySelectorAll(".town-tab");
+
+        // == Lancement de la requête via clic sur onglet ==
+        // Commenté provisoirement pour éviter d'avoir des doubles requêtes, à voir si conservation ou suppression une fois le local storage paramétré
+        // for (let town of townList){
+        //     attachTabListener(town);
+        // };
+    };
 });
 
 
