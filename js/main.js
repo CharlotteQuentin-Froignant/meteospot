@@ -99,6 +99,22 @@ function getHourlyForecastUrl(city, APIKEY, LANG, UNIT){
     return urlHourlyForecast;
 }
 
+// == Fonctions de gestion du temps ==
+
+function getHoursOnly(timestamp){
+    // création d'un objet Date en JS, nécessité de convertir les s en ms pour le js
+    let DateObject = new Date(timestamp *1000);
+
+    // obtenir les heures
+    let hours = DateObject.getHours();
+    return hours;
+};
+
+function getBowTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp){
+    // conversion de l'heure actuelle en pourcentage d'intervalle entre le lever et le coucher du soleil
+    let timePoint = (((currentTimestamp - sunriseTimestamp)/(sunsetTimestamp - sunriseTimestamp)) * 100);
+}
+
 // == Requête météo actuelle ==
 
 async function getCurrentWeather(url){
@@ -120,6 +136,15 @@ async function getCurrentWeather(url){
         }
 
         console.log("données", data);
+
+        // construction arc lever/coucher de soleil
+        let sunriseTimestamp = data["sys"]["sunrise"];
+        let sunsetTimestamp = data["sys"]["sunset"];
+        let currentTimestamp = data["dt"];
+        // let sunrise = getTime(sunriseTimestamp);
+        // let sunset = getTime(sunsetTimestamp);
+        // let currentTime = getTime(currentTimestamp);
+        // console.log(sunrise, sunset, currentTime);
 
         // configuration des éléments à injecter dans le DOM
         let weatherCard = document.createElement("div");
@@ -280,14 +305,9 @@ async function getHourlyForecast(urlHourlyForecast){
             // récupération du timestamp
             let timestamp = hourlyData[item]["dt"];
 
-            // utilisation de la classe Date pour créer un objet date
-            // conversion du timestamp openweathermap (s) en timestamp js (ms)
-            let dateObjet = new Date(timestamp *1000);
+            let hours = getHoursOnly(timestamp);
 
-            // obtenir uniquement l'heure
-            let time = dateObjet.getHours();
-
-            hourlyTime.textContent = time + "h";
+            hourlyTime.textContent = hours + "h";
             hour.appendChild(hourlyTime);
 
             let hourlyIcon = document.createElement("img");
