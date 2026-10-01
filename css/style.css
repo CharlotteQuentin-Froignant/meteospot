@@ -152,6 +152,32 @@ header{
     border-bottom: 2px solid #FF9A44;
 }
 
+
+/* == SOLAR BOW == */
+.bow{
+    fill: none;
+    stroke: var(--temp-accent);
+    stroke-width: 1.5;
+    stroke-dasharray: 2.4;
+    opacity: 0.5;
+}
+
+.sun{
+    fill: var(--temp-accent);
+}
+
+.halo{
+    fill: var(--temp-accent);
+    opacity: 0.25;
+}
+
+.rayon {
+    stroke: var(--temp-accent);
+    stroke-width: 2px;
+    stroke-linecap: round; /* Arrondit le bout des rayons pour un aspect plus doux */
+}
+
+
 /* == CURRENT WEATHER == */
 .weather-card{
     display: flex;
