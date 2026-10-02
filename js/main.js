@@ -110,10 +110,20 @@ function getHoursOnly(timestamp){
     return hours;
 };
 
-function getBowTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp){
+function getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp){
     // conversion de l'heure actuelle en pourcentage d'intervalle entre le lever et le coucher du soleil
-    let timePoint = (((currentTimestamp - sunriseTimestamp)/(sunsetTimestamp - sunriseTimestamp)) * 100);
-}
+    let timePoint = ((currentTimestamp - sunriseTimestamp)/(sunsetTimestamp - sunriseTimestamp));
+    return timePoint;
+};
+
+function getBezierPoint(timepoint){
+    let xposition = ((1 - timepoint)**2) * 10 + 2 * (1 - timepoint) * timepoint * 170 + (timepoint**2) * 330;
+    let yposition = ((1 - timepoint)**2) * 78 + 2 * (1 - timepoint) * timepoint * (-20) + (timepoint**2) * 78;
+    return { x: xposition, y: yposition };
+};
+console.log(getBezierPoint(0));
+console.log(getBezierPoint(1));
+console.log(getBezierPoint(0.5));
 
 // == Requête météo actuelle ==
 
@@ -145,10 +155,46 @@ async function getCurrentWeather(url){
         // let sunset = getTime(sunsetTimestamp);
         // let currentTime = getTime(currentTimestamp);
         // console.log(sunrise, sunset, currentTime);
+        let timePoint = getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp);
+        let sunPosition = getBezierPoint(timePoint);
+        console.log(sunPosition);
+
+
 
         // configuration des éléments à injecter dans le DOM
         let weatherCard = document.createElement("div");
         weatherCard.className = "weather-card";
+
+        // injection de l'arc solaire, comme SVG n'est pas du html, il faut utiliser document.createElementNS
+        // 1- dire au navigateur qu'il s'agit d'un svg
+        const SVG_NS = "http://www.w3.org/2000/svg";
+
+        // 2-créer l'élément svg
+        let solarBow = document.createElementNS(SVG_NS, "svg");
+
+        // 3-configurer le svg : utilisation de setAttribute (méthode standard pour définir tous les attributs d'un svg et utilisable aussi sur du html)
+        solarBow.setAttribute("class","solar-bow");
+        solarBow.setAttribute("viewBox","0 0 340 90");
+        weatherCard.appendChild(solarBow);
+
+        let solarBowPath = document.createElementNS(SVG_NS, "path");
+        solarBowPath.setAttribute("class","bow");
+        solarBowPath.setAttribute("d","M 10 78 Q 170 -20 330 78");
+        solarBow.appendChild(solarBowPath);
+
+        let solarBowSunHalo = document.createElementNS(SVG_NS, "circle");
+        solarBowSunHalo.setAttribute("class","halo");
+        solarBowSunHalo.setAttribute("cx",sunPosition["x"]);
+        solarBowSunHalo.setAttribute("cy",sunPosition["y"]);
+        solarBowSunHalo.setAttribute("r", "15");
+        solarBow.appendChild(solarBowSunHalo);
+
+        let solarBowSun = document.createElementNS(SVG_NS, "circle");
+        solarBowSun.setAttribute("class","sun");
+        solarBowSun.setAttribute("cx",sunPosition["x"]);
+        solarBowSun.setAttribute("cy",sunPosition["y"]);
+        solarBowSun.setAttribute("r", "10");
+        solarBow.appendChild(solarBowSun);
 
         let mainInfos = document.createElement("div");
         mainInfos.className = "main-infos";
