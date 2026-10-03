@@ -99,8 +99,33 @@ function getHourlyForecastUrl(city, APIKEY, LANG, UNIT){
     return urlHourlyForecast;
 }
 
-// == Fonctions de gestion du temps ==
+// == Obtenir la date et l'heure locale ==
 
+function getLocalDateTime(timestamp, timezoneOffset){
+    // addition du timestamp et du décalage horaire pour obtenir le temps local
+    let fullTime = timestamp + timezoneOffset;
+    // création d'un objet Date en JS, nécessité de convertir les s en ms pour le js
+    let dateObject = new Date(fullTime *1000);
+
+    let localDate = dateObject.toLocaleDateString("fr-FR",
+        {
+            timeZone: "UTC",
+        });
+
+    // définition du format de l'horaire affiché : ici l'heure sera affiché selon le modèle français, avec 2 chiffres
+    let localTime = dateObject.toLocaleTimeString("fr-FR",
+        {
+            hour: "2-digit",
+            minute: "2-digit",
+            // évite que le fuseau horaire de l'utilisateur soit ajouté à l'horaire local affiché
+            timeZone: "UTC",
+        });
+        return {
+            "date": localDate,
+            "time": localTime};
+};
+
+// Obtenir uniquement l'heure
 function getHoursOnly(timestamp){
     // création d'un objet Date en JS, nécessité de convertir les s en ms pour le js
     let DateObject = new Date(timestamp *1000);
@@ -110,20 +135,20 @@ function getHoursOnly(timestamp){
     return hours;
 };
 
+// == Fonctions pour définir la position du soleil sur l'arc solaire ==
+// conversion de l'heure actuelle en avancement de la journée (0 = lever ; 1=coucher)
 function getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp){
-    // conversion de l'heure actuelle en pourcentage d'intervalle entre le lever et le coucher du soleil
     let timePoint = ((currentTimestamp - sunriseTimestamp)/(sunsetTimestamp - sunriseTimestamp));
     return timePoint;
 };
 
+// Calcule la position (X, Y) du soleil sur l'arc SVG (courbe de Bézier quadratique)
 function getBezierPoint(timepoint){
+    // Les valeurs correspondent aux 3 points (x,y) de la courbe : Départ (10,78), Zénith (170,-20), Arrivée (330,78).
     let xposition = ((1 - timepoint)**2) * 10 + 2 * (1 - timepoint) * timepoint * 170 + (timepoint**2) * 330;
     let yposition = ((1 - timepoint)**2) * 78 + 2 * (1 - timepoint) * timepoint * (-20) + (timepoint**2) * 78;
     return { x: xposition, y: yposition };
 };
-console.log(getBezierPoint(0));
-console.log(getBezierPoint(1));
-console.log(getBezierPoint(0.5));
 
 // == Requête météo actuelle ==
 
@@ -151,15 +176,14 @@ async function getCurrentWeather(url){
         let sunriseTimestamp = data["sys"]["sunrise"];
         let sunsetTimestamp = data["sys"]["sunset"];
         let currentTimestamp = data["dt"];
-        // let sunrise = getTime(sunriseTimestamp);
-        // let sunset = getTime(sunsetTimestamp);
-        // let currentTime = getTime(currentTimestamp);
-        // console.log(sunrise, sunset, currentTime);
+        let timezoneOffset = data["timezone"];
+
         let timePoint = getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp);
         let sunPosition = getBezierPoint(timePoint);
-        console.log(sunPosition);
 
-
+        let sunriseDateTime = getLocalDateTime(sunriseTimestamp, timezoneOffset);
+        let sunsetDateTime = getLocalDateTime(sunsetTimestamp, timezoneOffset);
+        let currentDateTime = getLocalDateTime(currentTimestamp, timezoneOffset);
 
         // configuration des éléments à injecter dans le DOM
         let weatherCard = document.createElement("div");
@@ -195,6 +219,55 @@ async function getCurrentWeather(url){
         solarBowSun.setAttribute("cy",sunPosition["y"]);
         solarBowSun.setAttribute("r", "10");
         solarBow.appendChild(solarBowSun);
+
+        // 4-injecter les heures et la date
+        let sunriseTime = document.createElementNS(SVG_NS, "text");
+        sunriseTime.setAttribute("class", "solar-bow-text sunrise-text");
+        sunriseTime.setAttribute("x", "10");
+        sunriseTime.setAttribute("y", "75");
+        sunriseTime.setAttribute("text-anchor", "start");
+        sunriseTime.textContent = sunriseDateTime["time"];
+        solarBow.appendChild(sunriseTime);
+
+        let sunriseLabel = document.createElementNS(SVG_NS, "text");
+        sunriseLabel.setAttribute("class", "solar-bow-text sunrise-label");
+        sunriseLabel.setAttribute("x", "10");
+        sunriseLabel.setAttribute("y", "85");
+        sunriseLabel.setAttribute("text-anchor", "start");
+        sunriseLabel.textContent = "Lever";
+        solarBow.appendChild(sunriseLabel);
+
+        let currentDate = document.createElementNS(SVG_NS, "text");
+        currentDate.setAttribute("class", "solar-bow-text current-text");
+        currentDate.setAttribute("x", "170");
+        currentDate.setAttribute("y", "75");
+        currentDate.setAttribute("text-anchor", "middle");
+        currentDate.textContent = currentDateTime["date"];
+        solarBow.appendChild(currentDate);
+
+        let currentTime = document.createElementNS(SVG_NS, "text");
+        currentTime.setAttribute("class", "solar-bow-text curent-label");
+        currentTime.setAttribute("x", "170");
+        currentTime.setAttribute("y", "85");
+        currentTime.setAttribute("text-anchor", "middle");
+        currentTime.textContent = "Màj : " + currentDateTime["time"];
+        solarBow.appendChild(currentTime);
+
+        let sunsetTime = document.createElementNS(SVG_NS, "text");
+        sunsetTime.setAttribute("class", "solar-bow-text sunset-text");
+        sunsetTime.setAttribute("x", "325");
+        sunsetTime.setAttribute("y", "75");
+        sunsetTime.setAttribute("text-anchor", "end");
+        sunsetTime.textContent = sunsetDateTime["time"];
+        solarBow.appendChild(sunsetTime);
+
+        let sunsetLabel = document.createElementNS(SVG_NS, "text");
+        sunsetLabel.setAttribute("class", "solar-bow-text sunset-label");
+        sunsetLabel.setAttribute("x", "300");
+        sunsetLabel.setAttribute("y", "85");
+        sunsetLabel.setAttribute("text-anchor", "start");
+        sunsetLabel.textContent = "Coucher";
+        solarBow.appendChild(sunsetLabel);
 
         let mainInfos = document.createElement("div");
         mainInfos.className = "main-infos";
