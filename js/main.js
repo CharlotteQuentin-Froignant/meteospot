@@ -126,12 +126,12 @@ function getLocalDateTime(timestamp, timezoneOffset){
 };
 
 // Obtenir uniquement l'heure
-function getHoursOnly(timestamp){
-    // création d'un objet Date en JS, nécessité de convertir les s en ms pour le js
-    let DateObject = new Date(timestamp *1000);
+function getHoursOnly(timestamp, timezoneOffset){
+    let fullTime = timestamp + timezoneOffset;
+    let DateObject = new Date(fullTime *1000);
 
     // obtenir les heures
-    let hours = DateObject.getHours();
+    let hours = DateObject.getUTCHours();
     return hours;
 };
 
@@ -456,8 +456,10 @@ async function getHourlyForecast(urlHourlyForecast){
 
             // récupération du timestamp
             let timestamp = hourlyData[item]["dt"];
+            let timezoneOffset = fullData["city"]["timezone"];
 
-            let hours = getHoursOnly(timestamp);
+            let hours = getHoursOnly(timestamp, timezoneOffset);
+            console.log(hours);
 
             hourlyTime.textContent = hours + "h";
             hour.appendChild(hourlyTime);
