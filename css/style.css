@@ -171,12 +171,42 @@ header{
     opacity: 0.25;
 }
 
+.night-mode .bow{
+    stroke: rgb(66, 31, 66);
+}
+
+.night-mode .sun{
+    fill: rgb(121, 73, 121);
+}
+
+.night-mode .halo{
+    fill: rgb(219, 138, 219);
+    opacity: 0.25;
+}
+
+.night-mode .sunrise-text, .night-mode .sunrise-label, .night-mode .sunset-text, .night-mode .sunset-label {
+    display: none;
+}
 .rayon {
     stroke: var(--temp-accent);
     stroke-width: 2px;
     stroke-linecap: round; /* Arrondit le bout des rayons pour un aspect plus doux */
 }
 
+.solar-bow-text{
+    font-family: var(--font-family-secondary);
+    font-size: 0.5rem;
+    font-weight: var(--font-weight-medium);
+    fill: var(--text-secondary);
+    text-align: center;
+}
+
+.zzz-text{
+    font-family: var(--font-family-secondary);
+    font-size: 0.5rem;
+    font-weight: var(--font-weight-medium);
+    fill: var(--text-secondary);
+}
 
 /* == CURRENT WEATHER == */
 .weather-card{

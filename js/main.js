@@ -143,6 +143,7 @@ function getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp){
 };
 
 // Calcule la position (X, Y) du soleil sur l'arc SVG (courbe de Bézier quadratique)
+// solution la plus simple à metre en place pour réaliser un arc en svg car ne necessite que 3 points d'ancrage
 function getBezierPoint(timepoint){
     // Les valeurs correspondent aux 3 points (x,y) de la courbe : Départ (10,78), Zénith (170,-20), Arrivée (330,78).
     let xposition = ((1 - timepoint)**2) * 10 + 2 * (1 - timepoint) * timepoint * 170 + (timepoint**2) * 330;
@@ -178,7 +179,18 @@ async function getCurrentWeather(url){
         let currentTimestamp = data["dt"];
         let timezoneOffset = data["timezone"];
 
-        let timePoint = getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp);
+        // configuration de l'arc pour la nuit
+        // definition d'un booléen pour gérer la condition de nuit
+        let isNight = currentTimestamp < sunriseTimestamp || currentTimestamp > sunsetTimestamp;
+        let timePoint;
+        if (isNight){
+            // choix d'un timepoint fixe pour placer le soleil endormi
+            timePoint = 0.5;
+        } else {
+            // si on est en journée, la vraie position du soleil est calculée et affichée
+            timePoint = getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp);
+        };
+
         let sunPosition = getBezierPoint(timePoint);
 
         let sunriseDateTime = getLocalDateTime(sunriseTimestamp, timezoneOffset);
@@ -197,7 +209,9 @@ async function getCurrentWeather(url){
         let solarBow = document.createElementNS(SVG_NS, "svg");
 
         // 3-configurer le svg : utilisation de setAttribute (méthode standard pour définir tous les attributs d'un svg et utilisable aussi sur du html)
-        solarBow.setAttribute("class","solar-bow");
+        // utilisation de toggle pour gérer facilement les changements nocturnes
+        // si la condition isNight est vraie, alors la classe night-mode est ajoutée automatiquement
+        solarBow.classList.toggle("night-mode", isNight);
         solarBow.setAttribute("viewBox","0 0 340 90");
         weatherCard.appendChild(solarBow);
 
@@ -269,6 +283,25 @@ async function getCurrentWeather(url){
         sunsetLabel.textContent = "Coucher";
         solarBow.appendChild(sunsetLabel);
 
+        // svg et texte à ajouter pour la nuit
+        if (isNight){
+            let zzzText = document.createElementNS(SVG_NS, "text");
+            zzzText.setAttribute("class", "zzz-text");
+            zzzText.setAttribute("x", sunPosition["x"] + 10);
+            zzzText.setAttribute("y", sunPosition["y"] - 5);
+            zzzText.textContent = "zZz";
+            solarBow.appendChild(zzzText);
+
+            let nextSunrise = document.createElementNS(SVG_NS, "text");
+            nextSunrise.setAttribute("class", "solar-bow-text current-text");
+            nextSunrise.setAttribute("x", "170");
+            nextSunrise.setAttribute("y", "55");
+            nextSunrise.setAttribute("text-anchor", "middle");
+            nextSunrise.textContent = "Prochain lever: " + sunriseDateTime["time"];
+            solarBow.appendChild(nextSunrise);
+            };
+
+        // partie données principales
         let mainInfos = document.createElement("div");
         mainInfos.className = "main-infos";
         weatherCard.appendChild(mainInfos);
