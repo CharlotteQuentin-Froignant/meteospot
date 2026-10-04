@@ -41,6 +41,21 @@ Lors de l'intégration des données OpenWeatherMap, un décalage similaire à ce
 
 Le visuel montre la correction apportée sur l'iPhone 12 Mini (taille d'écran 360px) via l'extension Mobile First, avec en comparatif l'iPhone 14 Pro (taille 428px) comme témoin d'appareil non concerné par le problème. [voir la capture](5_app_T6-fix-affichage.png)
 
+## Ticket #7 - Intégration API OpenWeatherMap dans le bloc prévisions horaires
+
+Lintégration de l'API dans le bloc précisions horaires n'ayant pas modifié l'apparence de l'application, il n'y a pas de nouveau rendu visuel pour ce ticket
+
+## Ticket #8 - Barre de recherche fonctionnelle
+
+Tout comme le ticket 7, la connexion de la barre de recherche à l'API ainsi que la création/actualisation des onglets n'a pas entraîné de modification du visuel.
+
+## Ticket #9 - Arc solaire
+
+Lors du ticket 9, l'arc solaire avec calcul de la position en temps réel du soleil a été réalisé. Sur le visuel, on peut voir que l'arc n'est pas le même selon qu'il fasse jour ou nuit dans la ville recherchée. Ainsi, en journée, l'icone du soleil suit sa position réelle entre le lever et le coucher; tandis que pour la nuit, le soleil est endormi a une position fixe purement esthétique et indique l'heure de prochain lever de soleil. [voir la capture](6_app_T9-arc-solaire.png)
+
+Par rapport au design-system, la date a également été ajoutée et l'heure d'actualisation a été placée au niveau de l'arc solaire, plutôt que dans le cadre avec les données principales.
+
+
 ---
 
 ## Convention de nommage
