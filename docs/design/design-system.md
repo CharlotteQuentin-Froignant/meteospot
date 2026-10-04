@@ -99,9 +99,10 @@ Les tailles de police ont finalement été converties en `rem` (plutôt que `px`
 
 | Élément | Valeur actuelle | Historique | Ticket |
 |---|---|---|---|
-| Nom de ville (bloc principal) | `1.6rem` | ~~0.9rem~~ | (changé ticket #4) |
-| Chiffre de température (bloc principal) | `3.5rem` | ~~4.7rem~~ | (changé ticket #4) |
+| Nom de ville (bloc principal) | `1.6rem` | ~~0.9rem~~ | (modifié ticket #4) |
+| Chiffre de température (bloc principal) | `3.5rem` | ~~4.7rem~~ | (modifié ticket #4) |
 | Titres de section | `1.4rem` | ~~1rem~~ | (changé ticket #5) |
+| Arc solaire | `0.5rem` | ~~0.7rem~~ | (modifié ticket 9 |)
 ---
 
 ## 3. Icônes météo (SVG, style trait fin)
@@ -477,6 +478,7 @@ La position du soleil sur l'arc doit être calculée dynamiquement selon l'heure
 
 > **Cas nocturne** : entre le coucher et le lever du soleil, aucune position n'est calculée sur l'arc (l'heure actuelle est hors de la plage [lever, coucher]). L'arc reste affiché en trait neutre/discret, sans point, accompagné d'une indication textuelle du prochain lever ("Prochain lever : 06:52") à la place de la donnée habituellement associée au point.
 
+**Update ticket 9**: le rayon du soleil est de 10 et le halo de 15. Pour l'arc de nuit, une icone de soleil endormie aux tons violets a été ajoutée afin d'améliorer l'esthétique.
 ---
 
 ## 5. Conventions d'interface — écrans d'état
