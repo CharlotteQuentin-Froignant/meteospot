@@ -251,21 +251,21 @@ async function getCurrentWeather(url){
         sunriseLabel.textContent = "Lever";
         solarBow.appendChild(sunriseLabel);
 
-        let currentDate = document.createElementNS(SVG_NS, "text");
-        currentDate.setAttribute("class", "solar-bow-text current-text");
-        currentDate.setAttribute("x", "170");
-        currentDate.setAttribute("y", "75");
-        currentDate.setAttribute("text-anchor", "middle");
-        currentDate.textContent = currentDateTime["date"];
-        solarBow.appendChild(currentDate);
-
         let currentTime = document.createElementNS(SVG_NS, "text");
         currentTime.setAttribute("class", "solar-bow-text curent-label");
         currentTime.setAttribute("x", "170");
-        currentTime.setAttribute("y", "85");
+        currentTime.setAttribute("y", "75");
         currentTime.setAttribute("text-anchor", "middle");
-        currentTime.textContent = "Màj : " + currentDateTime["time"];
+        currentTime.textContent = currentDateTime["time"];
         solarBow.appendChild(currentTime);
+
+        let currentDate = document.createElementNS(SVG_NS, "text");
+        currentDate.setAttribute("class", "solar-bow-text current-text");
+        currentDate.setAttribute("x", "170");
+        currentDate.setAttribute("y", "85");
+        currentDate.setAttribute("text-anchor", "middle");
+        currentDate.textContent = currentDateTime["date"];
+        solarBow.appendChild(currentDate);
 
         let sunsetTime = document.createElementNS(SVG_NS, "text");
         sunsetTime.setAttribute("class", "solar-bow-text sunset-text");
@@ -277,9 +277,9 @@ async function getCurrentWeather(url){
 
         let sunsetLabel = document.createElementNS(SVG_NS, "text");
         sunsetLabel.setAttribute("class", "solar-bow-text sunset-label");
-        sunsetLabel.setAttribute("x", "300");
+        sunsetLabel.setAttribute("x", "330");
         sunsetLabel.setAttribute("y", "85");
-        sunsetLabel.setAttribute("text-anchor", "start");
+        sunsetLabel.setAttribute("text-anchor", "end");
         sunsetLabel.textContent = "Coucher";
         solarBow.appendChild(sunsetLabel);
 
