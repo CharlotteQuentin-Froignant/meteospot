@@ -2,9 +2,7 @@
 import { getCurrentWeatherUrl, getHourlyForecastUrl, fetchCurrentWeather, fetchHourlyForecast } from "./api.js";
 import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab } from "./ui.js";
 
-// === APIKEY import ===
 import {APIKEY} from "./config.js";
-
 
 // === VARIABLES ET CONSTANTES ===
 const LANG = "fr";
@@ -27,23 +25,28 @@ async function loadCity(cityName){
     renderHourlyForecast(hourlyForecastData);
 };
 
+// == Afficher les erreurs de requêtes ==
+function showRequestError(error){
+    // message personnalisé si la ville n'est pas trouvée pour que l'utilisateur comprenne l'erreur
+    if (error.message === "CITY_NOT_FOUND"){
+        console.log("Ville introuvable");
+        alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe");
+    } else{
+        console.log("Erreur: ", error.message);
+    };
+};
+
 // == Réaction au clic sur onglet ==
 async function handleTabClick(cityName){
     try {
         await loadCity(cityName);
         setActiveTab(findTab(cityName));
     } catch(error){
-        if (error.message === "CITY_NOT_FOUND"){
-            console.log("Ville introuvable");
-            alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe");
-        } else{
-            console.log("Erreur: ", error.message)
-        };
+        showRequestError(error);
     };
 };
 
 // === CODE PRINCIPAL ===
-
 // == Récupération de l'input barre de recherche ==
 let searchBar = document.querySelector("#search");
 let searchInput = document.querySelector("#search-bar");
@@ -52,35 +55,23 @@ let searchInput = document.querySelector("#search-bar");
 searchBar.addEventListener("submit", async (getCityName) => {
     getCityName.preventDefault();
     let cityName = (searchInput.value).toLowerCase().trim();
-    console.log("Ville:", cityName);
 
-        try{
-            // récupération et affichage des données du bloc météo actuelle
-            await loadCity(cityName);
-            let existingTab = findTab(cityName);
-            if (existingTab){
-                setActiveTab(existingTab);
-            } else{
-                insertNewTab(cityName, handleTabClick);
-            };
+    try{
+        // récupération et affichage des données du bloc météo actuelle
+        await loadCity(cityName);
 
-        } catch(error){
-        // messages personnalisés au cas où le throw new Error intercepte une erreur
-            if (error.message === "CITY_NOT_FOUND"){
-                console.log("Ville introuvable");
-                alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe");
-            } else{
-                console.log("Erreur: ", error.message)
-            };
+        // gestion des onglets
+        let existingTab = findTab(cityName);
+        if (existingTab){
+            setActiveTab(existingTab);
+        } else{
+            insertNewTab(cityName, handleTabClick);
         };
 
-    // vider barre de recherche
-            searchInput.value = "";
+    } catch(error){
+        showRequestError(error);
+    };
+
+    // vider la barre de recherche
+    searchInput.value = "";
 });
-
-
-
-
-
-
-
