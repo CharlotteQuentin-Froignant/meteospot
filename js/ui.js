@@ -294,4 +294,50 @@ export function renderHourlyForecast(hourlyForecastData){
 
     // // insérer les nouvelles données
     targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
-}
+};
+
+// === ONGLETS ===
+// == Déterminer si la ville recherchée a déjà un onglet ou non ==
+export function findTab(cityName){
+    // interrogation du DOM
+    let allTabs = document.querySelectorAll(".town-tab");
+    for (let item of allTabs){
+        let town = item.textContent.toLowerCase().trim();
+        if (town === cityName){
+            return item;
+        };
+    };
+    return null;
+};
+
+// == Créer les onglets ==
+export function insertNewTab(cityName, onClick){
+    // création et insertion de l'onglet
+    let targetTab = document.querySelector(".searched-towns");
+    let searchedTowns = document.createElement("div");
+    let tab = document.createElement("button");
+    tab.className = "town-tab";
+    tab.textContent = cityName;
+    searchedTowns.appendChild(tab);
+    targetTab.appendChild(searchedTowns);
+
+    // ajout de l'écouteur d'évènement sur le clic
+    // fonction onClick à configurer dans main.js
+    tab.addEventListener("click", () => onClick(cityName))
+    setActiveTab(findTab(cityName));
+};
+
+// == Changement de classe des onglets ==
+export function setActiveTab(tabToActivate){
+    let activeTab = document.querySelector(".town-tab.active");
+    if (activeTab){
+        activeTab.className = "town-tab";
+    };
+
+    if (tabToActivate){
+        tabToActivate.className = "town-tab active";
+    };
+};
+
+
+
