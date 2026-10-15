@@ -9,6 +9,16 @@ export function getHourlyForecastUrl(city, APIKEY, LANG, UNIT){
     return urlHourlyForecast;
 };
 
+export function getCurrentWeatherUrlByCoords(lat, lon, APIKEY, LANG, UNIT){
+    let currentUrlByCoords = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+    return currentUrlByCoords;
+};
+
+export function getHourlyForecastUrlByCoords(lat, lon, APIKEY, LANG, UNIT){
+    let hourlyForecastUrlByCoords = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+    return hourlyForecastUrlByCoords;
+};
+
 // === REQUETES ===
 // ==  Météo actuelle ==
 export async function fetchCurrentWeather(url){

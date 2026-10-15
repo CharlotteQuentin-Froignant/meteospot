@@ -1,5 +1,5 @@
 // === IMPORTATIONS ===
-import { getCurrentWeatherUrl, getHourlyForecastUrl, fetchCurrentWeather, fetchHourlyForecast } from "./api.js";
+import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchCurrentWeather, fetchHourlyForecast } from "./api.js";
 import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab } from "./ui.js";
 
 import {APIKEY} from "./config.js";
@@ -25,6 +25,35 @@ async function loadCity(cityName){
     renderHourlyForecast(hourlyForecastData);
 };
 
+// == Obtenir et afficher la météo d'une ville avec la géolocalisation ==
+async function loadCityByCoords(lat,lon){
+    let currentUrlByCoords = getCurrentWeatherUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
+    let hourlyForecastUrlByCoords = getHourlyForecastUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
+
+    try{
+        let data = await fetchCurrentWeather(currentUrlByCoords);
+        let hourlyForecastData = await fetchHourlyForecast(hourlyForecastUrlByCoords);
+
+        let cityName = data["name"].toLowerCase().trim();
+        console.log(cityName);
+        console.log(data);
+
+        // récupération et affichage des données du bloc météo actuelle
+        renderCurrentWeather(data);
+        renderHourlyForecast(hourlyForecastData);
+
+        // gestion des onglets
+        let existingTab = findTab(cityName);
+        if (existingTab){
+            setActiveTab(existingTab);
+        } else{
+            insertNewTab(cityName, handleTabClick);
+        };
+    } catch(error){
+        showRequestError(error);
+    };
+};
+
 // == Afficher les erreurs de requêtes ==
 function showRequestError(error){
     // message personnalisé si la ville n'est pas trouvée pour que l'utilisateur comprenne l'erreur
@@ -45,6 +74,7 @@ async function handleTabClick(cityName){
         showRequestError(error);
     };
 };
+
 
 // === CODE PRINCIPAL ===
 // == Récupération de l'input barre de recherche ==
@@ -75,3 +105,35 @@ searchBar.addEventListener("submit", async (getCityName) => {
     // vider la barre de recherche
     searchInput.value = "";
 });
+
+// == Recherche par géolocalisation ==
+if ("geolocation" in navigator){
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            let userLat = position.coords.latitude;
+            let userLon = position.coords.longitude;
+            console.log("Position trouvée:", userLat, userLon);
+
+            loadCityByCoords(userLat, userLon);
+        },
+        (error) => {
+            console.log("Erreur:", error.message);
+            switch(error.code){
+                case 1:
+                    alert("Localisation refusée. Veuillez autoriser la localisation ou utiliser la barre de recherche");
+                    break;
+                case 2:
+                    alert("Position indisponible. Veuillez utiliser la barre de recherche");
+                    break;
+                case 3:
+                    alert("Délai dépassé. Veuillez réessayer");
+                    break;
+                default:
+                    alert("Problème avec la géolocalisation");
+                    break;
+            };
+        },
+    );
+} else {
+    alert("Problème avec la géolocalisation. Veuillez utiliser la barre de recherche");
+};
