@@ -138,6 +138,7 @@ if ("geolocation" in navigator){
                     break;
             };
         },
+        {timeout: 10000,}
     );
 } else {
     alert("Problème avec la géolocalisation. Veuillez utiliser la barre de recherche");
