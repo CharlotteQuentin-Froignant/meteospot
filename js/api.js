@@ -1,11 +1,14 @@
 // === CREATION DES URLS ===
 export function getCurrentWeatherUrl(city, APIKEY, LANG, UNIT){
-    let currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+    // protection contre l'injection de paramètres : encodage des données externes provenant de l'utilateur
+    let encodedCity = encodeURIComponent(city);
+    let currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodedCity}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
     return currentUrl;
 };
 
 export function getHourlyForecastUrl(city, APIKEY, LANG, UNIT){
-    let urlHourlyForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
+    let encodedCity = encodeURIComponent(city);
+    let urlHourlyForecast = `https://api.openweathermap.org/data/2.5/forecast?q=${encodedCity}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
     return urlHourlyForecast;
 };
 
@@ -45,16 +48,16 @@ export async function fetchCurrentWeather(url){
 // == Prévisions horaires ==
 export async function fetchHourlyForecast(urlHourlyForecast){
 
-        const RESPONSE = await fetch(urlHourlyForecast);
-        let hourlyForecastData = await RESPONSE.json();
+    const RESPONSE = await fetch(urlHourlyForecast);
+    let hourlyForecastData = await RESPONSE.json();
 
-        // interceptions des erreurs
-        if (!RESPONSE.ok){
-        if (RESPONSE.status === 404){
-            throw new Error("CITY_NOT_FOUND");
-        } else {
-            throw new Error(hourlyForecastData.message);
-        };
+    // interceptions des erreurs
+    if (!RESPONSE.ok){
+    if (RESPONSE.status === 404){
+        throw new Error("CITY_NOT_FOUND");
+    } else {
+        throw new Error(hourlyForecastData.message);
     };
+};
     return hourlyForecastData;
-}
+};
