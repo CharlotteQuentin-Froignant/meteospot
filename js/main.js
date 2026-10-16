@@ -87,21 +87,24 @@ let searchInput = document.querySelector("#search-bar");
 searchBar.addEventListener("submit", async (getCityName) => {
     getCityName.preventDefault();
     let cityName = (searchInput.value).toLowerCase().trim();
+    if (cityName === ""){
+        alert(" Aucune ville recherchée, veuillez indiquer une ville dans la barre de recherche");
+    } else {
+        try{
+            // récupération et affichage des données du bloc météo actuelle
+            let townName =  await loadCity(cityName);
 
-    try{
-        // récupération et affichage des données du bloc météo actuelle
-        let townName =  await loadCity(cityName);
+            // gestion des onglets
+            let existingTab = findTab(townName);
+            if (existingTab){
+                setActiveTab(existingTab);
+            } else{
+                insertNewTab(townName, handleTabClick);
+            };
 
-        // gestion des onglets
-        let existingTab = findTab(townName);
-        if (existingTab){
-            setActiveTab(existingTab);
-        } else{
-            insertNewTab(townName, handleTabClick);
+        } catch(error){
+            showRequestError(error);
         };
-
-    } catch(error){
-        showRequestError(error);
     };
 
     // vider la barre de recherche
