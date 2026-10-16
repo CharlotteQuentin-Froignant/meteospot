@@ -298,12 +298,12 @@ export function renderHourlyForecast(hourlyForecastData){
 
 // === ONGLETS ===
 // == Déterminer si la ville recherchée a déjà un onglet ou non ==
-export function findTab(cityName){
+export function findTab(townName){
     // interrogation du DOM
     let allTabs = document.querySelectorAll(".town-tab");
     for (let item of allTabs){
         let town = item.textContent.toLowerCase().trim();
-        if (town === cityName){
+        if (town === townName){
             return item;
         };
     };
@@ -311,20 +311,20 @@ export function findTab(cityName){
 };
 
 // == Créer les onglets ==
-export function insertNewTab(cityName, onClick){
+export function insertNewTab(townName, onClick){
     // création et insertion de l'onglet
     let targetTab = document.querySelector(".searched-towns");
     let searchedTowns = document.createElement("div");
     let tab = document.createElement("button");
     tab.className = "town-tab";
-    tab.textContent = cityName;
+    tab.textContent = townName;
     searchedTowns.appendChild(tab);
     targetTab.appendChild(searchedTowns);
 
     // ajout de l'écouteur d'évènement sur le clic
     // fonction onClick à configurer dans main.js
-    tab.addEventListener("click", () => onClick(cityName))
-    setActiveTab(findTab(cityName));
+    tab.addEventListener("click", () => onClick(townName))
+    setActiveTab(findTab(townName));
 };
 
 // == Changement de classe des onglets ==

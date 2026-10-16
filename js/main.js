@@ -20,9 +20,13 @@ async function loadCity(cityName){
     let data = await fetchCurrentWeather(url);
     let hourlyForecastData = await fetchHourlyForecast(urlNextHours);
 
+    let townName = data["name"].toLowerCase().trim();
+
     // intégration visuelle des données météo
     renderCurrentWeather(data);
     renderHourlyForecast(hourlyForecastData);
+
+    return townName;
 };
 
 // == Obtenir et afficher la météo d'une ville avec la géolocalisation ==
@@ -34,20 +38,18 @@ async function loadCityByCoords(lat,lon){
         let data = await fetchCurrentWeather(currentUrlByCoords);
         let hourlyForecastData = await fetchHourlyForecast(hourlyForecastUrlByCoords);
 
-        let cityName = data["name"].toLowerCase().trim();
-        console.log(cityName);
-        console.log(data);
+        let townName = data["name"].toLowerCase().trim();
 
         // récupération et affichage des données du bloc météo actuelle
         renderCurrentWeather(data);
         renderHourlyForecast(hourlyForecastData);
 
         // gestion des onglets
-        let existingTab = findTab(cityName);
+        let existingTab = findTab(townName);
         if (existingTab){
             setActiveTab(existingTab);
         } else{
-            insertNewTab(cityName, handleTabClick);
+            insertNewTab(townName, handleTabClick);
         };
     } catch(error){
         showRequestError(error);
@@ -66,10 +68,10 @@ function showRequestError(error){
 };
 
 // == Réaction au clic sur onglet ==
-async function handleTabClick(cityName){
+async function handleTabClick(townName){
     try {
-        await loadCity(cityName);
-        setActiveTab(findTab(cityName));
+        await loadCity(townName);
+        setActiveTab(findTab(townName));
     } catch(error){
         showRequestError(error);
     };
@@ -88,14 +90,14 @@ searchBar.addEventListener("submit", async (getCityName) => {
 
     try{
         // récupération et affichage des données du bloc météo actuelle
-        await loadCity(cityName);
+        let townName =  await loadCity(cityName);
 
         // gestion des onglets
-        let existingTab = findTab(cityName);
+        let existingTab = findTab(townName);
         if (existingTab){
             setActiveTab(existingTab);
         } else{
-            insertNewTab(cityName, handleTabClick);
+            insertNewTab(townName, handleTabClick);
         };
 
     } catch(error){
