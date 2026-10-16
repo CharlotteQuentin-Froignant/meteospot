@@ -340,4 +340,18 @@ export function setActiveTab(tabToActivate){
 };
 
 
+// === ETATS DE L'APPLICATION ==
+// == Bouton provisoire d'activation de géolocalisation ==
+export function renderGeolocationButton(onClick){
+    // création du bouton
+    let target = document.querySelector(".current-weather");
+    let activateGeolocationButton = document.createElement("button");
+    activateGeolocationButton.className = "geolocation-button";
+    activateGeolocationButton.textContent = "Activez votre position";
 
+    // mise en place de l'écoute et de l'action au clic
+    activateGeolocationButton.addEventListener("click", onClick);
+
+    // insertion dans la page
+    target.appendChild(activateGeolocationButton);
+};

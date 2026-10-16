@@ -1,6 +1,6 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchCurrentWeather, fetchHourlyForecast } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab } from "./ui.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, renderGeolocationButton } from "./ui.js";
 
 import {APIKEY} from "./config.js";
 
@@ -8,7 +8,8 @@ import {APIKEY} from "./config.js";
 const LANG = "fr";
 const UNIT = "metric";
 
-const GEOLOCALISATION_OPTIONS = {
+const GEOLOCATION_OPTIONS = {
+    // timeout en millisecondes
     timeout:10000,
 };
 
@@ -56,7 +57,8 @@ async function handleTabClick(townName){
 
 // == Géolocalisation ==
 
-// = Appel et rendu météo d'une ville avec la géolocalisation =
+// = Charge et affiche la météo par coordonnées, puis active ou crée l'onglet =
+// les erreurs sont gérées par la fonction d'appel handleGeolocationSuccess
 async function loadCityByCoords(lat,lon){
     let currentUrlByCoords = getCurrentWeatherUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
     let hourlyForecastUrlByCoords = getHourlyForecastUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
@@ -79,13 +81,18 @@ async function loadCityByCoords(lat,lon){
     };
 };
 
-// = Récupérer les données de géolocalisation, lancer la requête et afficher le rendu =
+// = Récupérer les données de géolocalisation, lancer la requête, afficher le rendu et attraper les erreurs =
 async function handleGeolocationSuccess(position){
     let userLat = position.coords.latitude;
     let userLon = position.coords.longitude;
 
     try {
         await loadCityByCoords(userLat, userLon);
+        let button = document.querySelector(".geolocation-button");
+        if (button != null){
+            button.remove();
+        };
+
     } catch (error){
         showRequestError(error);
     };
@@ -94,17 +101,86 @@ async function handleGeolocationSuccess(position){
 // = Gérer les erreurs de géolocalisation =
 function handleGeolocationError(error){
     switch(error.code){
+        // Refus
         case 1:
             alert("Localisation refusée. Veuillez autoriser la localisation ou utiliser la barre de recherche");
             break;
+
+        // Position indisponible
         case 2:
             alert("Position indisponible. Veuillez utiliser la barre de recherche");
             break;
+
+        // Délai dépassé
         case 3:
             alert("Délai dépassé. Veuillez réessayer");
             break;
+
         default:
             alert("Problème avec la géolocalisation");
+            break;
+    };
+};
+
+// == Récupérer le statut d'utilisation de la localisation ==
+async function getPermissionStatus(){
+    if ("geolocation" in navigator){
+        try {
+            let result = await navigator.permissions.query({name:"geolocation"});
+            return result.state;
+        } catch (error){
+            console.log("Statut de permission non défini : ", error.message);
+            // si le statut n'est pas défini, utilisation de prompt par défaut pour laisser le choix à l'utilisateur
+            return "prompt";
+        };
+    } else {
+        return "unavailable";
+    };
+};
+
+// == Demander la position au navigateur et afficher la météo correspondante ==
+function loadGeolocation(){
+    // si le statut est "prompt" : appelle la fenêtre d'autorisation
+    // si le statut est "granted" : affiche la météo directement sans fenêtre
+    navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, GEOLOCATION_OPTIONS);
+};
+
+// == Gestion des requêtes et de l'affichage selon les autorisations ==
+async function initGeolocation(){
+    // obtenir le statut d'autorisation
+    let permission = await getPermissionStatus();
+
+    // gérer les actions selon l'autorisation donnée
+    switch (permission) {
+        // autorisé
+        // si autorisé, évite d'avoir une pop-up de demande d'autorisation
+        // lors de la prochaine visite, la météo sera chargée directement sans pop-up
+        case "granted":
+            loadGeolocation();
+            break;
+
+        // statut par défaut
+        // bouton d'activation présent
+        // le clic sur le bouton entraîne le chargement de la météo correspondante et le navigateur fait passer le statut de prompt -> granted (temporaire ou tout le temps selon choix utilisateur)
+        // si l'utilisateur refuse d'activer sa localisation après avoir cliqué, le bouton reste; un refus mémorisé donnera denied à la prochaine visite
+        case "prompt":
+            renderGeolocationButton(loadGeolocation);
+            break;
+
+        // refus
+        // l'utilisateur devra utiliser la barre de recherche
+        case "denied":
+            // provisoire jusqu'au ticket 12
+            console.log("Votre position ne sera pas utilisée. Vous pouvez utiliser la barre de recherche");
+            break;
+
+        // gestion des navigateurs qui ne proposent pas la géolocalisation (ex: Safari)
+        case "unavailable":
+            alert ("Géolocalisation indisponible. Veuillez utiliser la barre de recherche");
+            break;
+
+        default:
+            alert("Problème avec la géolocalisation. Veuillez utiliser la barre de recherche");
             break;
     };
 };
@@ -144,8 +220,4 @@ searchBar.addEventListener("submit", async (getCityName) => {
 });
 
 // == Recherche par géolocalisation ==
-if ("geolocation" in navigator){
-    navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, GEOLOCALISATION_OPTIONS);
-} else {
-    alert("Problème avec la géolocalisation. Veuillez utiliser la barre de recherche");
-};
+initGeolocation();
