@@ -1,6 +1,6 @@
 // === CREATION DES URLS ===
 export function getCurrentWeatherUrl(city, APIKEY, LANG, UNIT){
-    // protection contre l'injection de paramètres : encodage des données externes provenant de l'utilateur
+    // protection contre l'injection de paramètres : encodage des données externes provenant de l'utilisateur
     let encodedCity = encodeURIComponent(city);
     let currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodedCity}&appid=${APIKEY}&lang=${LANG}&units=${UNIT}`;
     return currentUrl;
@@ -23,9 +23,8 @@ export function getHourlyForecastUrlByCoords(lat, lon, APIKEY, LANG, UNIT){
 };
 
 // === REQUETES ===
-// ==  Météo actuelle ==
-export async function fetchCurrentWeather(url){
-
+// Lancement des requêtes, envoi des résulats sous forme json ou affichage d'une erreur
+export async function fetchWeatherData(url){
     const RESPONSE = await fetch(url);
     let data = await RESPONSE.json();
 
@@ -33,7 +32,7 @@ export async function fetchCurrentWeather(url){
     if (!RESPONSE.ok){
         // erreur sur laquelle l'utilisateur peut intervenir
         if (RESPONSE.status === 404){
-            // throw stoppe l'éxécution de la fonction, et renvoie l'erreur dans le catch de main.js
+            // throw stoppe l'exécution de la fonction, et renvoie l'erreur dans le catch de main.js
             throw new Error("CITY_NOT_FOUND");
         } else {
             // pour les erreurs dues au système, l'erreur est crée avec le message renvoyé par OpenWeatherMap
@@ -43,21 +42,4 @@ export async function fetchCurrentWeather(url){
 
     // si on arrive à cette étape, RESPONSE.ok est true
     return data;
-};
-
-// == Prévisions horaires ==
-export async function fetchHourlyForecast(urlHourlyForecast){
-
-    const RESPONSE = await fetch(urlHourlyForecast);
-    let hourlyForecastData = await RESPONSE.json();
-
-    // interceptions des erreurs
-    if (!RESPONSE.ok){
-    if (RESPONSE.status === 404){
-        throw new Error("CITY_NOT_FOUND");
-    } else {
-        throw new Error(hourlyForecastData.message);
-    };
-};
-    return hourlyForecastData;
 };

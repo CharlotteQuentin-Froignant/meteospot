@@ -1,5 +1,5 @@
 // === IMPORTATIONS ===
-import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchCurrentWeather, fetchHourlyForecast } from "./api.js";
+import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
 import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, renderGeolocationButton } from "./ui.js";
 
 import {APIKEY} from "./config.js";
@@ -22,8 +22,8 @@ async function loadCity(cityName){
     let urlNextHours = getHourlyForecastUrl(cityName, APIKEY, LANG, UNIT);
 
     // lancement des requêtes
-    let data = await fetchCurrentWeather(url);
-    let hourlyForecastData = await fetchHourlyForecast(urlNextHours);
+    let data = await fetchWeatherData(url);
+    let hourlyForecastData = await fetchWeatherData(urlNextHours);
 
     let townName = data["name"].toLowerCase().trim();
 
@@ -48,7 +48,7 @@ function showRequestError(error){
 // == Onglets ==
 // = Changement de l'onglet actif ou création d'un nouvel onglet
 function showCityTab(townName){
-    // certaines données de géolocalisation n'étant pas rattachées à une ville, l'onglet crée serait vide (coordonnées en mer par exemple)
+    // certaines données de géolocalisation n'étant pas rattachées à une ville, l'onglet créé serait vide (coordonnées en mer par exemple)
     // si townName est vide, il n'y a pas de création d'onglets
     if (townName === ""){
         return;
@@ -79,8 +79,8 @@ async function loadCityByCoords(lat,lon){
     let currentUrlByCoords = getCurrentWeatherUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
     let hourlyForecastUrlByCoords = getHourlyForecastUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
 
-    let data = await fetchCurrentWeather(currentUrlByCoords);
-    let hourlyForecastData = await fetchHourlyForecast(hourlyForecastUrlByCoords);
+    let data = await fetchWeatherData(currentUrlByCoords);
+    let hourlyForecastData = await fetchWeatherData(hourlyForecastUrlByCoords);
 
     let townName = data["name"].toLowerCase().trim();
 
