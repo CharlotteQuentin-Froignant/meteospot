@@ -45,7 +45,23 @@ function showRequestError(error){
     };
 };
 
-// == Réaction au clic sur onglet ==
+// == Onglets ==
+// = Changement de l'onglet actif ou création d'un nouvel onglet
+function showCityTab(townName){
+    // certaines données de géolocalisation n'étant pas rattachées à une ville, l'onglet crée serait vide (coordonnées en mer par exemple)
+    // si townName est vide, il n'y a pas de création d'onglets
+    if (townName === ""){
+        return;
+    };
+    let existingTab = findTab(townName);
+    if (existingTab){
+        setActiveTab(existingTab);
+    } else{
+        insertNewTab(townName, handleTabClick);
+    };
+};
+
+// = Réaction au clic sur onglet =
 async function handleTabClick(townName){
     try {
         await loadCity(townName);
@@ -73,12 +89,7 @@ async function loadCityByCoords(lat,lon){
     renderHourlyForecast(hourlyForecastData);
 
     // gestion des onglets
-    let existingTab = findTab(townName);
-    if (existingTab){
-        setActiveTab(existingTab);
-    } else{
-        insertNewTab(townName, handleTabClick);
-    };
+    showCityTab(townName);
 };
 
 // = Récupérer les données de géolocalisation, lancer la requête, afficher le rendu et attraper les erreurs =
@@ -203,12 +214,7 @@ searchBar.addEventListener("submit", async (getCityName) => {
             let townName =  await loadCity(cityName);
 
             // gestion des onglets
-            let existingTab = findTab(townName);
-            if (existingTab){
-                setActiveTab(existingTab);
-            } else{
-                insertNewTab(townName, handleTabClick);
-            };
+            showCityTab(townName);
 
         } catch(error){
             showRequestError(error);
