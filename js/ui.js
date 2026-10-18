@@ -286,6 +286,10 @@ export function renderHourlyForecast(hourlyForecastData){
     // sélectionner bloc prévisions horaires
     let targetHours = document.querySelector(".hourly-forecast h2");
 
+    // afficher toute la section (titre + prévisions)
+    let section = document.querySelector(".hourly-forecast");
+    section.hidden = false;
+
     // // vider les données précédentes
     let existingCard = document.querySelector(".hourly-forecast-card");
     if (existingCard){
