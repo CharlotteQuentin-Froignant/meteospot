@@ -13,7 +13,19 @@ const GEOLOCATION_OPTIONS = {
     timeout:10000,
 };
 
+let lastData = null;
+
 // === FONCTIONS ===
+
+// == Enregistrer certaines données de la dernière recherche météo ==
+function saveLastData(data){
+    lastData = {
+        "city" : data["name"],
+        "temp" : data["main"]["temp"],
+        "dt" : data["dt"],
+        "timezoneoffset" : data["timezone"],
+    };
+};
 
 // == Obtenir et afficher la météo d'une ville ==
 async function loadCity(cityName){
@@ -31,8 +43,12 @@ async function loadCity(cityName){
     renderCurrentWeather(data);
     renderHourlyForecast(hourlyForecastData);
 
+    // enregistrement du nom de la ville, de la température et de l'heure
+    saveLastData(data);
+
     return townName;
 };
+
 
 // == Afficher les erreurs de requêtes ==
 function showRequestError(error){
@@ -90,6 +106,9 @@ async function loadCityByCoords(lat,lon){
 
     // gestion des onglets
     showCityTab(townName);
+
+    // enregistrement du nom de la ville, de la température et de l'heure
+    saveLastData(data);
 };
 
 // = Récupérer les données de géolocalisation, lancer la requête, afficher le rendu et attraper les erreurs =
@@ -227,3 +246,4 @@ searchBar.addEventListener("submit", async (getCityName) => {
 
 // == Recherche par géolocalisation ==
 initGeolocation();
+
