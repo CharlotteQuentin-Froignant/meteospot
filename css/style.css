@@ -337,6 +337,77 @@ header{
     flex-shrink: 0; /* évite le rétrécissement des cartes*/
 }
 
+/*== ERREUR D'API ==*/
+.state-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: var(--spacing-app);
+    padding: 20px 12px;
+    gap: 10px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background-color: var(--background-section);
+}
+
+/* #api-card-icon{
+    align-self: center;
+} */
+
+.state-card-title{
+    text-align: center;
+    font-family: var(--font-family-titles);
+    font-size: 1.4rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.state-card-text{
+    text-align: center;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.state-button{
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    background-color: rgb(193, 33, 33);
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-forecast-temp);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.5px;
+    color: white;
+}
+
+.state-button:disabled{
+    color: #9B9A92;
+    cursor: not-allowed;
+}
+
+.state-button:hover:not(:disabled){
+    filter: brightness(0.95);
+}
+
+.api-last-data{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 5px;
+    text-align: center;
+    gap: 2px 5px;
+    font-family:var(--font-family-secondary);
+    font-size: var(--font-size-ui);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
+
 
 /* === MEDIA QUERY PETITS ECRANS <400px === */
 @media screen and (max-width:400px) {
