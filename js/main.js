@@ -92,7 +92,7 @@ function showRequestError(error){
         console.log("Ville introuvable");
         alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe");
     } else{
-        console.log("Erreur: ", error.message);
+        console.log("Erreur: ", error.name, error.message);
         // création de la carte d'état, lancement de la dernière requête avec désactivation du bouton de relance
         // si la requête échoue de nouveau, une nouvelle carte est créee avec un bouton actif
         // pas de parenthèse pour retryLastRequest car appelée par click sur bouton

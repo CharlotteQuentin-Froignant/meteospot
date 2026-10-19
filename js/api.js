@@ -23,9 +23,10 @@ export function getHourlyForecastUrlByCoords(lat, lon, APIKEY, LANG, UNIT){
 };
 
 // === REQUETES ===
+const REQUEST_TIMEOUT = 10000;
 // Lancement des requêtes, envoi des résulats sous forme json ou affichage d'une erreur
 export async function fetchWeatherData(url){
-    const RESPONSE = await fetch(url);
+    const RESPONSE = await fetch(url, {signal: AbortSignal.timeout(REQUEST_TIMEOUT)});
     let data = await RESPONSE.json();
 
     // gestion des erreurs
@@ -35,7 +36,7 @@ export async function fetchWeatherData(url){
             // throw stoppe l'exécution de la fonction, et renvoie l'erreur dans le catch de main.js
             throw new Error("CITY_NOT_FOUND");
         } else {
-            // pour les erreurs dues au système, l'erreur est crée avec le message renvoyé par OpenWeatherMap
+            // pour les erreurs dues au système, l'erreur est créee avec le message renvoyé par OpenWeatherMap
             throw new Error(data.message);
         };
     };
