@@ -1,6 +1,6 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, renderGeolocationButton } from "./ui.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, renderGeolocationButton, downAPI } from "./ui.js";
 
 import {APIKEY} from "./config.js";
 
@@ -14,6 +14,7 @@ const GEOLOCATION_OPTIONS = {
 };
 
 let lastData = null;
+let lastRequest = null;
 
 // === FONCTIONS ===
 
@@ -23,7 +24,7 @@ function saveLastData(data){
         "city" : data["name"],
         "temp" : data["main"]["temp"],
         "dt" : data["dt"],
-        "timezoneoffset" : data["timezone"],
+        "timezoneOffset" : data["timezone"],
     };
 };
 
@@ -32,6 +33,12 @@ async function loadCity(cityName){
     // création des urls pour les requêtes
     let url = getCurrentWeatherUrl(cityName, APIKEY, LANG, UNIT);
     let urlNextHours = getHourlyForecastUrl(cityName, APIKEY, LANG, UNIT);
+
+    // sauvegarde des paramètres de la requête
+    lastRequest = {
+        "type" : "name",
+        "town" : cityName,
+    };
 
     // lancement des requêtes
     let data = await fetchWeatherData(url);
@@ -49,6 +56,34 @@ async function loadCity(cityName){
     return townName;
 };
 
+// == Lancer la dernière requête ==
+async function retryLastRequest(){
+    // gérer la déclaration de null pour éviter l'interception d'erreur
+    if (lastRequest === null){
+        return;
+    };
+
+    // dernière requête = recherche par nom
+    if (lastRequest["type"] === "name"){
+        try{
+            // récupération et affichage des données du bloc météo actuelle
+            let townName =  await loadCity(lastRequest["town"]);
+
+            // gestion des onglets
+            showCityTab(townName);
+        } catch(error){
+            showRequestError(error);
+        };
+
+    // dernière requête = recherche par coordonnées
+    } else if (lastRequest["type"] === "coords"){
+        try{
+            await loadCityByCoords(lastRequest["lat"], lastRequest["lon"]);
+        } catch(error){
+            showRequestError(error);
+        };
+    };
+};
 
 // == Afficher les erreurs de requêtes ==
 function showRequestError(error){
@@ -58,6 +93,10 @@ function showRequestError(error){
         alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe");
     } else{
         console.log("Erreur: ", error.message);
+        // création de la carte d'état, lancement de la dernière requête avec désactivation du bouton de relance
+        // si la requête échoue de nouveau, une nouvelle carte est créee avec un bouton actif
+        // pas de parenthèse pour retryLastRequest car appelée par click sur bouton
+        downAPI(lastData, retryLastRequest);
     };
 };
 
@@ -92,12 +131,19 @@ async function handleTabClick(townName){
 // = Charge et affiche la météo par coordonnées, puis active ou crée l'onglet =
 // les erreurs sont gérées par la fonction d'appel handleGeolocationSuccess
 async function loadCityByCoords(lat,lon){
+
     let currentUrlByCoords = getCurrentWeatherUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
     let hourlyForecastUrlByCoords = getHourlyForecastUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
 
+    // sauvegarde des paramètres de la requête
+    lastRequest = {
+        "type" : "coords",
+        "lat" : lat,
+        "lon" : lon,
+    };
+
     let data = await fetchWeatherData(currentUrlByCoords);
     let hourlyForecastData = await fetchWeatherData(hourlyForecastUrlByCoords);
-
     let townName = data["name"].toLowerCase().trim();
 
     // récupération et affichage des données du bloc météo actuelle
@@ -172,6 +218,7 @@ async function getPermissionStatus(){
 function loadGeolocation(){
     // si le statut est "prompt" : appelle la fenêtre d'autorisation
     // si le statut est "granted" : affiche la météo directement sans fenêtre
+    console.time("position");
     navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, GEOLOCATION_OPTIONS);
 };
 

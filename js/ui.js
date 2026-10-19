@@ -241,6 +241,11 @@ export function renderCurrentWeather(data){
         existingCurrentCard.remove();
     };
 
+    let existingStateCards = document.querySelector(".state-card");
+    if (existingStateCards){
+        existingStateCards.remove();
+    };
+
     // insertion des nouvelles données
     target.appendChild(weatherCard);
 };
@@ -290,7 +295,7 @@ export function renderHourlyForecast(hourlyForecastData){
     let section = document.querySelector(".hourly-forecast");
     section.hidden = false;
 
-    // // vider les données précédentes
+    // vider les données précédentes
     let existingCard = document.querySelector(".hourly-forecast-card");
     if (existingCard){
         existingCard.remove();
@@ -358,4 +363,93 @@ export function renderGeolocationButton(onClick){
 
     // insertion dans la page
     target.appendChild(activateGeolocationButton);
+};
+
+// == API Indisponible ==
+export function downAPI (lastData, onRetry){
+    // Supprimer les cartes d'états et de météo déjà présentes
+    let existingStateCards = document.querySelector(".state-card");
+    if (existingStateCards){
+        existingStateCards.remove();
+    };
+    let weatherCard = document.querySelector(".weather-card");
+    if (weatherCard){
+        weatherCard.remove();
+    };
+    let hourlySection = document.querySelector(".hourly-forecast");
+    hourlySection.hidden = true;
+
+    // Créer la carte pour l'erreur d'API
+    let downApiCard = document.createElement("div");
+    downApiCard.className = "state-card";
+    downApiCard.id = "api-card";
+    downApiCard.setAttribute("role", "alert");
+
+    // icône
+    let apiCardIcon = document.createElement("img");
+    apiCardIcon.id = "api-card-icon";
+    apiCardIcon.src = "";
+    apiCardIcon.alt = "icone de nuage barré";
+    downApiCard.appendChild(apiCardIcon);
+
+    // titre
+    let apiCardTitle = document.createElement("h2");
+    apiCardTitle.id = "api-card-title";
+    apiCardTitle.textContent = "Météo indisponible";
+    downApiCard.appendChild(apiCardTitle);
+
+    // message
+    let apiCardText = document.createElement("p");
+    apiCardText.id = "api-card-text";
+    apiCardText.textContent = "Impossible de récupérer les données météo pour le moment. Vérifie ta connexion et réessaie";
+    downApiCard.appendChild(apiCardText);
+
+    // bouton
+    let apiCardButton = document.createElement("button");
+    apiCardButton.className = "state-button";
+    apiCardButton.id = "api-button";
+    apiCardButton.textContent = "Réessayer";
+    // relancer la dernière requête au clic et désactiver le bouton
+    apiCardButton.addEventListener("click", () => {
+        apiCardButton.disabled = true;
+        onRetry();
+    });
+    downApiCard.appendChild(apiCardButton);
+
+    // dernières données connues
+    if (lastData !== null){
+        let apiLastData = document.createElement("div");
+        apiLastData.className = "api-last-data";
+        apiLastData.id = "last-data-api";
+        downApiCard.appendChild(apiLastData);
+
+        let apiLastText = document.createElement("span");
+        apiLastText.className = "api-last-text";
+        apiLastText.id = "last-text-api";
+        apiLastText.textContent = "Dernière donnée connue: ";
+        apiLastData.appendChild(apiLastText);
+
+        let apiLastCity = document.createElement("span");
+        apiLastCity.className = "api-last-city";
+        apiLastCity.id = "last-town";
+        apiLastCity.textContent = lastData["city"] +", ";
+        apiLastData.appendChild(apiLastCity);
+
+        let apiLastTemp = document.createElement("span");
+        apiLastTemp.className = "api-last-temp";
+        apiLastTemp.id = "last-temp";
+        apiLastTemp.textContent = (lastData["temp"]).toFixed(1) + "°C ";
+        apiLastData.appendChild(apiLastTemp);
+
+        let apiLastTime = document.createElement("span");
+        apiLastTime.className = "api-last-time";
+        apiLastTime.id = "last-time";
+        let localTime = getLocalDateTime(lastData["dt"], lastData["timezoneOffset"]);
+        apiLastTime.textContent = "à " + localTime["time"];
+        apiLastData.appendChild(apiLastTime);
+    };
+
+    // insertion des nouvelles données
+    let target = document.querySelector(".current-weather");
+    target.appendChild(downApiCard);
 };
