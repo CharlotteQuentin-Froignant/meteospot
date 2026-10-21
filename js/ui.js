@@ -386,20 +386,24 @@ export function downAPI (lastData, onRetry){
     downApiCard.setAttribute("role", "alert");
 
     // icône
+    // doit être préchargée dans index.html car son affichage est bloqué lors des échecs requêtes
     let apiCardIcon = document.createElement("img");
     apiCardIcon.id = "api-card-icon";
-    apiCardIcon.src = "";
-    apiCardIcon.alt = "icone de nuage barré";
+    apiCardIcon.src = "assets/icons/static/unavailable.svg";
+    // le titre évoque déjà l'erreur et l'icone est décorative, mettre une description alt ferait doublon
+    apiCardIcon.alt = "";
     downApiCard.appendChild(apiCardIcon);
 
     // titre
     let apiCardTitle = document.createElement("h2");
+    apiCardTitle.className = "state-card-title";
     apiCardTitle.id = "api-card-title";
     apiCardTitle.textContent = "Météo indisponible";
     downApiCard.appendChild(apiCardTitle);
 
     // message
     let apiCardText = document.createElement("p");
+    apiCardText.className = "state-card-text"
     apiCardText.id = "api-card-text";
     apiCardText.textContent = "Impossible de récupérer les données météo pour le moment. Vérifie ta connexion et réessaie";
     downApiCard.appendChild(apiCardText);

@@ -351,9 +351,9 @@ header{
     background-color: var(--background-section);
 }
 
-/* #api-card-icon{
+#api-card-icon{
     align-self: center;
-} */
+}
 
 .state-card-title{
     text-align: center;
@@ -385,7 +385,8 @@ header{
 }
 
 .state-button:disabled{
-    color: #9B9A92;
+    background-color: #c8c8c7;
+    color: rgb(87, 82, 82);
     cursor: not-allowed;
 }
 
