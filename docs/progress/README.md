@@ -55,6 +55,14 @@ Lors du ticket 9, l'arc solaire avec calcul de la position en temps réel du sol
 
 Par rapport au design-system, la date a également été ajoutée et l'heure d'actualisation a été placée au niveau de l'arc solaire, plutôt que dans le cadre avec les données principales.
 
+## Ticket #10 - Géolocalisation
+Lors de ce ticket, la recherche et l'affichage de la météo via les coordonnées gps ont été mises en place. Un bouton provisoire a été mis en place pour activer la demande de permission du navigateur, dont le rendu visuel sera traitée au ticket 12.
+
+## Ticket #11 - Gestion d'état erreur d'API
+Lorsqu'un problème réseau arrive ou que l'API n'est pas disponible, l'application affiche une carte d'état spécifique expliquant le problème à l'utilisateur et lui laisse la possibilité de relancer la requête. L'affichage de cet état a été vérifié sur un galaxy S23 réel et en simulation iPhone SE 2016 avec l'extension MOBILE FIRST. [voir la capture](7_app_T11-erreur-API.png)
+
+La maquette présentée dans le fichier process.md montre le rendu visuel attendu quand une erreur réseau / API se produit et que l'utilisateur n'a pas de recherche enregistrée. Le rendu actuel a été effectué après une requête réussie, laissant ainsi apparaître l'onglet de la dernière ville affichée.
+
 
 ---
 
