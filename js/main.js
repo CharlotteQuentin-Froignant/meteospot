@@ -164,11 +164,6 @@ async function handleGeolocationSuccess(position){
 
     try {
         await loadCityByCoords(userLat, userLon);
-        let button = document.querySelector(".geolocation-button");
-        if (button != null){
-            button.remove();
-        };
-
     } catch (error){
         showRequestError(error);
     };

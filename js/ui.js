@@ -130,6 +130,8 @@ function renderSolarBow(data, weatherCard){
 
 // = Météo Actuelle =
 export function renderCurrentWeather(data){
+    // Supprimer le bouton de d'activation de la localisation
+    removeGeolocationButton();
 
     // configuration des éléments à injecter dans le DOM
     let weatherCard = document.createElement("div");
@@ -365,6 +367,14 @@ export function renderGeolocationButton(onClick){
     target.appendChild(activateGeolocationButton);
 };
 
+// == Retirer le bouton d'activation de la localisation
+function removeGeolocationButton(){
+    let button = document.querySelector(".geolocation-button");
+    if (button != null){
+        button.remove();
+    };
+};
+
 // == API Indisponible ==
 export function downAPI (lastData, onRetry){
     // Supprimer les cartes d'états et de météo déjà présentes
@@ -378,6 +388,9 @@ export function downAPI (lastData, onRetry){
     };
     let hourlySection = document.querySelector(".hourly-forecast");
     hourlySection.hidden = true;
+
+    // Supprimer le bouton de d'activation de la localisation
+    removeGeolocationButton();
 
     // Créer la carte pour l'erreur d'API
     let downApiCard = document.createElement("div");
