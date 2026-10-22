@@ -1,6 +1,6 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, renderGeolocationButton, downAPI } from "./ui.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, downAPI, renderWelcomeCard, renderBlockedCard } from "./ui.js";
 
 import {APIKEY} from "./config.js";
 
@@ -174,7 +174,7 @@ function handleGeolocationError(error){
     switch(error.code){
         // Refus
         case 1:
-            alert("Localisation refusée. Veuillez autoriser la localisation ou utiliser la barre de recherche");
+            alert("Localisation refusée. Veuillez utiliser la barre de recherche");
             break;
 
         // Position indisponible
@@ -213,7 +213,6 @@ async function getPermissionStatus(){
 function loadGeolocation(){
     // si le statut est "prompt" : appelle la fenêtre d'autorisation
     // si le statut est "granted" : affiche la météo directement sans fenêtre
-    console.time("position");
     navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, GEOLOCATION_OPTIONS);
 };
 
@@ -236,14 +235,13 @@ async function initGeolocation(){
         // le clic sur le bouton entraîne le chargement de la météo correspondante et le navigateur fait passer le statut de prompt -> granted (temporaire ou tout le temps selon choix utilisateur)
         // si l'utilisateur refuse d'activer sa localisation après avoir cliqué, le bouton reste; un refus mémorisé donnera denied à la prochaine visite
         case "prompt":
-            renderGeolocationButton(loadGeolocation);
+            renderWelcomeCard(loadGeolocation);
             break;
 
         // refus
         // l'utilisateur devra utiliser la barre de recherche
         case "denied":
-            // provisoire jusqu'au ticket 12
-            console.log("Votre position ne sera pas utilisée. Vous pouvez utiliser la barre de recherche");
+            renderBlockedCard();
             break;
 
         // gestion des navigateurs qui ne proposent pas la géolocalisation (ex: Safari)

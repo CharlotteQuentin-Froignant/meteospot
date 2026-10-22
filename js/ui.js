@@ -465,6 +465,56 @@ export function downAPI (lastData, onRetry){
     target.appendChild(stateCard);
 };
 
+// == Etat : bienvenue (prompt) ==
+export function renderWelcomeCard(onActivate){
+    // vider le contenu existant
+    clearMainContent();
+
+    // paramètre pour la création de la carte d'état bienvenue
+    let stateParameters = {
+        "stateType" : "info",
+        "stateRole" : "status",
+        "stateIcon" : "assets/icons/static/geolocation-off.svg",
+        "stateTitle" : "Bienvenue",
+        "stateText" : "Autorise la localisation pour voir la météo de ta ville, ou recherche-en une pour commencer",
+        "stateButtonText" : "Autoriser la localisation",
+    };
+
+    let welcomeCard = createStateCard(stateParameters);
+
+    // Ouvrir la fenêtre des permission du navigateur au clic
+    const PERMISSION_BUTTON = welcomeCard.querySelector(".state-button");
+    PERMISSION_BUTTON.addEventListener("click", (event) =>{
+        event.preventDefault();
+        onActivate();
+    });
+
+    // Insertion de la carte d'état
+    let target = document.querySelector(".current-weather");
+    target.appendChild(welcomeCard);
+};
+
+// == Etat : localisation bloquée (denied) ==
+export function renderBlockedCard(){
+    // vider le contenu existant
+    clearMainContent();
+
+    // paramètre pour la création de la carte d'état bienvenue
+    let stateParameters = {
+        "stateType" : "info",
+        "stateRole" : "status",
+        "stateIcon" : "assets/icons/static/geolocation-off.svg",
+        "stateTitle" : "Localisation désactivée",
+        "stateText" : "Autorise-la depuis la barre d'adresse du navigateur, ou utilise la barre de recherche pour voir la météo de ta ville.",
+    };
+
+    let blockedCard = createStateCard(stateParameters);
+
+    // Insertion de la carte d'état
+    let target = document.querySelector(".current-weather");
+    target.appendChild(blockedCard);
+};
+
 // === SUPPRESSION D'ELEMENTS ===
 // Supprimer une carte
 function clearCard(card){

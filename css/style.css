@@ -40,6 +40,9 @@
     /*colours*/
     --background-color:#FFFFFF;
     --background-section :#f3f3f758;
+    --info-button : #C05407;
+    --alert-button: #b70b0b;
+    --state-button-text: white;
 
 
     /*default values for the temperature color picker; colors will be dynamically integrated using JS*/
@@ -376,18 +379,18 @@ header{
     border: none;
     border-radius: 30px;
     padding: 10px 20px;
-    background-color: rgb(211, 93, 9);
+    background-color: var(--info-button);
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-forecast-temp);
     font-weight: var(--font-weight-semibold);
     letter-spacing: 0.5px;
-    color: white;
+    color: var(--state-button-text);
     align-self: center;
 }
 
 .state-card-error .state-button{
-    background-color: rgb(193, 33, 33);
-    color: white;
+    background-color: var(--alert-button);
+    color: var(--state-button-text);
 }
 
 .state-button:disabled{
@@ -399,7 +402,6 @@ header{
 .state-button:hover:not(:disabled){
     filter: brightness(0.95);
 }
-
 
 
 .api-last-data{
