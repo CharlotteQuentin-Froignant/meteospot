@@ -128,7 +128,7 @@ function renderSolarBow(data, weatherCard){
     };
 };
 
-// = Météo Actuelle =
+// = Données Météo Actuelle =
 export function renderCurrentWeather(data){
     // Supprimer le bouton de d'activation de la localisation
     removeGeolocationButton();
@@ -238,21 +238,16 @@ export function renderCurrentWeather(data){
     let target = document.querySelector(".current-weather");
 
     // vider les données existantes
-    let existingCurrentCard = document.querySelector(".weather-card");
-    if (existingCurrentCard){
-        existingCurrentCard.remove();
-    };
+    let card = ".weather-card";
+    clearCard(card);
 
-    let existingStateCards = document.querySelector(".state-card");
-    if (existingStateCards){
-        existingStateCards.remove();
-    };
-
+    let stateCard = ".state-card";
+    clearCard(stateCard);
     // insertion des nouvelles données
     target.appendChild(weatherCard);
 };
 
-// = Prévisions Horaires =
+// == Prévisions Horaires ==
 export function renderHourlyForecast(hourlyForecastData){
     let hourlyData = hourlyForecastData["list"].slice(0,8);
 
@@ -298,14 +293,13 @@ export function renderHourlyForecast(hourlyForecastData){
     section.hidden = false;
 
     // vider les données précédentes
-    let existingCard = document.querySelector(".hourly-forecast-card");
-    if (existingCard){
-        existingCard.remove();
-    };
+    let card = ".hourly-forecast-card";
+    clearCard(card);
 
-    // // insérer les nouvelles données
+    // insérer les nouvelles données
     targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
 };
+
 
 // === ONGLETS ===
 // == Déterminer si la ville recherchée a déjà un onglet ou non ==
@@ -375,98 +369,124 @@ function removeGeolocationButton(){
     };
 };
 
-// == API Indisponible ==
-export function downAPI (lastData, onRetry){
-    // Supprimer les cartes d'états et de météo déjà présentes
-    let existingStateCards = document.querySelector(".state-card");
-    if (existingStateCards){
-        existingStateCards.remove();
-    };
-    let weatherCard = document.querySelector(".weather-card");
-    if (weatherCard){
-        weatherCard.remove();
-    };
-    let hourlySection = document.querySelector(".hourly-forecast");
-    hourlySection.hidden = true;
-
-    // Supprimer le bouton de d'activation de la localisation
-    removeGeolocationButton();
-
-    // Créer la carte pour l'erreur d'API
-    let downApiCard = document.createElement("div");
-    downApiCard.className = "state-card";
-    downApiCard.id = "api-card";
-    downApiCard.setAttribute("role", "alert");
+// == Création des cartes d'état ==
+function createStateCard(stateParameters){
+    // Créer la carte
+    let stateCard = document.createElement("div");
+    stateCard.className = "state-card";
+    stateCard.classList.add("state-card-" + stateParameters["stateType"]);
+    stateCard.setAttribute("role", stateParameters["stateRole"]);
 
     // icône
-    // doit être préchargée dans index.html car son affichage est bloqué lors des échecs requêtes
-    let apiCardIcon = document.createElement("img");
-    apiCardIcon.id = "api-card-icon";
-    apiCardIcon.src = "assets/icons/static/unavailable.svg";
+    let stateCardIcon = document.createElement("img");
+    stateCardIcon.className = "state-icon";
+    stateCardIcon.src = stateParameters["stateIcon"];
     // le titre évoque déjà l'erreur et l'icone est décorative, mettre une description alt ferait doublon
-    apiCardIcon.alt = "";
-    downApiCard.appendChild(apiCardIcon);
+    stateCardIcon.alt = "";
+    stateCard.appendChild(stateCardIcon);
 
     // titre
-    let apiCardTitle = document.createElement("h2");
-    apiCardTitle.className = "state-card-title";
-    apiCardTitle.id = "api-card-title";
-    apiCardTitle.textContent = "Météo indisponible";
-    downApiCard.appendChild(apiCardTitle);
+    let stateCardTitle = document.createElement("h2");
+    stateCardTitle.className = "state-card-title";
+    stateCardTitle.textContent = stateParameters["stateTitle"];
+    stateCard.appendChild(stateCardTitle);
 
     // message
-    let apiCardText = document.createElement("p");
-    apiCardText.className = "state-card-text"
-    apiCardText.id = "api-card-text";
-    apiCardText.textContent = "Impossible de récupérer les données météo pour le moment. Vérifie ta connexion et réessaie";
-    downApiCard.appendChild(apiCardText);
+    let stateCardText = document.createElement("p");
+    stateCardText.className = "state-card-text";
+    stateCardText.textContent = stateParameters["stateText"];
+    stateCard.appendChild(stateCardText);
 
     // bouton
-    let apiCardButton = document.createElement("button");
-    apiCardButton.className = "state-button";
-    apiCardButton.id = "api-button";
-    apiCardButton.textContent = "Réessayer";
-    // relancer la dernière requête au clic et désactiver le bouton
-    apiCardButton.addEventListener("click", () => {
-        apiCardButton.disabled = true;
+    let stateCardButton = document.createElement("button");
+    stateCardButton.className = "state-button";
+    stateCardButton.textContent = stateParameters["stateButtonText"];
+    stateCard.appendChild(stateCardButton);
+
+    return stateCard;
+};
+
+// == Etat : API Indisponible ==
+export function downAPI (lastData, onRetry){
+    // Supprimer les cartes d'états et de météo déjà présentes et le bouton de localisation
+    clearMainContent();
+
+    // Créer la carte d'état
+    // l'icône doit être préchargée dans index.html car son affichage est bloqué lors des échecs requêtes
+    let stateParameters = {
+        "stateType" : "error",
+        "stateRole" : "alert",
+        "stateIcon" : "assets/icons/static/unavailable.svg",
+        "stateTitle" : "Météo indisponible",
+        "stateText" : "Impossible de récupérer les données météo pour le moment. Vérifie ta connexion et réessaie",
+        "stateButtonText" : "Réessayer",
+    };
+
+    let stateCard = createStateCard(stateParameters);
+
+    // Relancer la dernière requête au clic et désactiver le bouton
+    const API_BUTTON = stateCard.querySelector(".state-button");
+    API_BUTTON.addEventListener("click", () => {
+        API_BUTTON.disabled = true;
         onRetry();
     });
-    downApiCard.appendChild(apiCardButton);
 
-    // dernières données connues
+    // Obtenir et afficher les dernières données connues
     if (lastData !== null){
         let apiLastData = document.createElement("div");
         apiLastData.className = "api-last-data";
-        apiLastData.id = "last-data-api";
-        downApiCard.appendChild(apiLastData);
+        stateCard.appendChild(apiLastData);
 
         let apiLastText = document.createElement("span");
         apiLastText.className = "api-last-text";
-        apiLastText.id = "last-text-api";
         apiLastText.textContent = "Dernière donnée connue: ";
         apiLastData.appendChild(apiLastText);
 
         let apiLastCity = document.createElement("span");
         apiLastCity.className = "api-last-city";
-        apiLastCity.id = "last-town";
         apiLastCity.textContent = lastData["city"] +", ";
         apiLastData.appendChild(apiLastCity);
 
         let apiLastTemp = document.createElement("span");
         apiLastTemp.className = "api-last-temp";
-        apiLastTemp.id = "last-temp";
         apiLastTemp.textContent = (lastData["temp"]).toFixed(1) + "°C ";
         apiLastData.appendChild(apiLastTemp);
 
         let apiLastTime = document.createElement("span");
         apiLastTime.className = "api-last-time";
-        apiLastTime.id = "last-time";
         let localTime = getLocalDateTime(lastData["dt"], lastData["timezoneOffset"]);
         apiLastTime.textContent = "à " + localTime["time"];
         apiLastData.appendChild(apiLastTime);
     };
 
-    // insertion des nouvelles données
+    // Insertion de la carte d'état
     let target = document.querySelector(".current-weather");
-    target.appendChild(downApiCard);
+    target.appendChild(stateCard);
+};
+
+// === SUPPRESSION D'ELEMENTS ===
+// Supprimer une carte
+function clearCard(card){
+    let sectionCard = document.querySelector(card);
+    if (sectionCard){
+        sectionCard.remove();
+    };
+};
+
+// Retirer les cartes et masquer les prévisions
+function clearMainContent(){
+    // Supprimer les cartes d'état
+    let stateCard = ".state-card";
+    clearCard(stateCard);
+
+    // Supprimer la carte météo actuelle
+    let weatherCard = ".weather-card";
+    clearCard(weatherCard);
+
+    // Cacher le titre et les cartes de prévisions horaires
+    let hourlySection = document.querySelector(".hourly-forecast");
+    hourlySection.hidden = true;
+
+    // Supprimer le bouton de d'activation de la localisation
+    removeGeolocationButton();
 };
