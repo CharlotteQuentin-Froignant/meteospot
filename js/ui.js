@@ -130,9 +130,6 @@ function renderSolarBow(data, weatherCard){
 
 // = Données Météo Actuelle =
 export function renderCurrentWeather(data){
-    // Supprimer le bouton de d'activation de la localisation
-    removeGeolocationButton();
-
     // configuration des éléments à injecter dans le DOM
     let weatherCard = document.createElement("div");
     weatherCard.className = "weather-card";
@@ -346,29 +343,6 @@ export function setActiveTab(tabToActivate){
 
 
 // === ETATS DE L'APPLICATION ==
-// == Bouton provisoire d'activation de géolocalisation ==
-export function renderGeolocationButton(onClick){
-    // création du bouton
-    let target = document.querySelector(".current-weather");
-    let activateGeolocationButton = document.createElement("button");
-    activateGeolocationButton.className = "geolocation-button";
-    activateGeolocationButton.textContent = "Activez votre position";
-
-    // mise en place de l'écoute et de l'action au clic
-    activateGeolocationButton.addEventListener("click", onClick);
-
-    // insertion dans la page
-    target.appendChild(activateGeolocationButton);
-};
-
-// == Retirer le bouton d'activation de la localisation
-function removeGeolocationButton(){
-    let button = document.querySelector(".geolocation-button");
-    if (button != null){
-        button.remove();
-    };
-};
-
 // == Création des cartes d'état ==
 function createStateCard(stateParameters){
     // Créer la carte
@@ -537,7 +511,4 @@ function clearMainContent(){
     // Cacher le titre et les cartes de prévisions horaires
     let hourlySection = document.querySelector(".hourly-forecast");
     hourlySection.hidden = true;
-
-    // Supprimer le bouton de d'activation de la localisation
-    removeGeolocationButton();
 };
