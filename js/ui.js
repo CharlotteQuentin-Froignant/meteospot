@@ -397,12 +397,13 @@ function createStateCard(stateParameters){
     stateCardText.textContent = stateParameters["stateText"];
     stateCard.appendChild(stateCardText);
 
-    // bouton
-    let stateCardButton = document.createElement("button");
-    stateCardButton.className = "state-button";
-    stateCardButton.textContent = stateParameters["stateButtonText"];
-    stateCard.appendChild(stateCardButton);
-
+    // création d'un bouton uniquement si stateButtonTest est présent
+    if (stateParameters["stateButtonText"]){
+        let stateCardButton = document.createElement("button");
+        stateCardButton.className = "state-button";
+        stateCardButton.textContent = stateParameters["stateButtonText"];
+        stateCard.appendChild(stateCardButton);
+    };
     return stateCard;
 };
 
