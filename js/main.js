@@ -97,8 +97,8 @@ async function retryLastRequest(){
 function showRequestError(error){
     // message personnalisé si la ville n'est pas trouvée pour que l'utilisateur comprenne l'erreur
     if (error.message === "CITY_NOT_FOUND"){
-        console.log("Ville introuvable");
-        alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe");
+        // délai avant l'affichage de l'alerte pour laisser le temps au navigateur de retirer la carte de chargement
+        setTimeout( () => alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe"), 50);
     } else{
         console.log("Erreur: ", error.name, error.message);
         // création de la carte d'état, lancement de la dernière requête avec désactivation du bouton de relance
