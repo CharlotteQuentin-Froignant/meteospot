@@ -58,11 +58,22 @@ Par rapport au design-system, la date a également été ajoutée et l'heure d'a
 ## Ticket #10 - Géolocalisation
 Lors de ce ticket, la recherche et l'affichage de la météo via les coordonnées gps ont été mises en place. Un bouton provisoire a été mis en place pour activer la demande de permission du navigateur, dont le rendu visuel sera traitée au ticket 12.
 
-## Ticket #11 - Gestion d'état erreur d'API
+## Ticket #11 - Gestion d'état : erreur d'API
 Lorsqu'un problème réseau arrive ou que l'API n'est pas disponible, l'application affiche une carte d'état spécifique expliquant le problème à l'utilisateur et lui laisse la possibilité de relancer la requête. L'affichage de cet état a été vérifié sur un galaxy S23 réel et en simulation iPhone SE 2016 avec l'extension MOBILE FIRST. [voir la capture](7_app_T11-erreur-API.png)
 
 La maquette présentée dans le fichier process.md montre le rendu visuel attendu quand une erreur réseau / API se produit et que l'utilisateur n'a pas de recherche enregistrée. Le rendu actuel a été effectué après une requête réussie, laissant ainsi apparaître l'onglet de la dernière ville affichée.
 
+## Ticket #12 - Gestion d'états : bienvenue / localisation désactivée
+Selon l'état de permission de géolocalisation, l'application affiche une carte d'état expliquant quoi faire:
+- La carte "Bienvenue" apparaît lorsque la permission d'accès à la localisation n'a pas encore été demandée. L'utilisateur peut ainsi décider d'afficher la fenêtre de permission ou rechercher directement une ville avec la barre de recherche.
+- La carte "Localisation désactivée" apparaît lorsque l'utilisateur a refusé d'autoriser la localisation lors d'une précédente visite. La carte indique comment afficher de nouveau la fenêtre des permissions ou renvoie vers la barre de recherche.
+
+Quelques changements par rapport aux maquettes :
+- le bouton "Activer ma position" devient "Autoriser ma position" car l'action dépend du navigateur et non du téléphone. Les autres textes ont également été reformulés pour mieux guider l'utilisateur
+- la couleur des boutons a été assombrie pour améliorer l'accessibilité
+- la section météo des extrêmes n'ayant pas encore été traitée, elle n'est pas visible sur le rendu
+
+Lors de la création de ces états, je me suis rendue compte qu'il serait également plus agréable pour l'utilisateur de voir l'état de chargement de la météo. Une carte de chargement a ainsi été ajoutée (ticket #23).[voir la capture](8_app_T12-etats.png)
 
 ---
 
