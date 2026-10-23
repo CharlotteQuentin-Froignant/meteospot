@@ -340,7 +340,7 @@ header{
     flex-shrink: 0; /* évite le rétrécissement des cartes*/
 }
 
-/*== ERREUR D'API ==*/
+/* == CARTES D'ETATS ==*/
 .state-card{
     display: flex;
     flex-direction: column;
@@ -388,11 +388,13 @@ header{
     align-self: center;
 }
 
+/* = Bouton alerte =*/
 .state-card-error .state-button{
     background-color: var(--alert-button);
     color: var(--state-button-text);
 }
 
+/* = Désactivation du bouton =*/
 .state-button:disabled{
     background-color: #c8c8c7;
     color: rgb(87, 82, 82);
@@ -403,7 +405,22 @@ header{
     filter: brightness(0.95);
 }
 
+/* = carte de chargement = */
+.loading-overlay{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset : 0;
+    background: rgb(0 0 0 / 0.4);
+    backdrop-filter: blur(4px);
+}
 
+.state-card-loading{
+    background-color: var(--background-color);
+}
+
+/* = Dernière données connues , erreur d'api =*/
 .api-last-data{
     display: flex;
     flex-direction: row;

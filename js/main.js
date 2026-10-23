@@ -1,6 +1,6 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, downAPI, renderWelcomeCard, renderBlockedCard } from "./ui.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard } from "./ui.js";
 
 import {APIKEY} from "./config.js";
 
@@ -40,20 +40,28 @@ async function loadCity(cityName){
         "town" : cityName,
     };
 
-    // lancement des requêtes
-    let data = await fetchWeatherData(url);
-    let hourlyForecastData = await fetchWeatherData(urlNextHours);
+    // timer pour la carte de chargement
+    let loadingTimer = setTimeout(renderLoadingCard, 300);
 
-    let townName = data["name"].toLowerCase().trim();
+    try {
+        // lancement des requêtes
+        let data = await fetchWeatherData(url);
+        let hourlyForecastData = await fetchWeatherData(urlNextHours);
 
-    // intégration visuelle des données météo
-    renderCurrentWeather(data);
-    renderHourlyForecast(hourlyForecastData);
+        let townName = data["name"].toLowerCase().trim();
 
-    // enregistrement du nom de la ville, de la température et de l'heure
-    saveLastData(data);
+        // intégration visuelle des données météo
+        renderCurrentWeather(data);
+        renderHourlyForecast(hourlyForecastData);
+
+        // enregistrement du nom de la ville, de la température et de l'heure
+        saveLastData(data);
 
     return townName;
+    } finally {
+        clearTimeout(loadingTimer);
+        clearCard(".loading-overlay");
+    };
 };
 
 // == Lancer la dernière requête ==
@@ -142,19 +150,26 @@ async function loadCityByCoords(lat,lon){
         "lon" : lon,
     };
 
-    let data = await fetchWeatherData(currentUrlByCoords);
-    let hourlyForecastData = await fetchWeatherData(hourlyForecastUrlByCoords);
-    let townName = data["name"].toLowerCase().trim();
+    let loadingTimer = setTimeout(renderLoadingCard, 300);
 
-    // récupération et affichage des données du bloc météo actuelle
-    renderCurrentWeather(data);
-    renderHourlyForecast(hourlyForecastData);
+    try{
+        let data = await fetchWeatherData(currentUrlByCoords);
+        let hourlyForecastData = await fetchWeatherData(hourlyForecastUrlByCoords);
+        let townName = data["name"].toLowerCase().trim();
 
-    // gestion des onglets
-    showCityTab(townName);
+        // récupération et affichage des données du bloc météo actuelle
+        renderCurrentWeather(data);
+        renderHourlyForecast(hourlyForecastData);
 
-    // enregistrement du nom de la ville, de la température et de l'heure
-    saveLastData(data);
+        // gestion des onglets
+        showCityTab(townName);
+
+        // enregistrement du nom de la ville, de la température et de l'heure
+        saveLastData(data);
+    } finally {
+        clearTimeout(loadingTimer);
+        clearCard(".loading-overlay");
+    };
 };
 
 // = Récupérer les données de géolocalisation, lancer la requête, afficher le rendu et attraper les erreurs =

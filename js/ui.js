@@ -489,9 +489,31 @@ export function renderBlockedCard(){
     target.appendChild(blockedCard);
 };
 
+// == Etat : en cours de chargement ==
+export function renderLoadingCard(){
+    // paramètre pour la création de la carte d'état bienvenue
+    let loadingOverlay = document.createElement("div");
+    loadingOverlay.className = "loading-overlay";
+
+    let stateParameters = {
+        "stateType" : "loading",
+        "stateRole" : "status",
+        "stateIcon" : "assets/icons/animated/sunny-animated.svg",
+        "stateTitle" : "Chargement en cours ...",
+        "stateText" : "La météo s'affiche dans un instant"
+    };
+
+    let loadCard = createStateCard(stateParameters);
+    loadingOverlay.appendChild(loadCard);
+
+    // Insertion de la carte d'état
+    let target = document.querySelector("main");
+    target.appendChild(loadingOverlay);
+};
+
 // === SUPPRESSION D'ELEMENTS ===
 // Supprimer une carte
-function clearCard(card){
+export function clearCard(card){
     let sectionCard = document.querySelector(card);
     if (sectionCard){
         sectionCard.remove();
