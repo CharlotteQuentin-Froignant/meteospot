@@ -101,9 +101,18 @@ export function getLocalDateTime(timestamp, timezoneOffset){
             // évite que le fuseau horaire de l'utilisateur soit ajouté à l'horaire local affiché
             timeZone: "UTC",
         });
+
+    let localDayName = dateObject.toLocaleDateString("fr-FR",
+        {
+            weekday : "short",
+            timeZone: "UTC",
+        });
+
         return {
+            "dayName": localDayName,
             "date": localDate,
-            "time": localTime};
+            "time": localTime,
+        };
 };
 
 // Obtenir uniquement l'heure
