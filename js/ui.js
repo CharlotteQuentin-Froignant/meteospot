@@ -1,4 +1,4 @@
-import { getIcon, getStaticIcon, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint } from "./utils.js";
+import { getIconLabel, getIcon, getStaticIcon, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays } from "./utils.js";
 
 // === MANIPULATION DU DOM ===
 // == Meteo Actuelle ==
@@ -295,6 +295,82 @@ export function renderHourlyForecast(hourlyForecastData){
 
     // insérer les nouvelles données
     targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
+};
+
+
+// == Prévisions 4 jours ==
+export function renderNextDays(hourlyForecastData){
+    let daysData = groupNextDays(hourlyForecastData);
+    let nextDaysCard = document.createElement("div");
+    nextDaysCard.className = "next-days-card";
+
+    let nextDaysList = document.createElement("ul");
+    nextDaysList.className = "next-days";
+    nextDaysCard.appendChild(nextDaysList);
+
+    for (let item of daysData){
+        let nextDay = document.createElement("li");
+        nextDay.className = "forecast-day";
+        nextDaysList.appendChild(nextDay);
+
+        let dayName = document.createElement("span");
+        dayName.className = "day-name";
+        dayName.textContent = item["dayName"];
+        nextDay.appendChild(dayName);
+
+        let dayIcon = document.createElement("img");
+        dayIcon.className = "day-icon";
+        let staticWeatherID = 0;
+        let staticIconCode = item["icon"] +"d";
+        dayIcon.src = getStaticIcon(staticWeatherID, staticIconCode);
+        dayIcon.alt = getIconLabel(staticIconCode);
+        nextDay.appendChild(dayIcon);
+
+        let Temp = document.createElement("span");
+        Temp.className = "day-temp";
+        Temp.textContent = Math.round(item["minTemperature"]) +" / "+ Math.round(item["maxTemperature"]) + "°C";
+        nextDay.appendChild(Temp);
+
+        let rainProbabilities = document.createElement("span");
+        rainProbabilities.className = "day-rain";
+        let rainIcon = document.createElement("img");
+        rainIcon.src = "assets/icons/static/drop.svg";
+        rainIcon.alt = "Probabilités de précipitations";
+        rainProbabilities.appendChild(rainIcon);
+
+        let rainText = document.createElement("span");
+        rainText.textContent = item["maxRainProbability"]+ " %";
+        rainProbabilities.appendChild(rainText);
+
+        nextDay.appendChild(rainProbabilities);
+
+        let windSpeed = document.createElement("span");
+        windSpeed.className = "day-wind";
+        let windIcon = document.createElement("img");
+        windIcon.src = "assets/icons/static/windy.svg";
+        windIcon.alt = "Vitesse maximale du vent";
+        windSpeed.appendChild(windIcon);
+
+        let windText = document.createElement("span");
+        windText.textContent = Math.round(item["maxWindSpeed"]) + " km/h";
+        windSpeed.appendChild(windText);
+
+        nextDay.appendChild(windSpeed);
+    };
+
+    // sélectionner bloc prévisions horaires
+    let target = document.querySelector(".daily-forecast h2");
+
+    // afficher toute la section (titre + prévisions)
+    let section = document.querySelector(".daily-forecast");
+    section.hidden = false;
+
+    // vider les données précédentes
+    let card = ".next-days-card";
+    clearCard(card);
+
+    // insérer les nouvelles données
+    target.parentNode.insertBefore(nextDaysCard, target.nextSibling);
 };
 
 

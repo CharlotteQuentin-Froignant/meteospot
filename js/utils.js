@@ -1,4 +1,25 @@
 // === GESTION DES ICONES ===
+const ICON_LABEL = {
+    "01": "Ciel dégagé",
+    "02": "Peu nuageux",
+    "03": "Nuageux",
+    "04": "Couvert",
+    "09": "Averses",
+    "10": "Pluie",
+    "11": "Orage",
+    "13": "Neige",
+    "50": "Brume",
+};
+
+export function getIconLabel(iconCode){
+    let icon = iconCode.slice(0,2);
+    let label = ICON_LABEL[icon];
+    if (label === undefined){
+        return "";
+    };
+    return label;
+};
+
 export function getIcon(weatherID, iconCode){
     if (weatherID === 906){
             return "assets/icons/animated/hail-animated.svg";

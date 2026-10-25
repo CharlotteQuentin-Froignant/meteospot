@@ -1,6 +1,6 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard } from "./ui.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays } from "./ui.js";
 
 import {APIKEY} from "./config.js";
 
@@ -53,6 +53,7 @@ async function loadCity(cityName){
         // intégration visuelle des données météo
         renderCurrentWeather(data);
         renderHourlyForecast(hourlyForecastData);
+        renderNextDays(hourlyForecastData);
 
         // enregistrement du nom de la ville, de la température et de l'heure
         saveLastData(data);
@@ -160,6 +161,7 @@ async function loadCityByCoords(lat,lon){
         // récupération et affichage des données du bloc météo actuelle
         renderCurrentWeather(data);
         renderHourlyForecast(hourlyForecastData);
+        renderNextDays(hourlyForecastData);
 
         // gestion des onglets
         showCityTab(townName);
