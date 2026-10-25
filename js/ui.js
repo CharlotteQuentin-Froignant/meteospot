@@ -270,9 +270,9 @@ export function renderHourlyForecast(hourlyForecastData){
 
         let hourlyIcon = document.createElement("img");
         hourlyIcon.className = "hourly-icon";
-        let hourlyWeatherID = hourlyData[item]["weather"][0]["id"];
-        let hourlyIconCode = hourlyData[item]["weather"][0]["icon"];
-        hourlyIcon.src = getStaticIcon(hourlyWeatherID, hourlyIconCode);
+        let staticWeatherID = hourlyData[item]["weather"][0]["id"];
+        let staticIconCode = hourlyData[item]["weather"][0]["icon"];
+        hourlyIcon.src = getStaticIcon(staticWeatherID, staticIconCode);
         hourlyIcon.alt = "icone" + hourlyData[item]["weather"][0]["description"];
         hour.appendChild(hourlyIcon);
 

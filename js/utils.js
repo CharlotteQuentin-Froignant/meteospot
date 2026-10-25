@@ -39,11 +39,11 @@ export function getIcon(weatherID, iconCode){
         };
 };
 
-export function getStaticIcon(hourlyWeatherID, hourlyIconCode){
-    if (hourlyWeatherID === 906){
+export function getStaticIcon(staticWeatherID, staticIconCode){
+    if (staticWeatherID === 906){
             return "assets/icons/static/hail.svg";
         } else {
-            switch(hourlyIconCode){
+            switch(staticIconCode){
                 case "01d":
                     return "assets/icons/static/sunny.svg";
                 case "01n":
@@ -80,13 +80,19 @@ export function getStaticIcon(hourlyWeatherID, hourlyIconCode){
 };
 
 // === GESTION DES HEURES ET DE LA DATE ===
-// == Obtenir la date et l'heure locale ==
+// == Obtenir le jour, la date et l'heure locale ==
 
 export function getLocalDateTime(timestamp, timezoneOffset){
     // addition du timestamp et du décalage horaire pour obtenir le temps local
     let fullTime = timestamp + timezoneOffset;
     // création d'un objet Date en JS, nécessité de convertir les s en ms pour le js
     let dateObject = new Date(fullTime *1000);
+
+    let localDayName = dateObject.toLocaleDateString("fr-FR",
+        {
+            weekday : "short",
+            timeZone: "UTC",
+        });
 
     let localDate = dateObject.toLocaleDateString("fr-FR",
         {
@@ -99,12 +105,6 @@ export function getLocalDateTime(timestamp, timezoneOffset){
             hour: "2-digit",
             minute: "2-digit",
             // évite que le fuseau horaire de l'utilisateur soit ajouté à l'horaire local affiché
-            timeZone: "UTC",
-        });
-
-    let localDayName = dateObject.toLocaleDateString("fr-FR",
-        {
-            weekday : "short",
             timeZone: "UTC",
         });
 
