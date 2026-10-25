@@ -142,3 +142,124 @@ export function getBezierPoint(timepoint){
     return { x: xposition, y: yposition };
 };
 
+// === PREVISIONS DES PROCHAINS JOURS ===
+// Les prévisions de l'API arrivent par créneaux de 3h, soit 40 créneaux sur 5 jours
+// Les fonctions ci-dessous les regroupent par jour pour obtenir, pour chaque jour, les informations à afficher
+
+// == Regrouper les créneaux par date locale ==
+function groupForecastDataByDate(timezoneOffset, forecastDataList){
+    let dates = {};
+
+    for (let item of forecastDataList){
+        let timestamp = item["dt"];
+        // Classer toutes les données par date et obtenir le nom du jour
+        let localDateTime = getLocalDateTime (timestamp, timezoneOffset);
+        let dayName = localDateTime["dayName"];
+        let localDate = localDateTime["date"];
+
+        // paramétrer la date comme clé de l'objet
+        if (!dates[localDate]){
+            dates[localDate] = {
+                "dayName" : dayName,
+                "daySlots": [],
+            };
+        };
+        // ajouter les données à la date correspondante
+        dates[localDate]["daySlots"].push(item);
+    };
+    return dates;
+};
+
+// == Résumer un jour ==
+// Reçoit les créneaux horaires d'un seul jour et renvoie les données qui seront affichées
+function summarizeDay(daySlots, dayName ){
+    let nextDayInfos = {};
+
+    // regrouper les valeurs de chaque créneau
+    // informations à afficher : icone météo, température min et max, probabilité de précipitation, vitesse maximale du vent
+    let iconCodes = [];
+    let temp = [];
+    let rainProbabilities = [];
+    let windSpeeds = [];
+
+    for (let item of daySlots){
+        let icon = item["weather"][0]["icon"];
+        let iconValues = icon.slice(0,2); // 2 premiers caractères seulement pour regrouper jour et nuit
+        iconCodes.push(iconValues);
+
+        let tempValues = item["main"]["temp"];
+        temp.push(tempValues);
+
+        let popValues = item["pop"];
+        rainProbabilities.push(popValues);
+
+        let windValues = item["wind"]["speed"];
+        windSpeeds.push(windValues)
+    };
+
+    // définition des valeurs minimales et / ou maximales et normalisation des données
+    let minTemperature = Math.min(...temp);
+    let maxTemperature = Math.max(...temp);
+    let maxRainProbability = Math.round((Math.max(...rainProbabilities) * 100));
+    let maxWindSpeed = Math.round((Math.max(...windSpeeds) * 3.6));
+
+    // Obtenir l'icône la plus fréquente pour chaque jour
+    let iconsCounts = {};
+    for(let code of iconCodes){
+        if (!iconsCounts[code]){
+            iconsCounts[code] = 0;
+        };
+        iconsCounts[code] = iconsCounts[code] + 1;
+    };
+
+    let bestOccurence = "";
+    let bestCount = 0;
+    for (let occurence in iconsCounts){
+        if (iconsCounts[occurence] > bestCount){
+            bestOccurence = occurence;
+            bestCount = iconsCounts[occurence];
+        };
+    };
+
+    // Regrouper les données à afficher dans un objet
+    nextDayInfos = {
+        "dayName" : dayName,
+        "icon" : bestOccurence,
+        "minTemperature" : minTemperature,
+        "maxTemperature" : maxTemperature,
+        "maxRainProbability": maxRainProbability,
+        "maxWindSpeed" : maxWindSpeed,
+    };
+    return nextDayInfos;
+};
+
+
+// == Obtenir les informations à afficher pour les 4 prochains jours ==
+// La fenêtre de l'API s'arrêtant 5 jours après l'heure actuelle, le 5ème jour ne serait pas forcément complet à l'affichage. Pour éviter cela, seuls les 4 prochains jours sont affichés.
+// Regroupe les créneaux horaires, retire la date d'aujourd'hui des données à afficher et calcule les données pour chaque jour
+// Renvoie un tableau contenant les informations attendues pour les 4 jours
+export function groupNextDays(hourlyForecastData){
+    let timezoneOffset = hourlyForecastData["city"]["timezone"];
+    let forecastDataList = hourlyForecastData["list"];
+
+    // obtenir le jour actuel
+    let today = (Date.now() / 1000); // Date.now renvoie le timestamp en ms et getLocalDateTime attend des secondes
+    let todayDate = getLocalDateTime(today, timezoneOffset);
+
+    let dates = groupForecastDataByDate(timezoneOffset, forecastDataList);
+
+    let nextDaysData = [];
+    for (let localDate in dates){
+        let daySlots = dates[localDate]["daySlots"];
+        let dayName = dates[localDate]["dayName"];
+
+        // Ne pas prendre en compte la date du jour actuel
+        if (localDate === todayDate["date"]){
+            continue;
+        };
+
+        let dayData = summarizeDay(daySlots,dayName);
+        nextDaysData.push(dayData);
+    };
+    return nextDaysData.slice(0,4);
+};
