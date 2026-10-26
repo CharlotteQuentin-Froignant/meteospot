@@ -609,6 +609,8 @@ function clearMainContent(){
     clearCard(weatherCard);
 
     // Cacher le titre et les cartes de prévisions horaires
-    let hourlySection = document.querySelector(".hourly-forecast");
-    hourlySection.hidden = true;
+    let sections = document.querySelectorAll(".forecast-section");
+    for (let section of sections){
+        section.hidden = true;
+    };
 };
