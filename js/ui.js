@@ -326,14 +326,15 @@ export function renderNextDays(hourlyForecastData){
         dayIcon.alt = getIconLabel(staticIconCode);
         nextDay.appendChild(dayIcon);
 
-        let Temp = document.createElement("span");
-        Temp.className = "day-temp";
-        Temp.textContent = Math.round(item["minTemperature"]) +" / "+ Math.round(item["maxTemperature"]) + "°C";
-        nextDay.appendChild(Temp);
+        let temperature = document.createElement("span");
+        temperature.className = "day-temp";
+        temperature.textContent = Math.round(item["minTemperature"]) +" / "+ Math.round(item["maxTemperature"]) + "°C";
+        nextDay.appendChild(temperature);
 
         let rainProbabilities = document.createElement("span");
         rainProbabilities.className = "day-rain";
         let rainIcon = document.createElement("img");
+        rainIcon.className = "day-icon";
         rainIcon.src = "assets/icons/static/drop.svg";
         rainIcon.alt = "Probabilités de précipitations";
         rainProbabilities.appendChild(rainIcon);
@@ -347,18 +348,19 @@ export function renderNextDays(hourlyForecastData){
         let windSpeed = document.createElement("span");
         windSpeed.className = "day-wind";
         let windIcon = document.createElement("img");
+        windIcon.className = "day-icon";
         windIcon.src = "assets/icons/static/windy.svg";
         windIcon.alt = "Vitesse maximale du vent";
         windSpeed.appendChild(windIcon);
 
         let windText = document.createElement("span");
-        windText.textContent = Math.round(item["maxWindSpeed"]) + " km/h";
+        windText.textContent = item["maxWindSpeed"] + " km/h";
         windSpeed.appendChild(windText);
 
         nextDay.appendChild(windSpeed);
     };
 
-    // sélectionner bloc prévisions horaires
+    // sélectionner bloc prochains jours
     let target = document.querySelector(".daily-forecast h2");
 
     // afficher toute la section (titre + prévisions)
