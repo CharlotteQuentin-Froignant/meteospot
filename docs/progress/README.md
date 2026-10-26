@@ -43,7 +43,7 @@ Le visuel montre la correction apportée sur l'iPhone 12 Mini (taille d'écran 3
 
 ## Ticket #7 - Intégration API OpenWeatherMap dans le bloc prévisions horaires
 
-Lintégration de l'API dans le bloc précisions horaires n'ayant pas modifié l'apparence de l'application, il n'y a pas de nouveau rendu visuel pour ce ticket
+L'intégration de l'API dans le bloc précisions horaires n'ayant pas modifié l'apparence de l'application, il n'y a pas de nouveau rendu visuel pour ce ticket
 
 ## Ticket #8 - Barre de recherche fonctionnelle
 
@@ -74,6 +74,14 @@ Quelques changements par rapport aux maquettes :
 - la section météo des extrêmes n'ayant pas encore été traitée, elle n'est pas visible sur le rendu
 
 Lors de la création de ces états, je me suis rendue compte qu'il serait également plus agréable pour l'utilisateur de voir l'état de chargement de la météo. Une carte de chargement a ainsi été ajoutée (ticket #23).[voir la capture](8_app_T12-etats.png)
+
+## Ticket #13 - Intégration des prévisions pour les 4 prochains jours
+
+Comme pour le reste des données, l'affichage de la météo des 4 prochains jours a du être adapté selon la taille des écrans :
+- pour les petits écrans (<=400px), les informations météo ont été réparties sur deux lignes avec les icones surplombant les données, et le rendu diffère donc de la maquette originale.
+- pour les écrans de téléphone plus grands (>400px), les informations sont disposées en une seule ligne comme pour la maquette.
+
+Le visuel montre le rendu sur un écran de petite taille (iPhone SE2016) et un écran plus grand (iPhone14 Pro Max) via l'extension MOBILE FIRST. [voir la capture](9_app_T13-visuel-prochains-jours.png)
 
 ---
 
