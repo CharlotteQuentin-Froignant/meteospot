@@ -63,7 +63,7 @@ body{
 }
 
 /*suppression des marges et padding par défaut*/
-h1, h2, h3, p {
+h1, h2, h3, p, ul {
     margin: 0;
     padding: 0;
 }
@@ -299,7 +299,7 @@ header{
 
 /* == HOURLY - FORECAST == */
 
-.hourly-forecast h2{
+.forecast-section h2{
     margin: var(--spacing-app);
     margin-bottom: 15px;
     font-family: var(--font-family-titles);
@@ -312,6 +312,7 @@ header{
     flex-direction: row;
     gap: var(--spacing-card-gap);
     margin: var(--spacing-app);
+    margin-bottom: var(--spacing-block);
 
     /* ajout barre de scroll horizontale uniquement si nécessaire */
     overflow-x: auto;
@@ -338,6 +339,54 @@ header{
     color: var(--text-secondary);
     font-weight: var(--font-weight-medium);
     flex-shrink: 0; /* évite le rétrécissement des cartes*/
+}
+
+/* == PREVISIONS 4 JOURS == */
+.next-days-card{
+    margin: var(--spacing-app);
+    margin-bottom: var(--spacing-block);
+}
+
+.next-days{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+}
+
+/* grand écran : une ligne par jour, icônes à côté des valeurs */
+.forecast-day{
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 2.5fr 2.5fr;
+    align-items: center;
+    column-gap: 8px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background-color: var(--background-section);
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-forecast-temp);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
+
+.forecast-day span{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* tailles réelles des icônes  */
+.day-icon{
+    width: 24px;
+    height: auto;
+}
+
+.rain-icon, .wind-icon{
+    width: 16px;
+    height: auto;
 }
 
 /* == CARTES D'ETATS ==*/

@@ -318,23 +318,27 @@ export function renderNextDays(hourlyForecastData){
         dayName.textContent = item["dayName"];
         nextDay.appendChild(dayName);
 
+        let weatherAndTemp = document.createElement("span");
+        weatherAndTemp.className = "weather-temp";
+        nextDay.appendChild(weatherAndTemp);
+
         let dayIcon = document.createElement("img");
         dayIcon.className = "day-icon";
         let staticWeatherID = 0;
         let staticIconCode = item["icon"] +"d";
         dayIcon.src = getStaticIcon(staticWeatherID, staticIconCode);
         dayIcon.alt = getIconLabel(staticIconCode);
-        nextDay.appendChild(dayIcon);
+        weatherAndTemp.appendChild(dayIcon);
 
         let temperature = document.createElement("span");
         temperature.className = "day-temp";
         temperature.textContent = Math.round(item["minTemperature"]) +" / "+ Math.round(item["maxTemperature"]) + "°C";
-        nextDay.appendChild(temperature);
+        weatherAndTemp.appendChild(temperature);
 
         let rainProbabilities = document.createElement("span");
         rainProbabilities.className = "day-rain";
         let rainIcon = document.createElement("img");
-        rainIcon.className = "day-icon";
+        rainIcon.className = "rain-icon";
         rainIcon.src = "assets/icons/static/drop.svg";
         rainIcon.alt = "Probabilités de précipitations";
         rainProbabilities.appendChild(rainIcon);
@@ -348,8 +352,8 @@ export function renderNextDays(hourlyForecastData){
         let windSpeed = document.createElement("span");
         windSpeed.className = "day-wind";
         let windIcon = document.createElement("img");
-        windIcon.className = "day-icon";
-        windIcon.src = "assets/icons/static/windy.svg";
+        windIcon.className = "wind-icon";
+        windIcon.src = "assets/icons/static/wind.svg";
         windIcon.alt = "Vitesse maximale du vent";
         windSpeed.appendChild(windIcon);
 
