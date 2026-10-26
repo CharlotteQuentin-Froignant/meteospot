@@ -215,7 +215,6 @@ header{
 .weather-card{
     display: flex;
     flex-direction: column;
-    margin: var(--spacing-app);
     border: 1px solid var(--border);
     border-radius: var(--radius-block);
     background: var(--temp-gradient-background);
@@ -357,7 +356,7 @@ header{
 /* grand écran : une ligne par jour, icônes à côté des valeurs */
 .forecast-day{
     display: grid;
-    grid-template-columns: 1fr 2.5fr 2.5fr 2.5fr;
+    grid-template-columns: 1fr 2.8fr 1.7fr 2.4fr;
     align-items: center;
     column-gap: 8px;
     padding: 10px 12px;
@@ -486,7 +485,7 @@ header{
 }
 
 
-/* === MEDIA QUERY PETITS ECRANS <400px === */
+/* === MEDIA QUERY PETITS ECRANS <=400px === */
 @media screen and (max-width:400px) {
 
     .main-text{
@@ -518,5 +517,16 @@ header{
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    .forecast-day{
+        grid-template-columns: 1fr 2.6fr 1.5fr 2.4fr;
+        column-gap: 4px;
+        font-size: 1rem;
+    }
+
+    .forecast-day span{
+        flex-direction: column;
+        gap: 2px;
     }
 }
