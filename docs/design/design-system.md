@@ -30,6 +30,8 @@ Indépendantes de la température de l'utilisateur — toujours les mêmes 3 cou
 | Plus chaude | `#E24B4A` |
 | Plus pluvieuse | `#0F6E56` |
 
+**Update: pour limiter le nombre de requêtes, le bloc météo des extrêmes ne sera pas traité dans cette première version de l'application. Il pourra être envisagé si un basculement vers une API de secours( par exemple Open-Météo) est mis en place lorsque la limite d'OpenWeatherMap est atteinte.
+
 ### Couleurs neutres (UI générale)
 Ces valeurs sont des équivalents approchés des tokens utilisés dans le mockup — à recalibrer si besoin selon le rendu réel.
 
@@ -49,7 +51,10 @@ Ces valeurs sont des équivalents approchés des tokens utilisés dans le mockup
 | Fond de page | `#FFFFFF` | ~~#F7F6F3~~| (changé ticket #3) |
 | Fond barre de recherche | `#f3f3f758` |     N/A     | (ajouté ticket #3) |
 | Border | `#f5f5f4` | ~~#E5E3DC~~|  (changé ticket #4) |
-
+| Fond des cartes | `--background-section` (`#f3f3f758`, semi-transparent) | ~~`--surface-1` `#FFFFFF`~~ |  |
+| Bouton d'information (« Autoriser la localisation ») | `--info-button` `#C05407` | ~~#FF9A44~~ | (changé ticket #12) |
+| Bouton d'alerte (« Réessayer ») | `--alert-button` `#b70b0b` | ~~#E24B4A~~ | (changé ticket #12) |
+| Écran de chargement | fond `rgb(0 0 0 / 0.4)` + flou `4px`, carte `--background-color` opaque | N/A | (ajouté ticket #23) |
 
 ## 2. Typographie
 
@@ -84,6 +89,10 @@ Choix définitifs, à charger via Google Fonts :
 | Température (carte horaire / extrêmes) | Newsreader | 17-24px | 500-600 |
 | Recherche, onglets, labels, stats, boutons | Manrope | 11-14px | 400-500 |
 | Slogan | Manrope | 0.7 rem | 500 |
+| Prévisions des 4 prochains jours (texte) | Manrope | 1.1rem (1rem à 400px et moins) | 500 |
+| Cartes d'état : titre | Newsreader | 1.4rem | 600 |
+| Cartes d'état : texte | Manrope | 1rem | 500 |
+| Boutons d'état | Manrope | 1.1rem | 600 |
 
 
 
@@ -100,9 +109,11 @@ Les tailles de police ont finalement été converties en `rem` (plutôt que `px`
 | Élément | Valeur actuelle | Historique | Ticket |
 |---|---|---|---|
 | Nom de ville (bloc principal) | `1.6rem` | ~~0.9rem~~ | (modifié ticket #4) |
-| Chiffre de température (bloc principal) | `3.5rem` | ~~4.7rem~~ | (modifié ticket #4) |
+| Chiffre de température (bloc principal)(>400px) | `3.5rem` | ~~4.7rem~~ | (modifié ticket #4) |
+| Chiffre de température (400px et moins) | `2.8rem` | N/A | (media query, ticket #4) |
 | Titres de section | `1.4rem` | ~~1rem~~ | (changé ticket #5) |
 | Arc solaire | `0.5rem` | ~~0.7rem~~ | (modifié ticket 9 |)
+| Prévisions des 4 prochains jours | `1.1rem` (`1rem` à 400px et moins) | N/A | (ajouté ticket #13) |
 ---
 
 ## 3. Icônes météo (SVG, style trait fin)
@@ -455,6 +466,14 @@ Pour le bloc ville actuelle, les icones sont plus grandes (88x88) et sont animé
 > **Set complet livré** (28 fichiers dans `meteospot-icons.zip`) : 14 conditions météo, chacune en deux versions — `nom.svg` (statique, pour les prévisions horaires et 7 jours) et `nom-animated.svg` (animée, réservée au bloc "Ville actuelle").
 
 > ⚠️ **Exception dans le bloc "ville actuelle" uniquement** : l'icône qui y est affichée (soleil, nuage, etc.) doit être recolorée dynamiquement pour reprendre l'accent de la tranche de température en cours (voir section 1), plutôt que sa couleur fixe habituelle. Testé et validé sur le soleil (orange → rouge en "Très chaud" → violet en "Canicule"). Partout ailleurs dans l'app (prévisions horaires, Météo des extrêmes), les icônes gardent leur couleur fixe liée à la condition, comme documenté ci-dessus et dans les fichiers `.svg` du zip — ceux-ci ne sont donc PAS directement réutilisables tels quels pour l'icône du bloc principal, il faudra soit dupliquer le SVG avec une couleur variable (`currentColor` + `color: var(--accent-temp)` par exemple), soit générer le trait dynamiquement en JS/CSS selon la tranche active.
+
+### Règles d'utilisation dans les prévisions des 4 prochains jours (ticket 13)
+
+- Toujours la version **statique**, variante **jour** (code d'icône terminé par `d`) : l'icône d'une journée n'étant jamais une lune.
+- L'icône est la condition la plus fréquente parmi les créneaux du jour.
+- L'icône de grêle n'apparaît pas dans ces prévisions (limite acceptée).
+- Tailles : icône du jour 24 px, icônes de pluie et de vent 16 px, définies avec `width` pour définir la place occupée.
+- Attribut `alt` : libellé de la condition pour l'icône météo ; « Probabilités de précipitations » et « Vitesse maximale du vent » pour les deux autres.
 ---
 
 ## 4. Mise en page
@@ -479,25 +498,46 @@ La position du soleil sur l'arc doit être calculée dynamiquement selon l'heure
 > **Cas nocturne** : entre le coucher et le lever du soleil, aucune position n'est calculée sur l'arc (l'heure actuelle est hors de la plage [lever, coucher]). L'arc reste affiché en trait neutre/discret, sans point, accompagné d'une indication textuelle du prochain lever ("Prochain lever : 06:52") à la place de la donnée habituellement associée au point.
 
 **Update ticket 9**: le rayon du soleil est de 10 et le halo de 15. Pour l'arc de nuit, une icone de soleil endormie aux tons violets a été ajoutée afin d'améliorer l'esthétique.
+
+**Prévisions des 4 prochains jours (ticket 13)**
+
+Les données représentées sont disposées en lignes de demain à J+4; chaque ligne contenant : nom du jour abrégé, icône météo et « min / max°C », goutte et probabilité de pluie maximale, icône de vent et vitesse maximale en km/h.
+
+- Au-dessus de 400 px : les données sont disposées en ligne les unes à la suite des autres.
+- À 400 px et moins : l'icône est au-dessus de la valeur pour tenir sur petits écrans.
+- Espace entre les lignes : 8 px
+
 ---
 
 ## 5. Conventions d'interface — écrans d'état
 
-Ces règles s'appliquent aux 4 templates d'état (nominal, localisation désactivée avec/sans historique, échec réseau) :
+Quatre écrans d'état sont implémentés (tickets 12 et 23). Ils dépendent de la **permission de localisation** et de l'état des requêtes, et non de l'historique de recherche. Ils s'affichent dans la zone « ville actuelle », sauf l'écran de chargement qui est une superposition.
+
+| Situation | Titre (dans le code) | Contenu | Bouton | Rôle ARIA |
+|---|---|---|---|---|
+| Permission `granted` | aucun écran d'état | la météo se charge directement | – | – |
+| Permission `prompt` | Bienvenue | « Autorise la localisation pour voir la météo de ta ville, ou recherche-en une pour commencer » | « Autoriser la localisation » (`--info-button`) | `status` |
+| Permission `denied` | Localisation désactivée | « Autorise-la depuis la barre d'adresse du navigateur, ou utilise la barre de recherche pour voir la météo de ta ville. » | aucun | `status` |
+| Erreur réseau ou API | Météo indisponible | « Impossible de récupérer les données météo pour le moment. Vérifie ta connexion et réessaie », plus la dernière donnée connue (ville, température, heure) si elle existe | « Réessayer » (`--alert-button`, désactivé pendant la relance) | `alert` |
+| Requête de plus de 300 ms | Chargement en cours ... | « La météo s'affiche dans un instant » | aucun | `status` |
+
+Règles générales :
 
 - **Le header (nom d'app "MétéoSpot" + slogan) est centré** sur tous les écrans, y compris l'écran d'échec réseau.
 - **Bouton d'action principal** : la couleur porte une information de gravité, pas juste une harmonie visuelle.
-  - `#FF9A44` (orange) pour "Activer ma position" (localisation désactivée, premier lancement) — une action bienvenue mais non bloquante, l'app reste utilisable sans (Météo des extrêmes toujours visible).
-  - `#E24B4A` (rouge) pour "Réessayer" (échec réseau uniquement) — signale un vrai problème bloquant, rien n'est consultable tant que ce n'est pas résolu, contrairement au cas localisation désactivée.
-  - Dans les deux cas : texte blanc, `border-radius: 999px` (pilule).
+  - ~~`#FF9A44`~~ → `#C05407` (orange foncé, pour le contraste avec le texte blanc) pour « Autoriser la localisation » (carte « Bienvenue », premier lancement) — une action bienvenue mais non bloquante, l'app reste utilisable sans (la barre de recherche reste disponible).
+  - ~~`#E24B4A`~~ → `#b70b0b` (rouge foncé) pour « Réessayer » (échec réseau uniquement) — signale un vrai problème bloquant, rien n'est consultable tant que ce n'est pas résolu, contrairement au cas localisation désactivée.
+  - Dans les deux cas : texte blanc, `border-radius: 30px` dans le code (maquette : `999px`, pilule), libellé à l'infinitif.
 - **Barre de recherche absente sur l'écran d'échec réseau** : contrairement aux autres écrans d'état, où elle reste visible, elle est totalement retirée ici puisqu'une panne réseau/API empêche probablement aussi la recherche de fonctionner.
+  - *Écart dans l'implémentation* : la barre de recherche reste visible sur la carte « Météo indisponible ».
 - **Barres de scroll horizontales** (prévisions de la journée, historique) : masquées visuellement via `scrollbar-width: none` (Firefox) et `::-webkit-scrollbar { display: none }` (Chrome/Safari) — le scroll reste fonctionnel au doigt/à la molette, seule la barre visuelle disparaît, pour un rendu plus épuré.
-- **Chiffre de température principal** : prévoir une marge positive entre le nom de ville et le chiffre (pas de marge négative qui les rapproche) — un chevauchement visuel a été identifié et corrigé, le chiffre a besoin d'air au-dessus pour ne pas paraître écrasé contre le nom de ville.
+- **Écran de chargement** (ticket 23) : superposition plein écran (`position: fixed`) avec fond `rgb(0 0 0 / 0.4)` et flou `4px` ; la carte est **blanche et opaque** (`--background-section` est semi-transparent et laisserait voir le flou). Il s'affiche seulement si la réponse tarde plus de 300 ms, pour éviter un clignotement. Icône animée du soleil. L'attente de la position GPS n'est pas couverte.
+- **Vocabulaire** : « autoriser » désigne la permission du navigateur, « activer » le réglage du téléphone. Libellés de boutons à l'infinitif, tutoiement dans les cartes.
 
 ---
 
 ## 6. Ce qui reste à faire avant l'implémentation
 
-- Vérifier le contraste texte/fond sur les tranche de température.
+- Vérifier le contraste texte/fond sur les tranches de température.
 - Prévoir la troncature du nom de ville (CSS `text-overflow: ellipsis` + `white-space: nowrap` a minima, testé sur "Saint-Jean-de-la-Ruelle").
 
