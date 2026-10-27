@@ -152,7 +152,7 @@ export function renderCurrentWeather(data){
 
     let mainTemp = document.createElement("p");
     mainTemp.className = "main-temperature";
-    mainTemp.textContent = ((data["main"]["temp"]).toFixed(1)) + "°C";
+    mainTemp.textContent = Math.round((data["main"]["temp"])) + "°C";
     mainText.appendChild(mainTemp);
 
     let secondaryText = document.createElement("p");
@@ -166,7 +166,7 @@ export function renderCurrentWeather(data){
 
     let mainTemperatureFelt = document.createElement("span");
     mainTemperatureFelt.className = "main-temperature-felt";
-    mainTemperatureFelt.textContent = "Ressenti " + " " + (data["main"]["feels_like"]).toFixed(1) +"°C";
+    mainTemperatureFelt.textContent = "Ressenti " + " " + Math.round(data["main"]["feels_like"]) +"°C";
     secondaryText.appendChild(mainTemperatureFelt);
 
     let mainIcon = document.createElement("img");
@@ -197,21 +197,6 @@ export function renderCurrentWeather(data){
     humidityValue.textContent = data["main"]["humidity"] + " %";
     mainHumidity.appendChild(humidityValue);
 
-    let mainWind = document.createElement("span");
-    mainWind.className = "main-wind";
-    secondaryInfos.appendChild(mainWind);
-
-    let windLabel = document.createElement("span");
-    windLabel.className = "label";
-    windLabel.textContent = "Vent: ";
-    mainWind.appendChild(windLabel);
-
-    let windValue = document.createElement("span");
-    windValue.className = "value";
-    let windSpeed = (data["wind"]["speed"])*3.6;
-    windValue.textContent = (windSpeed).toFixed(1) + " km/h";
-    mainWind.appendChild(windValue);
-
     let mainRain = document.createElement("span");
     mainRain.className = "main-rain";
     secondaryInfos.appendChild(mainRain);
@@ -227,9 +212,25 @@ export function renderCurrentWeather(data){
     if (rain == undefined){
         rainValue.textContent = 0 + " mm";
     } else {
-        rainValue.textContent = (data["rain"]["1h"]).toFixed(1) + " mm";
+        rainValue.textContent = Math.round(data["rain"]["1h"]) + " mm";
     };
     mainRain.appendChild(rainValue);
+
+    let mainWind = document.createElement("span");
+    mainWind.className = "main-wind";
+    secondaryInfos.appendChild(mainWind);
+
+    let windLabel = document.createElement("span");
+    windLabel.className = "label";
+    windLabel.textContent = "Vent: ";
+    mainWind.appendChild(windLabel);
+
+    let windValue = document.createElement("span");
+    windValue.className = "value";
+    let windSpeed = (data["wind"]["speed"])*3.6;
+    windValue.textContent = Math.round(windSpeed) + " km/h";
+    mainWind.appendChild(windValue);
+
 
     // sélection du bloc "météo actuelle"
     let target = document.querySelector(".current-weather");
