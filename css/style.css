@@ -1,21 +1,22 @@
 
 /* === VARIABLES ===*/
 :root{
-    /* font types*/
+    /* == Polices ==*/
+    /* = Familles =*/
     --font-family-titles: "Newsreader", serif;
     --font-family-secondary : "Manrope", sans-serif;
 
-    /* font colours*/
+    /* = Couleurs de texte = */
     --text-primary: #1A1A18;
     --text-secondary : #5F5E5A;
     --text-other: #9B9A92;
 
-    /* font wieghts*/
+    /* = Epaisseurs du texte = */
     --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
 
-    /* font sizes (mobile), rem base 16px*/
+    /* = Tailles du texte (mobile), rem base 16px = */
     --font-size-app-name: 1.4rem;
     --font-size-city-name: 0.9rem;
     --font-size-hero: 4.7rem;
@@ -23,32 +24,39 @@
     --font-size-forecast-temp: 1.1rem;
     --font-size-ui: 0.7rem;
 
-    /* borders*/
+    /* == Bordures, rayons, espacements == */
+    /* = Bordures =*/
     --border: #f5f5f4;
     --border-width-accent: 3px;
 
-    /* radius */
+    /* = Rayons = */
     --radius-card: 12px;
     --radius-block: 16px;
     --radius-app: 14px;
 
-    /* spacing */
+    /* = Espaces = */
     --spacing-block: 22px;
     --spacing-card-gap: 8px;
     --spacing-app : 0px 15px 8px 15px;
 
-    /*colours*/
+    /* == Couleurs == */
+    /* = Couleurs fixes = */
     --background-color:#FFFFFF;
     --background-section :#f3f3f758;
     --info-button : #C05407;
     --alert-button: #b70b0b;
     --state-button-text: white;
 
-
-    /*default values for the temperature color picker; colors will be dynamically integrated using JS*/
-    --temp-accent:#FF9A44;
-    --temp-gradient-text : linear-gradient(120deg, #C43A2E 0%, #FFA83D 70%);
-    --temp-gradient-background:linear-gradient(160deg, #FFFFFF, #FCF0E7);
+    /* = Couleurs de température (valeurs par défaut) = */
+    /* Chaque bloc définit les 3 couleurs de la tranche :
+        - --temp-tint   : température 100% du dégradé de fond de la carte principale
+        - --temp-accent : bordure de la carte, arc solaire
+        - --temp-num    : grand chiffre de température
+        - seront remplacées par la palette dynamique des blocs 'weather-card[data-temp-palette = "..."] décrits dans le CSS général */
+    --temp-tint: #F9E3D4;
+    --temp-accent: #F18432;
+    --temp-num: #CB6710;
+    --sun-bow: #F18432;
 }
 
 /* === CSS GENERAL === */
@@ -62,13 +70,14 @@ body{
     background-color: var(--background-color);
 }
 
-/*suppression des marges et padding par défaut*/
+
+/* == Suppression des marges et padding par défaut == */
 h1, h2, h3, p, ul {
     margin: 0;
     padding: 0;
 }
 
-/* == HEADER == */
+/* === HEADER === */
 header{
     display: flex;
     flex-direction: column;
@@ -155,8 +164,46 @@ header{
     border-bottom: 2px solid #FF9A44;
 }
 
+/* === CARTE PRINCIPALE === */
+/* == PALETTE DE COULEURS == */
+    .weather-card[data-temp-palette = "tres-froid"]{
+        --temp-tint: #E3F7FA;
+        --temp-accent: #4FD1E8;
+        --temp-num: #2F98A8;
+    }
+    .weather-card[data-temp-palette = "froid"]{
+        --temp-tint: #E6F1FB;
+        --temp-accent: #185FA5;
+        --temp-num: #185FA5;
+    }
+    .weather-card[data-temp-palette = "frais"]{
+        --temp-tint: #DFF1EC;
+        --temp-accent: #3AA898;
+        --temp-num: #258F80;
+    }
+    .weather-card[data-temp-palette = "doux"]{
+        --temp-tint: #FDF6E0;
+        --temp-accent: #D9A62E;
+        --temp-num: #BD810A;
+    }
+    .weather-card[data-temp-palette = "chaud"]{
+        --temp-tint: #F9E3D4;
+        --temp-accent: #F18432;
+        --temp-num: #CB6710;
+    }
+    .weather-card[data-temp-palette ="tres-chaud"]{
+        --temp-tint: #FCDDD8;
+        --temp-accent: #E63946;
+        --temp-num: #E63946;
+    }
+    .weather-card[data-temp-palette = "extreme"]{
+        --temp-tint: #F1DFE4;
+        --temp-accent: #7A1D4D;
+        --temp-num: #7A1D4D;
+    }
 
-/* == SOLAR BOW == */
+
+/* == ARC SOLAIRE == */
 .bow{
     fill: none;
     stroke: var(--temp-accent);
@@ -166,11 +213,11 @@ header{
 }
 
 .sun{
-    fill: var(--temp-accent);
+    fill: var(--sun-bow);
 }
 
 .halo{
-    fill: var(--temp-accent);
+    fill: var(--sun-bow);
     opacity: 0.25;
 }
 
@@ -211,19 +258,19 @@ header{
     fill: var(--text-secondary);
 }
 
-/* == CURRENT WEATHER == */
+/* == METEO ACTUELLE == */
 .weather-card{
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--border);
+    border: 1px solid color-mix(in srgb, var(--temp-accent) 20%, white);
     border-radius: var(--radius-block);
-    background: var(--temp-gradient-background);
+    background: linear-gradient(160deg, #FFFFFF 0%, var(--temp-tint) 100%);
     margin: var(--spacing-app);
     margin-bottom: var(--spacing-block);
     overflow: hidden; /* permet de couper proprement les angles des éléments enfants*/
 }
 
-/* Top informations*/
+/* = Informations principales = */
 .main-infos{
     display: flex;
     flex-direction: row;
@@ -256,12 +303,7 @@ header{
 .main-temperature{
     font-size: 3.5rem;
     font-weight: var(--font-weight-semibold);
-    background: var(--temp-gradient-text);
-
-    /* ajout d'un dégradé sur du texte*/
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--temp-num);
 }
 
 .secondary-text, .secondary-infos{
@@ -279,7 +321,7 @@ header{
     content: "- ";
 }
 
-/*Bottom informations*/
+/* = Informations secondaires = */
 .secondary-infos{
     justify-content: space-between;
     padding: 10px 20px;
@@ -296,7 +338,7 @@ header{
     background-color:rgb(235, 227, 227);
 }
 
-/* == HOURLY - FORECAST == */
+/* == PREVISIONS HORAIRES == */
 
 .forecast-section h2{
     margin: var(--spacing-app);
@@ -388,7 +430,7 @@ header{
     height: auto;
 }
 
-/* == CARTES D'ETATS ==*/
+/* === CARTES D'ETATS ===*/
 .state-card{
     display: flex;
     flex-direction: column;
@@ -436,13 +478,13 @@ header{
     align-self: center;
 }
 
-/* = Bouton alerte =*/
+/* == Bouton alerte == */
 .state-card-error .state-button{
     background-color: var(--alert-button);
     color: var(--state-button-text);
 }
 
-/* = Désactivation du bouton =*/
+/* == Désactivation du bouton == */
 .state-button:disabled{
     background-color: #c8c8c7;
     color: rgb(87, 82, 82);
@@ -453,7 +495,7 @@ header{
     filter: brightness(0.95);
 }
 
-/* = carte de chargement = */
+/* == Carte de chargement == */
 .loading-overlay{
     display: flex;
     justify-content: center;
@@ -468,7 +510,7 @@ header{
     background-color: var(--background-color);
 }
 
-/* = Dernière données connues , erreur d'api =*/
+/* == Dernière données connues , erreur d'api == */
 .api-last-data{
     display: flex;
     flex-direction: row;
