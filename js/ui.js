@@ -1,4 +1,4 @@
-import { getIconLabel, getIcon, getStaticIcon, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays } from "./utils.js";
+import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays } from "./utils.js";
 
 // === MANIPULATION DU DOM ===
 // == Meteo Actuelle ==
@@ -154,6 +154,7 @@ export function renderCurrentWeather(data){
     mainTemp.className = "main-temperature";
     mainTemp.textContent = Math.round((data["main"]["temp"])) + "°C";
     mainText.appendChild(mainTemp);
+    let tempColor = Math.round((data["main"]["temp"]));
 
     let secondaryText = document.createElement("p");
     secondaryText.className = "secondary-text";
@@ -241,8 +242,12 @@ export function renderCurrentWeather(data){
 
     let stateCard = ".state-card";
     clearCard(stateCard);
+
     // insertion des nouvelles données
     target.appendChild(weatherCard);
+
+    // ajouter la couleur de la palette dynamique
+    applyTempPalette(tempColor);
 };
 
 // == Prévisions Horaires ==

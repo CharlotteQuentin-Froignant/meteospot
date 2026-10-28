@@ -100,6 +100,51 @@ export function getStaticIcon(staticWeatherID, staticIconCode){
         };
 };
 
+// === PALETTE DYNAMIQUE DE COULEURS ===
+// == Identifier la tranche à laquelle appartient la température actuelle
+// Prend en paramètre la température récupérée par renderCurrentWeather(data) et return le nom de la tranche correspondante
+export function getTempPalette(temp){
+    // vérifier que la température est bien un nombre valide
+    if(!Number.isFinite(temp)){
+        return null;
+    };
+    // déclarer les limites des tranches de températures et leur description
+    if(temp < 0){
+        return "tres-froid";
+    };
+    if(temp < 10){
+        return "froid";
+    };
+    if(temp < 18){
+        return "frais";
+    };
+    if(temp < 24){
+        return "doux";
+    };
+    if(temp < 35){
+        return "chaud";
+    };
+    if(temp < 40){
+        return "tres-chaud";
+    };
+    // 40°C et plus
+    return "extreme";
+    };
+
+// == Appliquer la couleur selon la température actuelle ==
+export function applyTempPalette(temp){
+    let palette = getTempPalette(temp);
+    let target = document.querySelector(".weather-card");
+    if (target === null){
+        return;
+    };
+    if(palette === null){
+        target.removeAttribute("data-temp-palette");
+        return;
+    };
+    target.setAttribute("data-temp-palette", palette);
+};
+
 // === GESTION DES HEURES ET DE LA DATE ===
 // == Obtenir le jour, la date et l'heure locale ==
 
