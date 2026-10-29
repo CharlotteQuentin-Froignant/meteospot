@@ -83,6 +83,68 @@ Comme pour le reste des données, l'affichage de la météo des 4 prochains jour
 
 Le visuel montre le rendu sur un écran de petite taille (iPhone SE2016) et un écran plus grand (iPhone14 Pro Max) via l'extension MOBILE FIRST. [voir la capture](9_app_T13-visuel-prochains-jours.png)
 
+## Ticket #14 - Couleurs en fonction de la température
+Lors de ce ticket, la palette de couleurs a été intégrée selon les tranches de température définies dans le design-system afin que le fond de la carte et le chiffre changent en fonction de la température. Les outils DevTools ont été utilisés pour modifier manuellement les paliers de température et afficher l'aperçu réel. [voir la capture](10_app_T14-couleurs-dynamiques.png).
+
+Avant de valider les couleurs, un contrôle du contraste a été réalisé entre le fond de la carte et les différentes écritures. Le tableau ci-dessous regroupe les différents résultats.
+
+| Tranche | Chiffre (grande taille) | Nom de ville | Petits textes |
+|---|---|---|---|
+| Très froid | AA | AA + AAA | AA |
+| Froid | AA + AAA | AA + AAA | AA |
+| Frais | AA | AA + AAA | AA |
+| Doux | AA | AA + AAA | AA |
+| Chaud | AA | AA + AAA | AA |
+| Très chaud | AA | AA + AAA | AA |
+| Extrême | AA + AAA | AA + AAA | AA |
+
+L'ensemble des textes sur le fond des cartes est conforme au niveau AA qui est le niveau exigé pour respecter le RGAA.
+
+Un test unitaire a également été mis en place afin de vérifier que chaque température est classée dans la bonne tranche. Les règles testées ont été définies selon les critères du design-system.
+
+| Tranche | Intervalle |
+|---|---|
+| `tres-froid` | < 0 |
+| `froid` | 0 inclus à 10 exclu |
+| `frais` | 10 inclus à 18 exclu |
+| `doux` | 18 inclus à 24 exclu |
+| `chaud` | 24 inclus à 35 exclu |
+| `tres-chaud` | 35 inclus à 40 exclu |
+| `extreme` | 40 et plus |
+| (invalide) | `null` |
+
+Les cas testés lors de ces tests incluent des valeurs intermédiaires dans chaque tranches, des valeurs situées aux proximités des bornes, les bornes elles-mêmes, des valeurs hors limites et des valeurs invalides.
+
+| Catégorie | Valeurs testées | Résultat attendu |
+|---|---|---|
+| Une valeur par tranche | -18, 5, 14, 21, 30, 37, 43 | tres-froid, froid, frais, doux, chaud, tres-chaud, extreme |
+| Bornes (de chaque côté) | -1 / 0, 9 / 10, 17 / 18, 23 / 24, 34 / 35, 39 / 40 | tranche de chaque côté de la limite |
+| Valeurs extrêmes | -80, 70 | tres-froid, extreme |
+| Valeur absente ou invalide | cas groupé | `null` |
+
+Deux essais ont été réalisés : un test de mutation lors duquel la fonction a été modifiées afin de provoquer une erreur, et un test avec le code d'origine rétabli.
+
+**Test 1** – bug introduit volontairement
+
+Modification : `temp < 10` remplacé par `temp <= 10` pour la tranche `froid`.
+
+| Total | Réussis | Échoués |
+|---|---|---|
+| 22 | 21 | **1** |
+
+Test en échec : « 10 °C donne la tranche frais »
+
+Le test détecte le bug exactement sur la borne concernée, les 21 autres conditions passent le test comme attendu.
+
+**Test 2** – fonction corrigée
+
+| Total | Réussis | Échoués |
+|---|---|---|
+| 22 | **22** | 0 |
+
+
+Les 22 tests passent sur le code final.
+
 ---
 
 ## Convention de nommage
