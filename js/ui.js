@@ -1,4 +1,4 @@
-import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays } from "./utils.js";
+import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays, importLocalStorage } from "./utils.js";
 
 // === MANIPULATION DU DOM ===
 // == Meteo Actuelle ==
@@ -429,6 +429,13 @@ export function setActiveTab(tabToActivate){
     };
 };
 
+// == Afficher les onglets des villes recherchées au chargement de la page ==
+export function insertLocalStorageTab(onClick){
+    let localStorage = importLocalStorage();
+    for (let town of localStorage){
+        insertNewTab(town, onClick);
+    };
+};
 
 // === ETATS DE L'APPLICATION ==
 // == Création des cartes d'état ==

@@ -1,6 +1,7 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays } from "./ui.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays } from "./ui.js";
+import { saveToLocalStorage,} from "./utils.js";
 
 import {APIKEY} from "./config.js";
 
@@ -57,6 +58,9 @@ async function loadCity(cityName){
 
         // enregistrement du nom de la ville, de la température et de l'heure
         saveLastData(data);
+
+        // enregistrement du nom de la ville dans le localStorage
+        saveToLocalStorage(townName);
 
     return townName;
     } finally {
@@ -168,6 +172,10 @@ async function loadCityByCoords(lat,lon){
 
         // enregistrement du nom de la ville, de la température et de l'heure
         saveLastData(data);
+
+        // enregistrement du nom de la ville dans le localStorage
+        saveToLocalStorage(townName);
+
     } finally {
         clearTimeout(loadingTimer);
         clearCard(".loading-overlay");
@@ -274,6 +282,12 @@ async function initGeolocation(){
 
 
 // === CODE PRINCIPAL ===
+
+// == Interrogation du localStorage ==
+// Si le localStorage est vide, aucun onglet n'est crée
+// Si le localStorage contient des données, un onglet est crée pour chaque ville et permet de lancer les requêtes correspondantes au clic
+insertLocalStorageTab(handleTabClick);
+
 // == Récupération de l'input barre de recherche ==
 let searchBar = document.querySelector("#search");
 let searchInput = document.querySelector("#search-bar");
@@ -303,4 +317,3 @@ searchBar.addEventListener("submit", async (getCityName) => {
 
 // == Recherche par géolocalisation ==
 initGeolocation();
-

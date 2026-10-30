@@ -329,3 +329,38 @@ export function groupNextDays(hourlyForecastData){
     };
     return nextDaysData.slice(0,4);
 };
+
+// === LOCAL STORAGE ===
+// Les noms des villes recherchées préalablement doivent être enregistrées dans le local storage pour que les onglets soient disponibles au chargement de l'application
+
+// == Enregistrer les noms de villes ==
+// création d'un tableau vide si la clé "searched-towns" n'exsite pas dans le localStorage
+export function saveToLocalStorage(townName){
+    let searchedTowns = JSON.parse(localStorage.getItem("searched-towns"));
+    if (searchedTowns === null){
+        searchedTowns =[];
+    };
+
+    // éviter les doublons
+    if (searchedTowns.includes(townName)){
+        return;
+    }
+
+    searchedTowns.push(townName);
+
+    localStorage.setItem("searched-towns", JSON.stringify(searchedTowns));
+};
+
+// == Récupérer les données du localStorage
+// renvoie un tableau vide si le local storage est vide
+export function importLocalStorage(){
+    let searchedTowns = JSON.parse(localStorage.getItem("searched-towns"));
+    if (searchedTowns === null){
+        return [];
+    };
+    let towns = [];
+    for (let i = 0; i < searchedTowns.length; i++){
+        towns.push(searchedTowns[i]);
+    };
+    return towns;
+}
