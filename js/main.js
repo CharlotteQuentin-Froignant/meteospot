@@ -14,6 +14,8 @@ const GEOLOCATION_OPTIONS = {
     timeout:10000,
 };
 
+const TAB_LIMIT = 5;
+
 let lastData = null;
 let lastRequest = null;
 
@@ -59,8 +61,11 @@ async function loadCity(cityName){
         // enregistrement du nom de la ville, de la température et de l'heure
         saveLastData(data);
 
-        // enregistrement du nom de la ville dans le localStorage
-        saveToLocalStorage(townName);
+        // enregistrement du nom de la ville dans le localStorage si la limite n'est pas atteinte
+        let storageResult = saveToLocalStorage(townName,TAB_LIMIT);
+        if (storageResult === "limit"){
+            alert("Limite d'onglets atteinte. Supprimez des onglets pour enregistrer de nouvelles villes");
+        };
 
     return townName;
     } finally {
@@ -174,7 +179,10 @@ async function loadCityByCoords(lat,lon){
         saveLastData(data);
 
         // enregistrement du nom de la ville dans le localStorage
-        saveToLocalStorage(townName);
+        let storageResult = saveToLocalStorage(townName,TAB_LIMIT);
+        if (storageResult === "limit"){
+            alert("Limite d'onglets atteinte. Supprimez des onglets pour enregistrer de nouvelles villes");
+        };
 
     } finally {
         clearTimeout(loadingTimer);

@@ -335,7 +335,8 @@ export function groupNextDays(hourlyForecastData){
 
 // == Enregistrer les noms de villes ==
 // création d'un tableau vide si la clé "searched-towns" n'exsite pas dans le localStorage
-export function saveToLocalStorage(townName){
+// selon l'action effectuée, retourne 'duplicate', 'success', ou 'limit'
+export function saveToLocalStorage(townName, TAB_LIMIT){
     let searchedTowns = JSON.parse(localStorage.getItem("searched-towns"));
     if (searchedTowns === null){
         searchedTowns =[];
@@ -343,12 +344,16 @@ export function saveToLocalStorage(townName){
 
     // éviter les doublons
     if (searchedTowns.includes(townName)){
-        return;
-    }
+        return "duplicate";
+    };
 
-    searchedTowns.push(townName);
-
-    localStorage.setItem("searched-towns", JSON.stringify(searchedTowns));
+    if (searchedTowns.length < TAB_LIMIT){
+        searchedTowns.push(townName);
+        localStorage.setItem("searched-towns", JSON.stringify(searchedTowns));
+        return "success";
+    } else {
+        return "limit";
+    };
 };
 
 // == Récupérer les données du localStorage
