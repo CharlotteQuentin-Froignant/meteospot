@@ -1,7 +1,7 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays } from "./ui.js";
-import { saveToLocalStorage,} from "./utils.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays,} from "./ui.js";
+import { importLocalStorage, removeFromLocalStorage, saveToLocalStorage} from "./utils.js";
 
 import {APIKEY} from "./config.js";
 
@@ -130,7 +130,7 @@ function showCityTab(townName){
     if (existingTab){
         setActiveTab(existingTab);
     } else{
-        insertNewTab(townName, handleTabClick);
+        insertNewTab(townName, handleTabClick, deleteTownTab);
     };
 };
 
@@ -143,6 +143,27 @@ async function handleTabClick(townName){
         showRequestError(error);
     };
 };
+
+// == Supprimer un onglet ==
+// supprime la ville du localStorage et l'onglet correspondant
+// la suppresion d'un onglet affiche les données de la première ville du localStorage
+// la suppression du dernier onglet, renvoie l'écran de bienvenue
+async function deleteTownTab(townName){
+    removeFromLocalStorage(townName);
+    let tab = findTab(townName);
+    removeTab(tab);
+    if (tab.classList.contains("active")){
+        let localStorage = importLocalStorage();
+        let firstTown = localStorage[0];
+        if(localStorage.length != 0){
+            await loadCity(firstTown);
+            setActiveTab(findTab(firstTown));
+        } else {
+            renderWelcomeCard(loadGeolocation);
+        };
+    };
+};
+
 
 // == Géolocalisation ==
 
@@ -294,7 +315,8 @@ async function initGeolocation(){
 // == Interrogation du localStorage ==
 // Si le localStorage est vide, aucun onglet n'est crée
 // Si le localStorage contient des données, un onglet est crée pour chaque ville et permet de lancer les requêtes correspondantes au clic
-insertLocalStorageTab(handleTabClick);
+// un appui long sur un onglet supprime l'onglet et la ville du localStorage
+insertLocalStorageTab(handleTabClick, deleteTownTab);
 
 // == Récupération de l'input barre de recherche ==
 let searchBar = document.querySelector("#search");

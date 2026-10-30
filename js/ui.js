@@ -1,4 +1,4 @@
-import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays, importLocalStorage } from "./utils.js";
+import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays, importLocalStorage, attachLongPress } from "./utils.js";
 
 // === MANIPULATION DU DOM ===
 // == Meteo Actuelle ==
@@ -401,7 +401,8 @@ export function findTab(townName){
 };
 
 // == Créer les onglets ==
-export function insertNewTab(townName, onClick){
+// prend en paramètres 'onClick' pour lancer les requêtes API au clic et 'onLongPress' pour supprimer l'onglet avec un appui long
+export function insertNewTab(townName, onClick, onLongPress){
     // création et insertion de l'onglet
     let targetTab = document.querySelector(".searched-towns");
     let searchedTowns = document.createElement("div");
@@ -413,7 +414,8 @@ export function insertNewTab(townName, onClick){
 
     // ajout de l'écouteur d'évènement sur le clic
     // fonction onClick à configurer dans main.js
-    tab.addEventListener("click", () => onClick(townName))
+    tab.addEventListener("click", () => onClick(townName));
+    attachLongPress(tab,townName, onLongPress);
     setActiveTab(findTab(townName));
 };
 
@@ -430,10 +432,18 @@ export function setActiveTab(tabToActivate){
 };
 
 // == Afficher les onglets des villes recherchées au chargement de la page ==
-export function insertLocalStorageTab(onClick){
+// prend en paramètres onClick et onLongPress pour utilsation avec la fonction insertNewTab
+export function insertLocalStorageTab(onClick, onLongPress){
     let localStorage = importLocalStorage();
     for (let town of localStorage){
-        insertNewTab(town, onClick);
+        insertNewTab(town, onClick, onLongPress);
+    };
+};
+
+// == Supprimer un onglet ==
+export function removeTab(tab){
+    if(tab){
+            tab.remove()
     };
 };
 

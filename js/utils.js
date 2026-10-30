@@ -369,3 +369,39 @@ export function importLocalStorage(){
     };
     return towns;
 }
+
+// == Supprimer une ville du localStorage ==
+// utilisatio de filtrer pour conserver les autres villes dans le localStorage
+// filter renvoie 'true' si la condition est vraie, 'false' si elle ne l'est pas
+export function removeFromLocalStorage(townName){
+    let searchedTowns = JSON.parse(localStorage.getItem("searched-towns"));
+    let newTowns = searchedTowns.filter((town) => town !== townName);
+    localStorage.setItem("searched-towns", JSON.stringify(newTowns));
+};
+
+// === EVENEMENTS ===
+// == Ajouter un appui long sur l'onglet ==
+// l'action ne sera déclenchée qu'après expiration du timer
+// le temps est en millisecondes
+// ajoute les évènements pour l'utilisation mobile tactile et une utilisation avec la souris
+export function attachLongPress(tab, townName, onLongPress){
+    let pressTimer;
+
+    function startPress(){
+        pressTimer = setTimeout(() => onLongPress(townName),900);
+    };
+
+    function cancelPress(){
+        clearTimeout(pressTimer);
+    };
+
+    // la détection de l'appuie déclenche le timer
+    tab.addEventListener("mousedown", startPress);
+    tab.addEventListener("touchstart", startPress);
+
+    // l'arrêt de l'appui ou un déplacement en dehors de l'onglet arrête le timer
+    tab.addEventListener("mouseup", cancelPress);
+    tab.addEventListener("mouseleave", cancelPress);
+    tab.addEventListener("touchend", cancelPress);
+    tab.addEventListener("touchcancel", cancelPress);
+};
