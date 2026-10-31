@@ -1,4 +1,4 @@
-import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays, importLocalStorage, attachLongPress } from "./utils.js";
+import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTime, getHoursOnly, getTimePoint, getBezierPoint, groupNextDays, importLocalStorage, attachLongPress, attachKeyBoardDelete } from "./utils.js";
 
 // === MANIPULATION DU DOM ===
 // == Meteo Actuelle ==
@@ -409,6 +409,7 @@ export function insertNewTab(townName, onClick, onLongPress){
     let tab = document.createElement("button");
     tab.className = "town-tab";
     tab.textContent = townName;
+    tab.setAttribute("aria-label", townName + ". Touche entrée lance la recherche météo, touches supp/retour arrière supprime l'onglet");
     searchedTowns.appendChild(tab);
     targetTab.appendChild(searchedTowns);
 
@@ -416,6 +417,7 @@ export function insertNewTab(townName, onClick, onLongPress){
     // fonction onClick à configurer dans main.js
     tab.addEventListener("click", () => onClick(townName));
     attachLongPress(tab,townName, onLongPress);
+    attachKeyBoardDelete(tab, townName, onLongPress);
     setActiveTab(findTab(townName));
 };
 

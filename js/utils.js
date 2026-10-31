@@ -405,3 +405,14 @@ export function attachLongPress(tab, townName, onLongPress){
     tab.addEventListener("touchend", cancelPress);
     tab.addEventListener("touchcancel", cancelPress);
 };
+
+// == Permettre la suppression des onglets avec le clavier ==
+// utilisation de l'évènement keydown avec enven.key pour connaître les touches pressées par l'utilisateur
+
+export function attachKeyBoardDelete(tab, townName, onLongPress){
+    tab.addEventListener("keydown", (event) =>{
+        if (event.key === "Delete" || event.key === "Backspace"){
+            onLongPress(townName);
+        };
+    });
+};
