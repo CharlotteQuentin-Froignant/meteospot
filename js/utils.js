@@ -388,7 +388,7 @@ export function attachLongPress(tab, townName, onLongPress){
     let pressTimer;
 
     function startPress(){
-        pressTimer = setTimeout(() => onLongPress(townName),900);
+        pressTimer = setTimeout(() => onLongPress(townName),800);
     };
 
     function cancelPress(){

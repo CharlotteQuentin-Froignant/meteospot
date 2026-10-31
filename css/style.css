@@ -138,6 +138,7 @@ header{
     background-color: var(--background-section);
 }
 
+/* === ONGLETS === */
 .searched-towns{
     display: flex;
     flex-direction: row;
@@ -158,6 +159,10 @@ header{
     border-bottom: 2px solid transparent;
     margin-bottom: var(--spacing-block);
     text-transform: capitalize;
+
+    /*bloquer la sélection de texte*/
+    user-select: none;
+    -webkit-touch-callout: none;
 }
 
 .town-tab.active{
