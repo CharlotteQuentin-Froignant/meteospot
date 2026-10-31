@@ -66,7 +66,7 @@
 
 body{
     max-width: 768px;
-    margin: auto 0;
+    margin: 0 auto;
     background-color: var(--background-color);
 }
 
@@ -99,7 +99,7 @@ header{
     color: var(--text-primary);
 }
 
-#app-slogan{
+.app-slogan{
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-ui);
     font-weight: var(--font-weight-medium);
@@ -531,6 +531,83 @@ header{
     color: var(--text-secondary);
 }
 
+/*== FOOTER == */
+.footer-section{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: var(--spacing-app);
+    margin-top: var(--spacing-block);
+    border-top: solid 1px var(--border);
+}
+
+.footer-titles{
+    display: flex;
+    flex-direction: column;
+    gap:1px;
+    margin-top: var(--spacing-card-gap);
+}
+
+#footer-title{
+    font-family: var(--font-family-titles);
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.legal-link{
+    border: none;
+    background-color: transparent;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    padding: 6px 0px;
+    cursor: pointer;
+}
+
+.contact-mail{
+    display: flex;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    user-select: all;
+}
+
+.api-attribution{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
+
+.openweather-link{
+    padding-left: 3px;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#openweather-logo{
+    height: 30px;
+    width: auto;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.copyright{
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+}
 
 /* === MEDIA QUERY PETITS ECRANS <=400px === */
 @media screen and (max-width:400px) {
