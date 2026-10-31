@@ -64,10 +64,17 @@ async function loadCity(cityName){
         // enregistrement du nom de la ville dans le localStorage si la limite n'est pas atteinte
         let storageResult = saveToLocalStorage(townName,TAB_LIMIT);
         if (storageResult === "limit"){
-            alert("Limite d'onglets atteinte. Supprimez des onglets pour enregistrer de nouvelles villes");
+            alert("Limite d'onglets atteinte. Votre recherche s'affichera mais ne disposera pas d'un onglet comme raccourci. Supprimez des onglets pour enregistrer des nouvelles villes");
+
+            // lorsque la limite est atteinte, la ville recherchée ne disposera pas d'onglet mais sa météo sera affichée, il faut donc désactiver le dernier onglet actif pour ne pas tromper l'utilisateur sur la ville affichée
+            // utilisation de null pour désactiver l'ancien onglet sans en activer un nouveu
+            setActiveTab(null);
         };
 
-    return townName;
+    return {
+        "name" :townName,
+        "storageResult" : storageResult,
+    };
     } finally {
         clearTimeout(loadingTimer);
         clearCard(".loading-overlay");
@@ -85,10 +92,13 @@ async function retryLastRequest(){
     if (lastRequest["type"] === "name"){
         try{
             // récupération et affichage des données du bloc météo actuelle
-            let townName =  await loadCity(lastRequest["town"]);
+            let lastSearch =  await loadCity(lastRequest["town"]);
 
             // gestion des onglets
-            showCityTab(townName);
+            if (lastSearch["storageResult"] === "limit"){
+                return;
+            };
+            showCityTab(lastSearch["name"]);
         } catch(error){
             showRequestError(error);
         };
@@ -193,17 +203,17 @@ async function loadCityByCoords(lat,lon){
         renderHourlyForecast(hourlyForecastData);
         renderNextDays(hourlyForecastData);
 
-        // gestion des onglets
-        showCityTab(townName);
-
         // enregistrement du nom de la ville, de la température et de l'heure
         saveLastData(data);
 
         // enregistrement du nom de la ville dans le localStorage
         let storageResult = saveToLocalStorage(townName,TAB_LIMIT);
         if (storageResult === "limit"){
-            alert("Limite d'onglets atteinte. Supprimez des onglets pour enregistrer de nouvelles villes");
+            alert("Limite d'onglets atteinte. Votre recherche s'affichera mais ne disposera pas d'un onglet comme raccourci. Supprimez des onglets pour enregistrer des nouvelles villes");
+            setActiveTab(null);
+            return;
         };
+        showCityTab(townName);
 
     } finally {
         clearTimeout(loadingTimer);
@@ -331,18 +341,21 @@ searchBar.addEventListener("submit", async (getCityName) => {
     } else {
         try{
             // récupération et affichage des données du bloc météo actuelle
-            let townName =  await loadCity(cityName);
+            let search =  await loadCity(cityName);
 
             // gestion des onglets
-            showCityTab(townName);
+            if (search["storageResult"] === "limit"){
+                return;
+            };
+            showCityTab(search["name"]);
 
         } catch(error){
             showRequestError(error);
+        } finally {
+            // vider la barre de recherche
+            searchInput.value = "";
         };
     };
-
-    // vider la barre de recherche
-    searchInput.value = "";
 });
 
 // == Recherche par géolocalisation ==
