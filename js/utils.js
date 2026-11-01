@@ -416,3 +416,12 @@ export function attachKeyBoardDelete(tab, townName, onLongPress){
         };
     });
 };
+
+// === FOOTER - INFORMATIONS LEGALES === //
+export const EMAIL = "meteospot.contact@gmail.com";
+export function fillContactMail(){
+    let targets = document.querySelectorAll("[data-contact-mail]");
+    for (let target of targets){
+        target.textContent = EMAIL;
+    };
+};

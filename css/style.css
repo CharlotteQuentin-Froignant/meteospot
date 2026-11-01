@@ -568,15 +568,25 @@ header{
     cursor: pointer;
 }
 
-.mail{
+.contact{
     display: flex;
-    user-select: all;
+    flex-direction: column;
+    align-items: center;
 }
 .contact-mail{
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-city-name);
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
+}
+.mail{
+    display: flex;
+    user-select: all;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    margin-bottom: 4px;
 }
 
 .api-attribution{
@@ -602,7 +612,7 @@ header{
     height: 30px;
     width: auto;
     /* vertical-align: middle; */
-    margin: 4px auto;
+    margin: 4px auto 0;
 }
 
 .copyright{

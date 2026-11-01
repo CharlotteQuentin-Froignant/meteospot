@@ -1,7 +1,7 @@
 // === IMPORTATIONS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
 import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays,} from "./ui.js";
-import { importLocalStorage, removeFromLocalStorage, saveToLocalStorage} from "./utils.js";
+import { importLocalStorage, removeFromLocalStorage, saveToLocalStorage, fillContactMail} from "./utils.js";
 
 import {APIKEY} from "./config.js";
 
@@ -360,3 +360,6 @@ searchBar.addEventListener("submit", async (getCityName) => {
 
 // == Recherche par géolocalisation ==
 initGeolocation();
+
+// Injecter l'adresse email dans le footer
+fillContactMail()
