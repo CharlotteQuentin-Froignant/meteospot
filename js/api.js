@@ -44,3 +44,12 @@ export async function fetchWeatherData(url){
     // si on arrive à cette étape, RESPONSE.ok est true
     return data;
 };
+
+// === FOOTER - INFORMATIONS LEGALES ===
+export async function fetchLegalDialog(){
+    const RESPONSE = await fetch("partials/legal.html");
+    if (!RESPONSE.ok){
+        throw new Error(RESPONSE.status);
+    };
+    return RESPONSE.text();
+};

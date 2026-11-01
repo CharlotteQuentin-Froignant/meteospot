@@ -1,23 +1,30 @@
 // === IMPORTATIONS ===
-import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays,} from "./ui.js";
-import { importLocalStorage, removeFromLocalStorage, saveToLocalStorage, fillContactMail} from "./utils.js";
+import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData,  fetchLegalDialog } from "./api.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays, fillContactMail, renderLegalContent, showLegalError, initLegalDialog} from "./ui.js";
+import { importLocalStorage, removeFromLocalStorage, saveToLocalStorage} from "./utils.js";
 
 import {APIKEY} from "./config.js";
 
 // === VARIABLES ET CONSTANTES ===
+// requêtes
 const LANG = "fr";
 const UNIT = "metric";
 
+// géolocalisation
 const GEOLOCATION_OPTIONS = {
     // timeout en millisecondes
     timeout:10000,
 };
 
+// onglets
 const TAB_LIMIT = 5;
 
+// enregistrement des données
 let lastData = null;
 let lastRequest = null;
+
+// footer - informations légales
+let legalLoaded = false;
 
 // === FONCTIONS ===
 
@@ -319,7 +326,19 @@ async function initGeolocation(){
     };
 };
 
-
+// == FOOTER - INFORMATIONS LEGALES ==
+async function loadLegalContent(){
+    if (legalLoaded){
+        return;
+    };
+    try{
+        const HTML = await fetchLegalDialog();
+        renderLegalContent(HTML);
+        legalLoaded = true;
+    } catch(error){
+        showLegalError()
+    };
+}
 // === CODE PRINCIPAL ===
 
 // == Interrogation du localStorage ==
@@ -361,5 +380,8 @@ searchBar.addEventListener("submit", async (getCityName) => {
 // == Recherche par géolocalisation ==
 initGeolocation();
 
-// Injecter l'adresse email dans le footer
-fillContactMail()
+// Injecter l'adresse email dans le footer au chargement de la page
+fillContactMail();
+
+// ouverture de la feuille et chargement des informations légales
+initLegalDialog(loadLegalContent);
