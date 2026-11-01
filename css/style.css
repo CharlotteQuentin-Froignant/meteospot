@@ -622,6 +622,99 @@ header{
     color: var(--text-secondary);
 }
 
+/* === Feuille Informations Légales === */
+#legal-dialog{
+    background-color: var(--background-color);
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+/* disposition particulière pour l'ouverture*/
+#legal-dialog[open]{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    width: 100%;
+    max-height: 92dvh;
+    border-radius: var(--radius-app) var(--radius-app) 0 0;
+    inset: auto 0 0 0;
+    animation: sheet-up 0.25s ease-out;
+}
+
+@keyframes sheet-up{
+    from{transform: translateY(24px); opacity: 0;}
+}
+
+.legal-close{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: none;
+    font-size: var(--font-size-app-name);
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.legal-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 8px 8px 8px 20px;
+    border-bottom: 1px solid black;
+}
+
+.legal-header h1{
+    font-family: var(--font-family-titles);
+    font-size: var(--font-size-app-name);
+    font-weight: var(--font-weight-medium);
+}
+
+.legal-body{
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 16px 20px 32px 0px;
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-secondary);
+}
+
+.legal-body h2{
+    font-family: var(--font-family-titles);
+    font-size: var(--font-size-forecast-temp);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    margin: 28px 0px 10px 0px;
+}
+
+.legal-body h3, .legal-body h4 {
+    font-family: var(--font-family-titles);
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    margin: 20px 0px 6px 0px;
+}
+
+.legal-body h4{
+    font-size: var(--font-size-city-name);
+}
+
+.legal-body p, .legal-body ul{
+    margin-bottom: 10px;
+}
+
+.legal-body ul, .legal-body li{
+    padding-left: 20px;
+    margin-bottom: 4px;
+}
+
+.legal-body a{
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
 /* === MEDIA QUERY PETITS ECRANS <=400px === */
 @media screen and (max-width:400px) {
 
