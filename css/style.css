@@ -535,6 +535,7 @@ header{
 .footer-section{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 8px;
     margin: var(--spacing-app);
     margin-top: var(--spacing-block);
@@ -544,6 +545,7 @@ header{
 .footer-titles{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap:1px;
     margin-top: var(--spacing-card-gap);
 }
@@ -566,19 +568,18 @@ header{
     cursor: pointer;
 }
 
-.contact-mail{
+.mail{
     display: flex;
+    user-select: all;
+}
+.contact-mail{
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-city-name);
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
-    user-select: all;
 }
 
 .api-attribution{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-city-name);
     font-weight: var(--font-weight-medium);
@@ -596,10 +597,12 @@ header{
 }
 
 #openweather-logo{
+    display: block;
+    align-self: center;
     height: 30px;
     width: auto;
-    vertical-align: middle;
-    margin-left: 4px;
+    /* vertical-align: middle; */
+    margin: 4px auto;
 }
 
 .copyright{
@@ -652,5 +655,11 @@ header{
     .forecast-day span{
         flex-direction: column;
         gap: 2px;
+    }
+
+    .api-attribution{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
