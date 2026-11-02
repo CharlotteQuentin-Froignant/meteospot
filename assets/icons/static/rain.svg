@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <path d="M8 20 Q6 20 6 17 Q6 14 9 14 Q9 9 15 9 Q21 9 22 14 Q26 14 26 18 Q26 20 23 20 Z"
-        fill="none" stroke="#5F5E5A" stroke-width="1.6" stroke-linejoin="round"/>
-  <g stroke="#378ADD" stroke-width="1.8" stroke-linecap="round">
-    <line x1="12" y1="24" x2="10" y2="29"/>
-    <line x1="17" y1="24" x2="15" y2="29"/>
-    <line x1="22" y1="24" x2="20" y2="29"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 32 32"><g transform="scale(.5)"><clipPath id="wi-10d-1"><path d="M19 44 H45 A9 9 0 1 0 43.67 26.1 A13 13 0 0 0 18.03 28.06 A8 8 0 0 0 19 44 Z"/></clipPath><g transform="translate(0 -7) scale(1.0)"><path style="fill:var(--wi-shade,rgba(43,42,39,.14))" clip-path="url(#wi-10d-1)" d="M0 40.5 Q32 33.5 64 40.5 V50 H0 Z"/></g><path style="fill:none;stroke:var(--wi-ink,#3E3D39);stroke-width:3.4;stroke-linejoin:round" d="M19 37 H45 A9 9 0 1 0 43.67 19.1 A13 13 0 0 0 18.03 21.06 A8 8 0 0 0 19 37 Z"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="18" y1="43" x2="15" y2="51"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="27" y1="43" x2="24" y2="51"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="36" y1="43" x2="33" y2="51"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="45" y1="43" x2="42" y2="51"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="23" y1="53" x2="20" y2="61"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="32" y1="53" x2="29" y2="61"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="41" y1="53" x2="38" y2="61"/><line style="stroke:var(--wi-water,#378ADD);stroke-width:3.8;stroke-linecap:round" x1="50" y1="53" x2="47" y2="61"/></g></svg>

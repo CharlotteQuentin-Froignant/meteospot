@@ -1,11 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="88" height="88">
-  <style>
-    @keyframes cloudDrift { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(1.2px); } }
-    .cloud-shape { animation: cloudDrift 7s ease-in-out infinite; }
-  </style>
-  <g class="cloud-shape">
-    <path d="M16.5 63.25 Q11 63.25 11 55 Q11 46.75 19.25 46.75 Q19.25 27.5 38.5 27.5 Q57.75 27.5 60.5 46.75 Q77 46.75 77 57.75 Q77 63.25 68.75 63.25 Z"
-          fill="none" stroke="#5F5E5A" stroke-width="2.36" stroke-linejoin="round"/>
-    <path d="M27.5 46.75 Q27.5 35.75 41.25 35.75" fill="none" stroke="#5F5E5A" stroke-width="1.81" opacity="0.6"/>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 64 64" class="wi" role="img" aria-label="couvert"><style>.wi{--sw:2.2;--swa:2.8;--ink:var(--wi-ink,#3E3D39);--soft:var(--wi-soft,#9B9A92);--sun:var(--wi-sun,#FF9A44);--water:var(--wi-water,#378ADD);--moon:var(--wi-moon,#7F77DD);--shade:var(--wi-shade,rgba(43,42,39,.14))}
+.wi .belly{fill:var(--shade)}
+.wi .c{fill:none;stroke:var(--ink);stroke-width:var(--sw);stroke-linejoin:round}
+.wi .c.soft{stroke:var(--soft)}
+.wi .sundisc{fill:var(--sun)}
+.wi .moon{fill:var(--moon)}
+.wi .ray{stroke:var(--sun);stroke-width:var(--swa);stroke-linecap:round}
+.wi .drop{stroke:var(--water);stroke-width:var(--swa);stroke-linecap:round}
+.wi .dot{fill:var(--water)}
+.wi .star{fill:var(--moon);stroke:var(--moon);stroke-width:.6;stroke-linejoin:round}
+.wi .hail{fill:none;stroke:var(--water);stroke-width:var(--sw)}
+.wi .hl{fill:none;stroke:var(--ink);stroke-width:var(--sw);stroke-linecap:round;opacity:.35}
+.wi .mline{stroke:var(--soft);stroke-width:var(--swa);stroke-linecap:round}
+.wi .bolt{fill:var(--sun);stroke:var(--sun);stroke-width:1.6;stroke-linejoin:round}
+.wi .flake{stroke:var(--water);stroke-width:var(--swa);stroke-linecap:round}
+@keyframes wi-spin{to{transform:rotate(360deg)}}
+@keyframes wi-drift{0%,100%{transform:translate(-2.5px,0)}50%{transform:translate(2.5px,-1.5px)}}
+@keyframes wi-fall{0%{transform:translate(1.5px,-3.5px);opacity:0}30%{opacity:1}100%{transform:translate(-1.5px,3.5px);opacity:0}}
+@keyframes wi-flash{0%,86%,100%{opacity:1}89%,93%{opacity:.2}}
+@keyframes wi-snow{0%{transform:translate(-2px,-3px);opacity:.3}50%{transform:translate(2px,0);opacity:1}100%{transform:translate(-2px,4px);opacity:.3}}
+@keyframes wi-hail{0%{transform:translate(-1px,-3px);opacity:0}25%{opacity:1}100%{transform:translate(1px,4px);opacity:0}}
+@keyframes wi-tw{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes wi-rock{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes wi-mist{0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
+.wi .spin{animation:wi-spin 18s linear infinite}
+.wi .drift{animation:wi-drift 7s ease-in-out infinite}
+.wi .drift2{animation:wi-drift 9s ease-in-out infinite reverse}
+.wi .fall{animation:wi-fall 1s linear infinite}
+.wi .fall.fast{animation-duration:.65s}
+.wi .flash{animation:wi-flash 3s ease-in-out infinite}
+.wi .snow{animation:wi-snow 2.4s ease-in-out infinite}
+.wi .hailfall{animation:wi-hail .9s linear infinite}
+.wi .twinkle{animation:wi-tw 3s ease-in-out infinite}
+.wi .rock{animation:wi-rock 7s ease-in-out infinite}
+.wi .mist{animation:wi-mist 6s ease-in-out infinite}
+.wi .mist2{animation:wi-mist 8s ease-in-out infinite reverse}
+.wi .wl{fill:none;stroke:var(--ink);stroke-width:var(--swa);stroke-linecap:round}
+.wi .wl.w{stroke:var(--water)}
+@keyframes wi-wind{0%,100%{transform:translateX(-3px);opacity:.75}50%{transform:translateX(3px);opacity:1}}
+.wi .windA{animation:wi-wind 1.6s ease-in-out infinite}
+.wi .windB{animation:wi-wind 1.9s ease-in-out .25s infinite}
+.wi .windC{animation:wi-wind 1.4s ease-in-out .5s infinite}
+@media (prefers-reduced-motion:reduce){.wi *{animation:none!important}}</style><g class="drift"><mask id="wim-04d-2" maskUnits="userSpaceOnUse" x="0" y="0" width="64" height="64"><rect width="64" height="64" fill="#fff"/><path d="M15.48 48.48 H39.4 A8.28 8.28 0 1 0 38.18 32.01 A11.96 11.96 0 0 0 14.59 33.81 A7.36 7.36 0 0 0 15.48 48.48 Z" fill="#000"/></mask><g mask="url(#wim-04d-2)"><g class="drift2"><clipPath id="wi-04d-1"><path d="M19 44 H45 A9 9 0 1 0 43.67 26.1 A13 13 0 0 0 18.03 28.06 A8 8 0 0 0 19 44 Z"/></clipPath><g transform="translate(20 0) scale(0.78)"><path class="belly" clip-path="url(#wi-04d-1)" d="M0 40.5 Q32 33.5 64 40.5 V50 H0 Z"/></g><path class="c soft" d="M34.82 34.32 H55.1 A7.02 7.02 0 1 0 54.06 20.36 A10.14 10.14 0 0 0 34.07 21.89 A6.24 6.24 0 0 0 34.82 34.32 Z"/></g></g><clipPath id="wi-04d-3"><path d="M19 44 H45 A9 9 0 1 0 43.67 26.1 A13 13 0 0 0 18.03 28.06 A8 8 0 0 0 19 44 Z"/></clipPath><g transform="translate(-2 8) scale(0.92)"><path class="belly" clip-path="url(#wi-04d-3)" d="M0 40.5 Q32 33.5 64 40.5 V50 H0 Z"/></g><path class="c" d="M15.48 48.48 H39.4 A8.28 8.28 0 1 0 38.18 32.01 A11.96 11.96 0 0 0 14.59 33.81 A7.36 7.36 0 0 0 15.48 48.48 Z"/></g></svg>

@@ -1,7 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="88" height="88">
-  <style>
-    @keyframes moonDrift { 0%, 100% { transform: translateX(-1px); } 50% { transform: translateX(1px); } }
-    .moon-shape { animation: moonDrift 5s ease-in-out infinite; }
-  </style>
-  <path class="moon-shape" d="M55 16.5 A30.25 30.25 0 1 0 55 71.5 A22 22 0 0 1 55 16.5" fill="none" stroke="#7F77DD" stroke-width="2.5" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 64 64" class="wi" role="img" aria-label="ciel dégagé"><style>.wi{--sw:2.2;--swa:2.8;--ink:var(--wi-ink,#3E3D39);--soft:var(--wi-soft,#9B9A92);--sun:var(--wi-sun,#FF9A44);--water:var(--wi-water,#378ADD);--moon:var(--wi-moon,#7F77DD);--shade:var(--wi-shade,rgba(43,42,39,.14))}
+.wi .belly{fill:var(--shade)}
+.wi .c{fill:none;stroke:var(--ink);stroke-width:var(--sw);stroke-linejoin:round}
+.wi .c.soft{stroke:var(--soft)}
+.wi .sundisc{fill:var(--sun)}
+.wi .moon{fill:var(--moon)}
+.wi .ray{stroke:var(--sun);stroke-width:var(--swa);stroke-linecap:round}
+.wi .drop{stroke:var(--water);stroke-width:var(--swa);stroke-linecap:round}
+.wi .dot{fill:var(--water)}
+.wi .star{fill:var(--moon);stroke:var(--moon);stroke-width:.6;stroke-linejoin:round}
+.wi .hail{fill:none;stroke:var(--water);stroke-width:var(--sw)}
+.wi .hl{fill:none;stroke:var(--ink);stroke-width:var(--sw);stroke-linecap:round;opacity:.35}
+.wi .mline{stroke:var(--soft);stroke-width:var(--swa);stroke-linecap:round}
+.wi .bolt{fill:var(--sun);stroke:var(--sun);stroke-width:1.6;stroke-linejoin:round}
+.wi .flake{stroke:var(--water);stroke-width:var(--swa);stroke-linecap:round}
+@keyframes wi-spin{to{transform:rotate(360deg)}}
+@keyframes wi-drift{0%,100%{transform:translate(-2.5px,0)}50%{transform:translate(2.5px,-1.5px)}}
+@keyframes wi-fall{0%{transform:translate(1.5px,-3.5px);opacity:0}30%{opacity:1}100%{transform:translate(-1.5px,3.5px);opacity:0}}
+@keyframes wi-flash{0%,86%,100%{opacity:1}89%,93%{opacity:.2}}
+@keyframes wi-snow{0%{transform:translate(-2px,-3px);opacity:.3}50%{transform:translate(2px,0);opacity:1}100%{transform:translate(-2px,4px);opacity:.3}}
+@keyframes wi-hail{0%{transform:translate(-1px,-3px);opacity:0}25%{opacity:1}100%{transform:translate(1px,4px);opacity:0}}
+@keyframes wi-tw{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes wi-rock{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes wi-mist{0%,100%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
+.wi .spin{animation:wi-spin 18s linear infinite}
+.wi .drift{animation:wi-drift 7s ease-in-out infinite}
+.wi .drift2{animation:wi-drift 9s ease-in-out infinite reverse}
+.wi .fall{animation:wi-fall 1s linear infinite}
+.wi .fall.fast{animation-duration:.65s}
+.wi .flash{animation:wi-flash 3s ease-in-out infinite}
+.wi .snow{animation:wi-snow 2.4s ease-in-out infinite}
+.wi .hailfall{animation:wi-hail .9s linear infinite}
+.wi .twinkle{animation:wi-tw 3s ease-in-out infinite}
+.wi .rock{animation:wi-rock 7s ease-in-out infinite}
+.wi .mist{animation:wi-mist 6s ease-in-out infinite}
+.wi .mist2{animation:wi-mist 8s ease-in-out infinite reverse}
+.wi .wl{fill:none;stroke:var(--ink);stroke-width:var(--swa);stroke-linecap:round}
+.wi .wl.w{stroke:var(--water)}
+@keyframes wi-wind{0%,100%{transform:translateX(-3px);opacity:.75}50%{transform:translateX(3px);opacity:1}}
+.wi .windA{animation:wi-wind 1.6s ease-in-out infinite}
+.wi .windB{animation:wi-wind 1.9s ease-in-out .25s infinite}
+.wi .windC{animation:wi-wind 1.4s ease-in-out .5s infinite}
+@media (prefers-reduced-motion:reduce){.wi *{animation:none!important}}</style><g transform="translate(30 33)"><g class="rock"><path class="moon" d="M-2.2 -15.85 A16 16 0 1 0 15.42 4.28 A13.5 13.5 0 0 1 -2.2 -15.85 Z"/></g></g><g transform="translate(47 15)"><path class="star twinkle" style="animation-delay:0s" d="M0 -6 Q1.2000000000000002 -1.2000000000000002 6 0 Q1.2000000000000002 1.2000000000000002 0 6 Q-1.2000000000000002 1.2000000000000002 -6 0 Q-1.2000000000000002 -1.2000000000000002 0 -6 Z"/></g><g transform="translate(55 28)"><path class="star twinkle" style="animation-delay:0.9s" d="M0 -4 Q0.8 -0.8 4 0 Q0.8 0.8 0 4 Q-0.8 0.8 -4 0 Q-0.8 -0.8 0 -4 Z"/></g><g transform="translate(38 9)"><path class="star twinkle" style="animation-delay:1.7s" d="M0 -3.5 Q0.7000000000000001 -0.7000000000000001 3.5 0 Q0.7000000000000001 0.7000000000000001 0 3.5 Q-0.7000000000000001 0.7000000000000001 -3.5 0 Q-0.7000000000000001 -0.7000000000000001 0 -3.5 Z"/></g></svg>

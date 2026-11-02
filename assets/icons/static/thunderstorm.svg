@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <path d="M8 18 Q6 18 6 15 Q6 12 9 12 Q9 7 15 7 Q21 7 22 12 Q27 12 27 16 Q27 18 24 18 Z"
-        fill="none" stroke="#5F5E5A" stroke-width="1.6" stroke-linejoin="round"/>
-  <path d="M17 19 L13 25 L17 25 L14 30 L22 22 L18 22 Z" fill="#F2A93B" stroke="#F2A93B" stroke-width="1" stroke-linejoin="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 32 32"><g transform="scale(.5)"><clipPath id="wi-11d-1"><path d="M19 44 H45 A9 9 0 1 0 43.67 26.1 A13 13 0 0 0 18.03 28.06 A8 8 0 0 0 19 44 Z"/></clipPath><g transform="translate(0 -7) scale(1.0)"><path style="fill:var(--wi-shade,rgba(43,42,39,.14))" clip-path="url(#wi-11d-1)" d="M0 40.5 Q32 33.5 64 40.5 V50 H0 Z"/></g><path style="fill:none;stroke:var(--wi-ink,#3E3D39);stroke-width:3.4;stroke-linejoin:round" d="M19 37 H45 A9 9 0 1 0 43.67 19.1 A13 13 0 0 0 18.03 21.06 A8 8 0 0 0 19 37 Z"/><path style="fill:var(--wi-sun,#FF9A44);stroke:var(--wi-sun,#FF9A44);stroke-width:1.6;stroke-linejoin:round" d="M35 38 L25 51 H32 L28 61 L40 47 H33 L37 38 Z"/></g></svg>
