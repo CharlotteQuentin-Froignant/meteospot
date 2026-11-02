@@ -500,7 +500,7 @@ export function downAPI (lastData, onRetry){
         "stateRole" : "alert",
         "stateIcon" : "assets/icons/static/unavailable.svg",
         "stateTitle" : "Météo indisponible",
-        "stateText" : "Impossible de récupérer les données météo pour le moment. Vérifie ta connexion et réessaie",
+        "stateText" : "Impossible de récupérer les données météo pour le moment. Vérifiez votre connexion, puis réessayer.",
         "stateButtonText" : "Réessayer",
     };
 
@@ -547,17 +547,23 @@ export function downAPI (lastData, onRetry){
 };
 
 // == Etat : bienvenue (prompt) ==
-export function renderWelcomeCard(onActivate){
+export function renderWelcomeCard(onActivate, hasTabs){
     // vider le contenu existant
     clearMainContent();
 
     // paramètre pour la création de la carte d'état bienvenue
+    let stateText;
+    if(hasTabs){
+        stateText = "Autorisez la localisation, recherchez une ville, ou choisissez un de vos onglets pour afficher la météo."
+    } else {
+        stateText = "Autorisez la localisation pour voir la météo de votre ville, ou recherchez-en une pour commencer";
+    };
     let stateParameters = {
         "stateType" : "info",
         "stateRole" : "status",
         "stateIcon" : "assets/icons/static/geolocation-off.svg",
         "stateTitle" : "Bienvenue",
-        "stateText" : "Autorise la localisation pour voir la météo de ta ville, ou recherche-en une pour commencer",
+        "stateText" : stateText,
         "stateButtonText" : "Autoriser la localisation",
     };
 
@@ -576,17 +582,24 @@ export function renderWelcomeCard(onActivate){
 };
 
 // == Etat : localisation bloquée (denied) ==
-export function renderBlockedCard(){
+export function renderBlockedCard(hasTabs){
     // vider le contenu existant
     clearMainContent();
 
     // paramètre pour la création de la carte d'état bienvenue
+    let stateText;
+    if(hasTabs){
+        stateText = "Autorisez la localisation depuis la barre d'adresse du navigateur, recherchez une ville, ou choisissez un de vos onglets pour afficher la météo."
+    } else {
+        stateText = "Autorisez la localisation depuis la barre d'adresse du navigateur, ou recherchez une ville pour afficher la météo.";
+    };
+
     let stateParameters = {
         "stateType" : "info",
         "stateRole" : "status",
         "stateIcon" : "assets/icons/static/geolocation-off.svg",
         "stateTitle" : "Localisation désactivée",
-        "stateText" : "Autorise-la depuis la barre d'adresse du navigateur, ou utilise la barre de recherche pour voir la météo de ta ville.",
+        "stateText" : stateText,
     };
 
     let blockedCard = createStateCard(stateParameters);

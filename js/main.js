@@ -176,8 +176,15 @@ async function deleteTownTab(townName){
             await loadCity(firstTown);
             setActiveTab(findTab(firstTown));
         } else {
-            renderWelcomeCard(loadGeolocation);
+            renderWelcomeCard(loadGeolocation, false);
         };
+    };
+};
+
+//== Savoir si des villes sont enregistrées comme onglets ==
+function hasSavedTowns(){
+    if (importLocalStorage().length > 0){
+        return true;
     };
 };
 
@@ -306,13 +313,14 @@ async function initGeolocation(){
         // le clic sur le bouton entraîne le chargement de la météo correspondante et le navigateur fait passer le statut de prompt -> granted (temporaire ou tout le temps selon choix utilisateur)
         // si l'utilisateur refuse d'activer sa localisation après avoir cliqué, le bouton reste; un refus mémorisé donnera denied à la prochaine visite
         case "prompt":
-            renderWelcomeCard(loadGeolocation);
+            renderWelcomeCard(loadGeolocation, hasSavedTowns());
             break;
 
         // refus
         // l'utilisateur devra utiliser la barre de recherche
         case "denied":
-            renderBlockedCard();
+            renderBlockedCard(hasSavedTowns());
+            console.log(hasSavedTowns())
             break;
 
         // gestion des navigateurs qui ne proposent pas la géolocalisation (ex: Safari)
