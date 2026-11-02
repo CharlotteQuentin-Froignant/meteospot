@@ -1,5 +1,45 @@
+/* === POLICES === */
+@font-face {
+    font-family: "NewsReader";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("../assets/fonts/newsreader-v26-latin-500.woff2");
+}
 
-/* === VARIABLES ===*/
+@font-face {
+    font-family: "NewsReader";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("../assets/fonts/newsreader-v26-latin-600.woff2");
+}
+
+@font-face {
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../assets/fonts/manrope-v23-latin-regular.woff2");
+}
+
+@font-face {
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("../assets/fonts/manrope-v23-latin-500.woff2");
+}
+
+@font-face {
+    font-family: "Manrope";
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url("../assets/fonts/manrope-v23-latin-600.woff2");
+}
+
+/* === VARIABLES === */
 :root{
     /* == Polices ==*/
     /* = Familles =*/
