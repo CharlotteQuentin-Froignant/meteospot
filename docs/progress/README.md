@@ -75,6 +75,10 @@ Quelques changements par rapport aux maquettes :
 
 Lors de la création de ces états, je me suis rendue compte qu'il serait également plus agréable pour l'utilisateur de voir l'état de chargement de la météo. Une carte de chargement a ainsi été ajoutée (ticket #23).[voir la capture](8_app_T12-etats.png)
 
+**Update** : lors de l'enregistrement des villes dans le local storage et l'affichage des onglets au chargement de la page, les cartes "Bienvenue" et "Localisation désactivée" ont été adaptées et couvrent désormais les deux possibilités.[voir la capture](12_app_T12-etats-onglets.png).
+
+Egalement, le tutoiement de toutes les cartes d'état a été remplacé par le vouvoiement afin d'être en harmonie avec les informations légales et les alertes du navigateur.
+
 ## Ticket #13 - Intégration des prévisions pour les 4 prochains jours
 
 Comme pour le reste des données, l'affichage de la météo des 4 prochains jours a du être adapté selon la taille des écrans :
