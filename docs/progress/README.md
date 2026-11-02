@@ -147,6 +147,12 @@ Les 22 tests passent sur le code final.
 
 ---
 
+# Ticket 16 - Local Storage
+La mise en place de ce ticket permet d'afficher au chargement les onglets des villes recherchées préalablement pour faciliter l'accès aux données météo. Ce ticket n'entrraîne pas de modifications visuelles.
+
+# Ticket 24 - Pied de page et informations légales
+Lors de ce ticket, les éléments du pied de pages ont été mis en place. Pour faciliter l'utilisation, les informations légales sont disponibles sous la forme d'une dialogsheet qui se superpose à l'écran d'origine. [voir la capture](11_app_T24-footer.png)
+
 ## Convention de nommage
 
 Chaque capture est préfixée d'un numéro croissant pour garder l'ordre chronologique dans l'explorateur de fichiers, suivi du ticket concerné et d'une courte description. (Exemple : `3_app-T4-meteo-actuelle.png` pour la 3ème capture du dossier, correspondant au Ticket 4).
