@@ -625,8 +625,8 @@ header{
 /* === Feuille Informations Légales === */
 #legal-dialog{
     background-color: var(--background-color);
-    padding: 0;
-    margin: 0;
+    padding: 0 20px;
+    margin: 0 auto;
     border: 0;
 }
 
@@ -647,8 +647,8 @@ header{
 }
 
 .legal-close{
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: none;
     font-size: var(--font-size-app-name);
@@ -661,29 +661,29 @@ header{
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
-    padding: 8px 8px 8px 20px;
+    padding: 10px 0;
     border-bottom: 1px solid black;
 }
 
 .legal-header h1{
     font-family: var(--font-family-titles);
-    font-size: var(--font-size-app-name);
+    font-size: 1.6rem;
     font-weight: var(--font-weight-medium);
 }
 
 .legal-body{
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 16px 20px 32px 0px;
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-city-name);
     font-weight: var(--font-weight-regular);
     color: var(--text-secondary);
+    text-align: justify;
 }
 
 .legal-body h2{
     font-family: var(--font-family-titles);
-    font-size: var(--font-size-forecast-temp);
+    font-size: var(--font-size-app-name);
     font-weight: var(--font-weight-medium);
     color: var(--text-primary);
     margin: 28px 0px 10px 0px;
@@ -691,14 +691,14 @@ header{
 
 .legal-body h3, .legal-body h4 {
     font-family: var(--font-family-titles);
-    font-size: var(--font-size-section-title);
+    font-size: var(--font-size-forecast-temp);
     font-weight: var(--font-weight-medium);
     color: var(--text-primary);
     margin: 20px 0px 6px 0px;
 }
 
 .legal-body h4{
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-section-title);
 }
 
 .legal-body p, .legal-body ul{
