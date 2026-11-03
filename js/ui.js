@@ -175,7 +175,7 @@ export function renderCurrentWeather(data){
     let weatherID = data["weather"][0]["id"];
     let iconCode = data["weather"][0]["icon"];
     mainIcon.src = getIcon(weatherID, iconCode);
-    mainIcon.alt = " icone" + data["weather"][0]["description"];
+    mainIcon.alt = "";
     mainInfos.appendChild(mainIcon);
 
     // préparation des éléments secondaires
@@ -279,7 +279,7 @@ export function renderHourlyForecast(hourlyForecastData){
         let staticWeatherID = hourlyData[item]["weather"][0]["id"];
         let staticIconCode = hourlyData[item]["weather"][0]["icon"];
         hourlyIcon.src = getStaticIcon(staticWeatherID, staticIconCode);
-        hourlyIcon.alt = "icone" + hourlyData[item]["weather"][0]["description"];
+        hourlyIcon.alt = hourlyData[item]["weather"][0]["description"];
         hour.appendChild(hourlyIcon);
 
         let hourlyTemperature = document.createElement("p");
