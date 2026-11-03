@@ -100,6 +100,8 @@ async function retryLastRequest(){
         try{
             // récupération et affichage des données du bloc météo actuelle
             let lastSearch =  await loadCity(lastRequest["town"]);
+            // vider la barre de recherche
+            searchInput.value = "";
 
             // gestion des onglets
             if (lastSearch["storageResult"] === "limit"){
@@ -374,6 +376,9 @@ searchBar.addEventListener("submit", async (getCityName) => {
             // récupération et affichage des données du bloc météo actuelle
             let search =  await loadCity(cityName);
 
+            // vider la barre de recherche
+            searchInput.value = "";
+
             // gestion des onglets
             if (search["storageResult"] === "limit"){
                 return;
@@ -382,9 +387,6 @@ searchBar.addEventListener("submit", async (getCityName) => {
 
         } catch(error){
             showRequestError(error);
-        } finally {
-            // vider la barre de recherche
-            searchInput.value = "";
         };
     };
 });
