@@ -182,7 +182,12 @@ async function deleteTownTab(townName){
                 showRequestError(error);
             };
         } else {
-            renderWelcomeCard(loadGeolocation, false);
+            let permissionResult = await getPermissionStatus();
+            if (permissionResult === "denied"){
+                renderBlockedCard(false);
+            } else{
+                renderWelcomeCard(loadGeolocation, false);
+            };
         };
     };
 };
