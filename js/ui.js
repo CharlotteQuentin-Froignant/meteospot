@@ -667,14 +667,6 @@ export function fillContactMail() {
 };
 
 // == Afficher le contenu des informations légales ==
-export function openLegalDialog() {
-    document.querySelector("#legal-dialog").showModal();
-};
-
-export function closeLegalDialog() {
-    document.querySelector("#legal-dialog").close;
-};
-
 export function renderLegalContent(HTML) {
     const LEGAL_BODY = document.querySelector(".legal-body");
     LEGAL_BODY.innerHTML = HTML;
