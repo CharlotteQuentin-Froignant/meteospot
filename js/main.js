@@ -173,8 +173,12 @@ async function deleteTownTab(townName){
         let localStorage = importLocalStorage();
         let firstTown = localStorage[0];
         if(localStorage.length != 0){
-            await loadCity(firstTown);
-            setActiveTab(findTab(firstTown));
+            try {
+                await loadCity(firstTown);
+                setActiveTab(findTab(firstTown));
+            } catch(error){
+                showRequestError(error);
+            };
         } else {
             renderWelcomeCard(loadGeolocation, false);
         };
