@@ -403,6 +403,7 @@ export function attachLongPress(tab, townName, onLongPress){
     tab.addEventListener("mouseup", cancelPress);
     tab.addEventListener("mouseleave", cancelPress);
     tab.addEventListener("touchend", cancelPress);
+    tab.addEventListener("touchmove", cancelPress);
     tab.addEventListener("touchcancel", cancelPress);
 };
 
