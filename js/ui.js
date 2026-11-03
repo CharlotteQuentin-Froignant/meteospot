@@ -531,7 +531,7 @@ export function downAPI (lastData, onRetry) {
 
         let apiLastTemp = document.createElement("span");
         apiLastTemp.className = "api-last-temp";
-        apiLastTemp.textContent = (lastData["temp"]).toFixed(1) + "°C ";
+        apiLastTemp.textContent = Math.round(lastData["temp"]) + "°C ";
         apiLastData.appendChild(apiLastTemp);
 
         let apiLastTime = document.createElement("span");
