@@ -11,20 +11,20 @@ const ICON_LABEL = {
     "50": "Brume",
 };
 
-export function getIconLabel(iconCode){
+export function getIconLabel(iconCode) {
     let icon = iconCode.slice(0,2);
     let label = ICON_LABEL[icon];
-    if (label === undefined){
+    if (label === undefined) {
         return "";
     };
     return label;
 };
 
-export function getIcon(weatherID, iconCode){
-    if (weatherID === 906){
+export function getIcon(weatherID, iconCode) {
+    if (weatherID === 906) {
             return "assets/icons/animated/hail-animated.svg";
         } else {
-            switch(iconCode){
+            switch(iconCode) {
                 case "01d":
                     return "assets/icons/animated/sunny-animated.svg";
                 case "01n":
@@ -56,15 +56,15 @@ export function getIcon(weatherID, iconCode){
                     return "assets/icons/animated/fog-animated.svg";
                 default:
                     return "assets/icons/animated/cloudy-animated.svg";
-            }
+            };
         };
 };
 
-export function getStaticIcon(staticWeatherID, staticIconCode){
-    if (staticWeatherID === 906){
+export function getStaticIcon(staticWeatherID, staticIconCode) {
+    if (staticWeatherID === 906) {
             return "assets/icons/static/hail.svg";
         } else {
-            switch(staticIconCode){
+            switch(staticIconCode) {
                 case "01d":
                     return "assets/icons/static/sunny.svg";
                 case "01n":
@@ -96,35 +96,35 @@ export function getStaticIcon(staticWeatherID, staticIconCode){
                     return "assets/icons/static/fog.svg";
                 default:
                     return "assets/icons/static/cloudy.svg";
-            }
+            };
         };
 };
 
 // === PALETTE DYNAMIQUE DE COULEURS ===
 // == Identifier la tranche à laquelle appartient la température actuelle
 // Prend en paramètre la température récupérée par renderCurrentWeather(data) et return le nom de la tranche correspondante
-export function getTempPalette(temp){
+export function getTempPalette(temp) {
     // vérifier que la température est bien un nombre valide
-    if(!Number.isFinite(temp)){
+    if (!Number.isFinite(temp)) {
         return null;
     };
     // déclarer les limites des tranches de températures et leur description
-    if(temp < 0){
+    if (temp < 0) {
         return "tres-froid";
     };
-    if(temp < 10){
+    if (temp < 10) {
         return "froid";
     };
-    if(temp < 18){
+    if (temp < 18) {
         return "frais";
     };
-    if(temp < 24){
+    if (temp < 24) {
         return "doux";
     };
-    if(temp < 35){
+    if (temp < 35) {
         return "chaud";
     };
-    if(temp < 40){
+    if (temp < 40) {
         return "tres-chaud";
     };
     // 40°C et plus
@@ -132,13 +132,13 @@ export function getTempPalette(temp){
     };
 
 // == Appliquer la couleur selon la température actuelle ==
-export function applyTempPalette(temp){
+export function applyTempPalette(temp) {
     let palette = getTempPalette(temp);
     let target = document.querySelector(".weather-card");
-    if (target === null){
+    if (target === null) {
         return;
     };
-    if(palette === null){
+    if (palette === null) {
         target.removeAttribute("data-temp-palette");
         return;
     };
@@ -148,7 +148,7 @@ export function applyTempPalette(temp){
 // === GESTION DES HEURES ET DE LA DATE ===
 // == Obtenir le jour, la date et l'heure locale ==
 
-export function getLocalDateTime(timestamp, timezoneOffset){
+export function getLocalDateTime(timestamp, timezoneOffset) {
     // addition du timestamp et du décalage horaire pour obtenir le temps local
     let fullTime = timestamp + timezoneOffset;
     // création d'un objet Date en JS, nécessité de convertir les s en ms pour le js
@@ -182,7 +182,7 @@ export function getLocalDateTime(timestamp, timezoneOffset){
 };
 
 // Obtenir uniquement l'heure
-export function getHoursOnly(timestamp, timezoneOffset){
+export function getHoursOnly(timestamp, timezoneOffset) {
     let fullTime = timestamp + timezoneOffset;
     let DateObject = new Date(fullTime *1000);
 
@@ -194,14 +194,14 @@ export function getHoursOnly(timestamp, timezoneOffset){
 // === ARC SOLAIRE ===
 // == Fonctions pour définir la position du soleil sur l'arc solaire ==
 // conversion de l'heure actuelle en avancement de la journée (0 = lever ; 1=coucher)
-export function getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp){
+export function getTimePoint(currentTimestamp, sunriseTimestamp, sunsetTimestamp) {
     let timePoint = ((currentTimestamp - sunriseTimestamp)/(sunsetTimestamp - sunriseTimestamp));
     return timePoint;
 };
 
 // Calcule la position (X, Y) du soleil sur l'arc SVG (courbe de Bézier quadratique)
 // solution la plus simple à metre en place pour réaliser un arc en svg car ne necessite que 3 points d'ancrage
-export function getBezierPoint(timepoint){
+export function getBezierPoint(timepoint) {
     // Les valeurs correspondent aux 3 points (x,y) de la courbe : Départ (10,78), Zénith (170,-20), Arrivée (330,78).
     let xposition = ((1 - timepoint)**2) * 10 + 2 * (1 - timepoint) * timepoint * 170 + (timepoint**2) * 330;
     let yposition = ((1 - timepoint)**2) * 78 + 2 * (1 - timepoint) * timepoint * (-20) + (timepoint**2) * 78;
@@ -213,10 +213,10 @@ export function getBezierPoint(timepoint){
 // Les fonctions ci-dessous les regroupent par jour pour obtenir, pour chaque jour, les informations à afficher
 
 // == Regrouper les créneaux par date locale ==
-function groupForecastDataByDate(timezoneOffset, forecastDataList){
+function groupForecastDataByDate(timezoneOffset, forecastDataList) {
     let dates = {};
 
-    for (let item of forecastDataList){
+    for (let item of forecastDataList) {
         let timestamp = item["dt"];
         // Classer toutes les données par date et obtenir le nom du jour
         let localDateTime = getLocalDateTime (timestamp, timezoneOffset);
@@ -224,7 +224,7 @@ function groupForecastDataByDate(timezoneOffset, forecastDataList){
         let localDate = localDateTime["date"];
 
         // paramétrer la date comme clé de l'objet
-        if (!dates[localDate]){
+        if (!dates[localDate]) {
             dates[localDate] = {
                 "dayName" : dayName,
                 "daySlots": [],
@@ -238,7 +238,7 @@ function groupForecastDataByDate(timezoneOffset, forecastDataList){
 
 // == Résumer un jour ==
 // Reçoit les créneaux horaires d'un seul jour et renvoie les données qui seront affichées
-function summarizeDay(daySlots, dayName ){
+function summarizeDay(daySlots, dayName ) {
     let nextDayInfos = {};
 
     // regrouper les valeurs de chaque créneau
@@ -248,7 +248,7 @@ function summarizeDay(daySlots, dayName ){
     let rainProbabilities = [];
     let windSpeeds = [];
 
-    for (let item of daySlots){
+    for (let item of daySlots) {
         let icon = item["weather"][0]["icon"];
         let iconValues = icon.slice(0,2); // 2 premiers caractères seulement pour regrouper jour et nuit
         iconCodes.push(iconValues);
@@ -260,7 +260,7 @@ function summarizeDay(daySlots, dayName ){
         rainProbabilities.push(popValues);
 
         let windValues = item["wind"]["speed"];
-        windSpeeds.push(windValues)
+        windSpeeds.push(windValues);
     };
 
     // définition des valeurs minimales et / ou maximales et normalisation des données
@@ -271,8 +271,8 @@ function summarizeDay(daySlots, dayName ){
 
     // Obtenir l'icône la plus fréquente pour chaque jour
     let iconsCounts = {};
-    for(let code of iconCodes){
-        if (!iconsCounts[code]){
+    for (let code of iconCodes) {
+        if (!iconsCounts[code]) {
             iconsCounts[code] = 0;
         };
         iconsCounts[code] = iconsCounts[code] + 1;
@@ -281,7 +281,7 @@ function summarizeDay(daySlots, dayName ){
     let bestOccurence = "";
     let bestCount = 0;
     for (let occurence in iconsCounts){
-        if (iconsCounts[occurence] > bestCount){
+        if (iconsCounts[occurence] > bestCount) {
             bestOccurence = occurence;
             bestCount = iconsCounts[occurence];
         };
@@ -304,7 +304,7 @@ function summarizeDay(daySlots, dayName ){
 // La fenêtre de l'API s'arrêtant 5 jours après l'heure actuelle, le 5ème jour ne serait pas forcément complet à l'affichage. Pour éviter cela, seuls les 4 prochains jours sont affichés.
 // Regroupe les créneaux horaires, retire la date d'aujourd'hui des données à afficher et calcule les données pour chaque jour
 // Renvoie un tableau contenant les informations attendues pour les 4 jours
-export function groupNextDays(hourlyForecastData){
+export function groupNextDays(hourlyForecastData) {
     let timezoneOffset = hourlyForecastData["city"]["timezone"];
     let forecastDataList = hourlyForecastData["list"];
 
@@ -315,12 +315,12 @@ export function groupNextDays(hourlyForecastData){
     let dates = groupForecastDataByDate(timezoneOffset, forecastDataList);
 
     let nextDaysData = [];
-    for (let localDate in dates){
+    for (let localDate in dates) {
         let daySlots = dates[localDate]["daySlots"];
         let dayName = dates[localDate]["dayName"];
 
         // Ne pas prendre en compte la date du jour actuel
-        if (localDate === todayDate["date"]){
+        if (localDate === todayDate["date"]) {
             continue;
         };
 
@@ -336,18 +336,18 @@ export function groupNextDays(hourlyForecastData){
 // == Enregistrer les noms de villes ==
 // création d'un tableau vide si la clé "searched-towns" n'exsite pas dans le localStorage
 // selon l'action effectuée, retourne 'duplicate', 'success', ou 'limit'
-export function saveToLocalStorage(townName, TAB_LIMIT){
+export function saveToLocalStorage(townName, TAB_LIMIT) {
     let searchedTowns = JSON.parse(localStorage.getItem("searched-towns"));
-    if (searchedTowns === null){
+    if (searchedTowns === null) {
         searchedTowns =[];
     };
 
     // éviter les doublons
-    if (searchedTowns.includes(townName)){
+    if (searchedTowns.includes(townName)) {
         return "duplicate";
     };
 
-    if (searchedTowns.length < TAB_LIMIT){
+    if (searchedTowns.length < TAB_LIMIT) {
         searchedTowns.push(townName);
         localStorage.setItem("searched-towns", JSON.stringify(searchedTowns));
         return "success";
@@ -358,13 +358,13 @@ export function saveToLocalStorage(townName, TAB_LIMIT){
 
 // == Récupérer les données du localStorage
 // renvoie un tableau vide si le local storage est vide
-export function importLocalStorage(){
+export function importLocalStorage() {
     let searchedTowns = JSON.parse(localStorage.getItem("searched-towns"));
-    if (searchedTowns === null){
+    if (searchedTowns === null) {
         return [];
     };
     let towns = [];
-    for (let i = 0; i < searchedTowns.length; i++){
+    for (let i = 0; i < searchedTowns.length; i++) {
         towns.push(searchedTowns[i]);
     };
     return towns;
@@ -373,7 +373,7 @@ export function importLocalStorage(){
 // == Supprimer une ville du localStorage ==
 // utilisatio de filtrer pour conserver les autres villes dans le localStorage
 // filter renvoie 'true' si la condition est vraie, 'false' si elle ne l'est pas
-export function removeFromLocalStorage(townName){
+export function removeFromLocalStorage(townName) {
     let searchedTowns = JSON.parse(localStorage.getItem("searched-towns"));
     let newTowns = searchedTowns.filter((town) => town !== townName);
     localStorage.setItem("searched-towns", JSON.stringify(newTowns));
@@ -384,14 +384,14 @@ export function removeFromLocalStorage(townName){
 // l'action ne sera déclenchée qu'après expiration du timer
 // le temps est en millisecondes
 // ajoute les évènements pour l'utilisation mobile tactile et une utilisation avec la souris
-export function attachLongPress(tab, townName, onLongPress){
+export function attachLongPress(tab, townName, onLongPress) {
     let pressTimer;
 
-    function startPress(){
+    function startPress() {
         pressTimer = setTimeout(() => onLongPress(townName),800);
     };
 
-    function cancelPress(){
+    function cancelPress() {
         clearTimeout(pressTimer);
     };
 
@@ -410,9 +410,9 @@ export function attachLongPress(tab, townName, onLongPress){
 // == Permettre la suppression des onglets avec le clavier ==
 // utilisation de l'évènement keydown avec enven.key pour connaître les touches pressées par l'utilisateur
 
-export function attachKeyBoardDelete(tab, townName, onLongPress){
+export function attachKeyBoardDelete(tab, townName, onLongPress) {
     tab.addEventListener("keydown", (event) =>{
-        if (event.key === "Delete" || event.key === "Backspace"){
+        if (event.key === "Delete" || event.key === "Backspace") {
             onLongPress(townName);
         };
     });

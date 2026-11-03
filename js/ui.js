@@ -3,7 +3,7 @@ import { getIconLabel, getIcon, getStaticIcon, applyTempPalette, getLocalDateTim
 // === MANIPULATION DU DOM ===
 // == Meteo Actuelle ==
 // = Arc solaire =
-function renderSolarBow(data, weatherCard){
+function renderSolarBow(data, weatherCard) {
     let sunriseTimestamp = data["sys"]["sunrise"];
     let sunsetTimestamp = data["sys"]["sunset"];
     let currentTimestamp = data["dt"];
@@ -13,7 +13,7 @@ function renderSolarBow(data, weatherCard){
     // definition d'un booléen pour gérer la condition de nuit
     let isNight = currentTimestamp < sunriseTimestamp || currentTimestamp > sunsetTimestamp;
     let timePoint;
-    if (isNight){
+    if (isNight) {
         // choix d'un timepoint fixe pour placer le soleil endormi
         timePoint = 0.5;
     } else {
@@ -110,7 +110,7 @@ function renderSolarBow(data, weatherCard){
     solarBow.appendChild(sunsetLabel);
 
     // svg et texte à ajouter pour la nuit
-    if (isNight){
+    if (isNight) {
         let zzzText = document.createElementNS(SVG_NS, "text");
         zzzText.setAttribute("class", "zzz-text");
         zzzText.setAttribute("x", sunPosition["x"] + 10);
@@ -129,7 +129,7 @@ function renderSolarBow(data, weatherCard){
 };
 
 // = Données Météo Actuelle =
-export function renderCurrentWeather(data){
+export function renderCurrentWeather(data) {
     // configuration des éléments à injecter dans le DOM
     let weatherCard = document.createElement("div");
     weatherCard.className = "weather-card";
@@ -210,7 +210,7 @@ export function renderCurrentWeather(data){
     let rainValue = document.createElement("span");
     rainValue.className = "value";
     let rain = data["rain"];
-    if (rain == undefined){
+    if (rain == undefined) {
         rainValue.textContent = 0 + " mm";
     } else {
         rainValue.textContent = Math.round(data["rain"]["1h"]) + " mm";
@@ -251,13 +251,13 @@ export function renderCurrentWeather(data){
 };
 
 // == Prévisions Horaires ==
-export function renderHourlyForecast(hourlyForecastData){
+export function renderHourlyForecast(hourlyForecastData) {
     let hourlyData = hourlyForecastData["list"].slice(0,8);
 
     let hourlyForecastCard = document.createElement("div");
     hourlyForecastCard.className = "hourly-forecast-card";
 
-    for (let item in hourlyData){
+    for (let item in hourlyData) {
         let hour = document.createElement("div");
         hour.className = "hour";
         hourlyForecastCard.appendChild(hour);
@@ -305,7 +305,7 @@ export function renderHourlyForecast(hourlyForecastData){
 
 
 // == Prévisions 4 jours ==
-export function renderNextDays(hourlyForecastData){
+export function renderNextDays(hourlyForecastData) {
     let daysData = groupNextDays(hourlyForecastData);
     let nextDaysCard = document.createElement("div");
     nextDaysCard.className = "next-days-card";
@@ -314,7 +314,7 @@ export function renderNextDays(hourlyForecastData){
     nextDaysList.className = "next-days";
     nextDaysCard.appendChild(nextDaysList);
 
-    for (let item of daysData){
+    for (let item of daysData) {
         let nextDay = document.createElement("li");
         nextDay.className = "forecast-day";
         nextDaysList.appendChild(nextDay);
@@ -388,12 +388,12 @@ export function renderNextDays(hourlyForecastData){
 
 // === ONGLETS ===
 // == Déterminer si la ville recherchée a déjà un onglet ou non ==
-export function findTab(townName){
+export function findTab(townName) {
     // interrogation du DOM
     let allTabs = document.querySelectorAll(".town-tab");
-    for (let item of allTabs){
+    for (let item of allTabs) {
         let town = item.textContent.toLowerCase().trim();
-        if (town === townName){
+        if (town === townName) {
             return item;
         };
     };
@@ -402,7 +402,7 @@ export function findTab(townName){
 
 // == Créer les onglets ==
 // prend en paramètres 'onClick' pour lancer les requêtes API au clic et 'onLongPress' pour supprimer l'onglet avec un appui long
-export function insertNewTab(townName, onClick, onLongPress){
+export function insertNewTab(townName, onClick, onLongPress) {
     // création et insertion de l'onglet
     let targetTab = document.querySelector(".searched-towns");
     let searchedTowns = document.createElement("div");
@@ -424,18 +424,18 @@ export function insertNewTab(townName, onClick, onLongPress){
 // == Changement de classe des onglets ==
 export function setActiveTab(tabToActivate){
     let activeTab = document.querySelector(".town-tab.active");
-    if (activeTab){
+    if (activeTab) {
         activeTab.className = "town-tab";
     };
 
-    if (tabToActivate){
+    if (tabToActivate) {
         tabToActivate.className = "town-tab active";
     };
 };
 
 // == Afficher les onglets des villes recherchées au chargement de la page ==
 // prend en paramètres onClick et onLongPress pour utilsation avec la fonction insertNewTab
-export function insertLocalStorageTab(onClick, onLongPress){
+export function insertLocalStorageTab(onClick, onLongPress) {
     let localStorage = importLocalStorage();
     for (let town of localStorage){
         insertNewTab(town, onClick, onLongPress);
@@ -443,15 +443,15 @@ export function insertLocalStorageTab(onClick, onLongPress){
 };
 
 // == Supprimer un onglet ==
-export function removeTab(tab){
-    if(tab){
-            tab.remove()
+export function removeTab(tab) {
+    if(tab) {
+        tab.remove();
     };
 };
 
 // === ETATS DE L'APPLICATION ==
 // == Création des cartes d'état ==
-function createStateCard(stateParameters){
+function createStateCard(stateParameters) {
     // Créer la carte
     let stateCard = document.createElement("div");
     stateCard.className = "state-card";
@@ -479,7 +479,7 @@ function createStateCard(stateParameters){
     stateCard.appendChild(stateCardText);
 
     // création d'un bouton uniquement si stateButtonTest est présent
-    if (stateParameters["stateButtonText"]){
+    if (stateParameters["stateButtonText"]) {
         let stateCardButton = document.createElement("button");
         stateCardButton.className = "state-button";
         stateCardButton.textContent = stateParameters["stateButtonText"];
@@ -489,7 +489,7 @@ function createStateCard(stateParameters){
 };
 
 // == Etat : API Indisponible ==
-export function downAPI (lastData, onRetry){
+export function downAPI (lastData, onRetry) {
     // Supprimer les cartes d'états et de météo déjà présentes et le bouton de localisation
     clearMainContent();
 
@@ -514,7 +514,7 @@ export function downAPI (lastData, onRetry){
     });
 
     // Obtenir et afficher les dernières données connues
-    if (lastData !== null){
+    if (lastData !== null) {
         let apiLastData = document.createElement("div");
         apiLastData.className = "api-last-data";
         stateCard.appendChild(apiLastData);
@@ -547,13 +547,13 @@ export function downAPI (lastData, onRetry){
 };
 
 // == Etat : bienvenue (prompt) ==
-export function renderWelcomeCard(onActivate, hasTabs){
+export function renderWelcomeCard(onActivate, hasTabs) {
     // vider le contenu existant
     clearMainContent();
 
     // paramètre pour la création de la carte d'état bienvenue
     let stateText;
-    if(hasTabs){
+    if (hasTabs) {
         stateText = "Autorisez la localisation, recherchez une ville, ou choisissez un de vos onglets pour afficher la météo."
     } else {
         stateText = "Autorisez la localisation pour voir la météo de votre ville, ou recherchez-en une pour commencer";
@@ -582,14 +582,14 @@ export function renderWelcomeCard(onActivate, hasTabs){
 };
 
 // == Etat : localisation bloquée (denied) ==
-export function renderBlockedCard(hasTabs){
+export function renderBlockedCard(hasTabs) {
     // vider le contenu existant
     clearMainContent();
 
     // paramètre pour la création de la carte d'état bienvenue
     let stateText;
-    if(hasTabs){
-        stateText = "Autorisez la localisation depuis la barre d'adresse du navigateur, recherchez une ville, ou choisissez un de vos onglets pour afficher la météo."
+    if (hasTabs) {
+        stateText = "Autorisez la localisation depuis la barre d'adresse du navigateur, recherchez une ville, ou choisissez un de vos onglets pour afficher la météo.";
     } else {
         stateText = "Autorisez la localisation depuis la barre d'adresse du navigateur, ou recherchez une ville pour afficher la météo.";
     };
@@ -610,7 +610,7 @@ export function renderBlockedCard(hasTabs){
 };
 
 // == Etat : en cours de chargement ==
-export function renderLoadingCard(){
+export function renderLoadingCard() {
     // paramètre pour la création de la carte d'état bienvenue
     let loadingOverlay = document.createElement("div");
     loadingOverlay.className = "loading-overlay";
@@ -620,7 +620,7 @@ export function renderLoadingCard(){
         "stateRole" : "status",
         "stateIcon" : "assets/icons/animated/sunny-animated.svg",
         "stateTitle" : "Chargement en cours ...",
-        "stateText" : "La météo s'affiche dans un instant"
+        "stateText" : "La météo s'affiche dans un instant",
     };
 
     let loadCard = createStateCard(stateParameters);
@@ -633,15 +633,15 @@ export function renderLoadingCard(){
 
 // === SUPPRESSION D'ELEMENTS ===
 // Supprimer une carte
-export function clearCard(card){
+export function clearCard(card) {
     let sectionCard = document.querySelector(card);
-    if (sectionCard){
+    if (sectionCard) {
         sectionCard.remove();
     };
 };
 
 // Retirer les cartes et masquer les prévisions
-function clearMainContent(){
+function clearMainContent() {
     // Supprimer les cartes d'état
     let stateCard = ".state-card";
     clearCard(stateCard);
@@ -652,41 +652,41 @@ function clearMainContent(){
 
     // Cacher le titre et les cartes de prévisions horaires
     let sections = document.querySelectorAll(".forecast-section");
-    for (let section of sections){
+    for (let section of sections) {
         section.hidden = true;
     };
 };
 
 // === FOOTER - INFORMATIONS LEGALES === //
 export const EMAIL = "meteospot.contact@gmail.com";
-export function fillContactMail(){
+export function fillContactMail() {
     let targets = document.querySelectorAll("[data-contact-mail]");
-    for (let target of targets){
+    for (let target of targets) {
         target.textContent = EMAIL;
     };
 };
 
 // == Afficher le contenu des informations légales ==
-export function openLegalDialog(){
+export function openLegalDialog() {
     document.querySelector("#legal-dialog").showModal();
 };
 
-export function closeLegalDialog(){
+export function closeLegalDialog() {
     document.querySelector("#legal-dialog").close;
 };
 
-export function renderLegalContent(HTML){
+export function renderLegalContent(HTML) {
     const LEGAL_BODY = document.querySelector(".legal-body");
     LEGAL_BODY.innerHTML = HTML;
     fillContactMail();
 };
 
-export function showLegalError(){
+export function showLegalError() {
     const LEGAL_BODY = document.querySelector(".legal-body");
     LEGAL_BODY.textContent = "Impossible de charger les informations légales. Veuillez vérifier votre connexion, puis réessayer";
 };
 
-export function initLegalDialog(onOpen){
+export function initLegalDialog(onOpen) {
     const LEGAL_DIALOG = document.querySelector("#legal-dialog");
     const OPEN_LEGAL_BUTTON = document.querySelector(".legal-link");
     const CLOSE_LEGAL_BUTTON = document.querySelector(".legal-close");
@@ -699,12 +699,12 @@ export function initLegalDialog(onOpen){
 
     // fermeture de la feuille en cliquant sur la croix
     CLOSE_LEGAL_BUTTON.addEventListener("click", async () => {
-        LEGAL_DIALOG.close()
+        LEGAL_DIALOG.close();
     });
 
     // fermeture en cliquant hors de la feuille
     LEGAL_DIALOG.addEventListener("click", (event) => {
-        if (event.target === LEGAL_DIALOG){
+        if (event.target === LEGAL_DIALOG) {
             LEGAL_DIALOG.close();
         };
     });
