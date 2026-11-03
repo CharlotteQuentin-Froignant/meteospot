@@ -172,9 +172,9 @@ async function deleteTownTab(townName) {
     let tab = findTab(townName);
     removeTab(tab);
     if (tab.classList.contains("active")) {
-        let localStorage = importLocalStorage();
-        let firstTown = localStorage[0];
-        if (localStorage.length !== 0) {
+        let storedTowns = importLocalStorage();
+        let firstTown = storedTowns[0];
+        if (storedTowns.length !== 0) {
             try {
                 await loadCity(firstTown);
                 setActiveTab(findTab(firstTown));

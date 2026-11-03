@@ -436,8 +436,8 @@ export function setActiveTab(tabToActivate){
 // == Afficher les onglets des villes recherchées au chargement de la page ==
 // prend en paramètres onClick et onLongPress pour utilsation avec la fonction insertNewTab
 export function insertLocalStorageTab(onClick, onLongPress) {
-    let localStorage = importLocalStorage();
-    for (let town of localStorage){
+    let storedTowns = importLocalStorage();
+    for (let town of storedTowns){
         insertNewTab(town, onClick, onLongPress);
     };
 };
