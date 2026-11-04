@@ -178,6 +178,13 @@ header{
     background-color: var(--background-section);
 }
 
+#search-bar::placeholder{
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-section-title);
+    font-weight: var(--font-weight-regular);
+    color: var(--text-secondary);
+}
+
 /* === ONGLETS === */
 .searched-towns{
     display: flex;
@@ -191,6 +198,7 @@ header{
     /*enlever les propriétés button par défaut*/
     border: none;
     background-color: transparent;
+    min-height: 24px;
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-ui);
     font-weight: var(--font-weight-medium);
@@ -290,7 +298,7 @@ header{
 
 .solar-bow-text{
     font-family: var(--font-family-secondary);
-    font-size: 0.5rem;
+    font-size: var(--font-size-ui);
     font-weight: var(--font-weight-medium);
     fill: var(--text-secondary);
     text-align: center;
@@ -521,6 +529,7 @@ header{
     letter-spacing: 0.5px;
     color: var(--state-button-text);
     align-self: center;
+    cursor: pointer;
 }
 
 /* == Bouton alerte == */
@@ -642,7 +651,7 @@ header{
     font-size: var(--font-size-city-name);
     font-weight: var(--font-weight-medium);
     color: var(--text-primary);
-    text-decoration: none;
+    text-decoration: underline;
     cursor: pointer;
 }
 

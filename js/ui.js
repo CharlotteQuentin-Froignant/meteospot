@@ -39,6 +39,8 @@ function renderSolarBow(data, weatherCard) {
     // si la condition isNight est vraie, alors la classe night-mode est ajoutée automatiquement
     solarBow.classList.toggle("night-mode", isNight);
     solarBow.setAttribute("viewBox","0 0 340 90");
+    solarBow.setAttribute("role", "img");
+    solarBow.setAttribute("aria-label", "Lever du soleil " + sunriseDateTime["time"] + ", coucher " + sunsetDateTime["time"] + ", mise à jour " + currentDateTime["time"]);
     weatherCard.appendChild(solarBow);
 
     let solarBowPath = document.createElementNS(SVG_NS, "path");
@@ -145,7 +147,7 @@ export function renderCurrentWeather(data) {
     mainInfos.appendChild(mainText);
 
     // configuration des données à récupérer et à insérer avec protection contre failles XSS
-    let cityName = document.createElement("p");
+    let cityName = document.createElement("h2");
     cityName.textContent = data["name"];
     cityName.className = "city-name";
     mainText.appendChild(cityName);
