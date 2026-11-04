@@ -67,6 +67,7 @@
     /* == Bordures, rayons, espacements == */
     /* = Bordures =*/
     --border: #f5f5f4;
+    --line:#eaeae6;
     --border-width-accent: 3px;
 
     /* = Rayons = */
@@ -191,7 +192,9 @@ header{
     flex-direction: row;
     justify-content: flex-start;
     align-content: center;
+    gap: 5px;
     margin: var(--spacing-app);
+    margin-bottom: var(--spacing-block);
 }
 
 .town-tab{
@@ -205,7 +208,6 @@ header{
     color: var(--text-secondary);
     cursor: pointer;
     border-bottom: 2px solid transparent;
-    margin-bottom: var(--spacing-block);
     text-transform: capitalize;
 
     /*bloquer la sélection de texte*/
@@ -259,18 +261,18 @@ header{
 /* == ARC SOLAIRE == */
 .bow{
     fill: none;
-    stroke: var(--temp-accent);
+    stroke: #FFC233;
     stroke-width: 1.5;
     stroke-dasharray: 2.4;
     opacity: 0.5;
 }
 
 .sun{
-    fill: var(--sun-bow);
+    fill: #FFC233;
 }
 
 .halo{
-    fill: var(--sun-bow);
+    fill: #FFC233;
     opacity: 0.25;
 }
 
@@ -340,7 +342,6 @@ header{
 
 .main-icon{
     width: 50%;
-    transform: scale(0.8) translateX(15px);
 }
 
 .city-name, .main-temperature{
@@ -423,7 +424,8 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    line-height: 1;
     padding: 10px 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-card);
@@ -433,6 +435,18 @@ header{
     color: var(--text-secondary);
     font-weight: var(--font-weight-medium);
     flex-shrink: 0; /* évite le rétrécissement des cartes*/
+}
+
+.hourly-icon{
+    width: 45px;
+    height: 45px;
+}
+
+.hourly-temperature{
+    font-family: var(--font-family-titles);
+    font-size: var(--font-size-forecast-temp);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
 }
 
 /* == PREVISIONS 4 JOURS == */
@@ -459,9 +473,15 @@ header{
     border-radius: var(--radius-card);
     background-color: var(--background-section);
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-forecast-temp);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-city-name);
+    font-weight: var(--font-weight-semibold);
     color: var(--text-secondary);
+}
+
+.day-name{
+    text-transform: capitalize;
+    font-size: var(--font-size-forecast-temp);
+    color: var(--text-primary);
 }
 
 .forecast-day span{
@@ -474,12 +494,13 @@ header{
 
 /* tailles réelles des icônes  */
 .day-icon{
-    width: 24px;
+    width: 45px;
     height: auto;
 }
 
 .rain-icon, .wind-icon{
-    width: 16px;
+    width: 45px;
+    padding: 8px;
     height: auto;
 }
 
@@ -490,6 +511,8 @@ header{
     justify-content: center;
     align-items: center;
     margin: var(--spacing-app);
+    margin-top: var(--spacing-app);
+    margin-bottom: var(--spacing-block);
     padding: 20px 12px;
     gap: 10px;
     border: 1px solid var(--border);
@@ -596,7 +619,7 @@ header{
     flex-direction: column;
     align-items: center;
     gap:1px;
-    margin-top: var(--spacing-card-gap);
+    margin-top: var(--spacing-block);
 }
 
 #footer-title{
