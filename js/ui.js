@@ -404,6 +404,8 @@ export function findTab(townName) {
 
 // == Créer les onglets ==
 // prend en paramètres 'onClick' pour lancer les requêtes API au clic et 'onLongPress' pour supprimer l'onglet avec un appui long
+// attribuer une double classe pour l'onglet actif
+// type button pour gérer l'accessibilité et l'interaction avec le clavier
 export function insertNewTab(townName, onClick, onLongPress) {
     // création et insertion de l'onglet
     let targetTab = document.querySelector(".searched-towns");

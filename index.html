@@ -18,7 +18,7 @@
     <link rel="preload" as="image" href="assets/icons/static/unavailable.svg">
 
     <!--appel script js-->
-    <script type="module" src="./js/main.js" defer></script>
+    <script type="module" src="./js/main.js"></script>
 
     <title>MétéoSpot</title>
 </head>
@@ -32,8 +32,6 @@
             <input id="search-bar" type="search" value="" placeholder="Rechercher une ville ..." aria-label="Rechercher une ville">
         </form>
         <div class="searched-towns">
-            <!-- attribuer une double classe pour l'onglet actif-->
-            <!--type button pour gérer l'accessibilité et l'interaction avec le clavier-->
         </div>
     </header>
     <main>
@@ -44,7 +42,6 @@
         <section class="daily-forecast forecast-section" hidden>
             <h2> Les jours suivants</h2>
         </section>
-        <section class="weather-extremes"></section>
     </main>
     <footer>
         <div class="footer-section">
@@ -52,27 +49,26 @@
                 <h3 id ="footer-title">MétéoSpot</h3>
                 <p class="app-slogan">Votre météo d'ici et d'ailleurs</p>
             </section>
-            <section class="legal-informations">
+            <div class="legal-informations">
                 <button type="button" class="legal-link">Informations légales</button>
-            </section>
+            </div>
             <section class="contact">
-                <!-- <p class="contact-mail">Contact</p> -->
+                <h3 class="contact-mail">Contact</h3>
                 <p class="mail" data-contact-mail></p>
-                </p>
             </section>
-            <section class="informations">
+            <div class="informations">
                 <p class="api-attribution">Weather data provided by <a class="openweather-link" href="https://openweathermap.org/">OpenWeather</a>
                     <img id="openweather-logo" src="assets/images/OpenWeatherLogo.png" alt="">
                 </p>
-            </section>
-            <section class="copyright">
+            </div>
+            <div class="copyright">
                 <p> &copy; 2026 MétéoSpot</p>
-            </section>
+            </div>
         </div>
     </footer>
     <dialog id ="legal-dialog" aria-labelledby="legal-title">
         <div class="legal-header">
-            <h1 id="legal-title">Informations légales</h1>
+            <h2 id="legal-title">Informations légales</h2>
             <button type="button" class="legal-close" aria-label="Fermer">&times;</button>
         </div>
         <p class="legal-body">Chargement ...</p>
