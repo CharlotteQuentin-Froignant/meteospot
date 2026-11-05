@@ -330,7 +330,7 @@ header{
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0px 20px;
+    padding: 10px 20px 0px 20px;
 }
 
 .main-text{
@@ -342,6 +342,7 @@ header{
 
 .main-icon{
     width: 50%;
+    transform: scale(1.2) translateX(-10px);
 }
 
 .city-name, .main-temperature{
