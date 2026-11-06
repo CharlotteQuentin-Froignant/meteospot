@@ -61,7 +61,7 @@ Lors de ce ticket, la recherche et l'affichage de la météo via les coordonnée
 ## Ticket #11 - Gestion d'état : erreur d'API
 Lorsqu'un problème réseau arrive ou que l'API n'est pas disponible, l'application affiche une carte d'état spécifique expliquant le problème à l'utilisateur et lui laisse la possibilité de relancer la requête. L'affichage de cet état a été vérifié sur un galaxy S23 réel et en simulation iPhone SE 2016 avec l'extension MOBILE FIRST. [voir la capture](7_app_T11-erreur-API.png)
 
-La maquette présentée dans le fichier process.md montre le rendu visuel attendu quand une erreur réseau / API se produit et que l'utilisateur n'a pas de recherche enregistrée. Le rendu actuel a été effectué après une requête réussie, laissant ainsi apparaître l'onglet de la dernière ville affichée.
+La maquette présentée dans le fichier [process.md](../design/process.md) montre le rendu visuel attendu quand une erreur réseau / API se produit et que l'utilisateur n'a pas de recherche enregistrée. Le rendu actuel a été effectué après une requête réussie, laissant ainsi apparaître l'onglet de la dernière ville affichée.
 
 ## Ticket #12 - Gestion d'états : bienvenue / localisation désactivée
 Selon l'état de permission de géolocalisation, l'application affiche une carte d'état expliquant quoi faire:
@@ -154,8 +154,12 @@ Les 22 tests passent sur le code final.
 # Ticket 16 - Local Storage
 La mise en place de ce ticket permet d'afficher au chargement les onglets des villes recherchées préalablement pour faciliter l'accès aux données météo. Ce ticket n'entrraîne pas de modifications visuelles.
 
+---
+
 # Ticket 24 - Pied de page et informations légales
 Lors de ce ticket, les éléments du pied de pages ont été mis en place. Pour faciliter l'utilisation, les informations légales sont disponibles sous la forme d'une dialogsheet qui se superpose à l'écran d'origine. [voir la capture](11_app_T24-footer.png)
+
+---
 
 ## Convention de nommage
 
