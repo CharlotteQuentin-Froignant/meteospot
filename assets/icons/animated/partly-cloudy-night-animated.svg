@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="99" height="99" viewBox="-4 -4 72 72" class="wi" role="img" aria-label="peu nuageux"><style>.wi{--sw:2.2;--swa:2.8;--ink:var(--wi-ink,#3E3D39);--soft:var(--wi-soft,#9B9A92);--sun:var(--wi-sun,#FFC233);--water:var(--wi-water,#378ADD);--moon:var(--wi-moon,#7F77DD);--shade:var(--wi-shade,rgba(43,42,39,.14))}
+<svg xmlns="http://www.w3.org/2000/svg" width="99" height="99" viewBox="-4 -4 72 72" class="wi" role="img" aria-label="peu nuageux"><style>.wi{--sw:2.2;--swc:1.5;--swa:2.8;--swp:2.2;--ink:var(--wi-ink,#3E3D39);--soft:var(--wi-soft,#9B9A92);--sun:var(--wi-sun,#FFC233);--water:var(--wi-water,#378ADD);--moon:var(--wi-moon,#7F77DD);--shade:var(--wi-shade,rgba(43,42,39,.14))}
 .wi .belly{fill:var(--shade)}
-.wi .c{fill:none;stroke:var(--ink);stroke-width:var(--sw);stroke-linejoin:round}
+.wi .c{fill:none;stroke:var(--ink);stroke-width:var(--swc);stroke-linejoin:round}
 .wi .c.soft{stroke:var(--soft)}
 .wi .sundisc{fill:var(--sun)}
 .wi .moon{fill:var(--moon)}
@@ -10,9 +10,9 @@
 .wi .star{fill:var(--moon);stroke:var(--moon);stroke-width:.6;stroke-linejoin:round}
 .wi .hail{fill:none;stroke:var(--water);stroke-width:var(--sw)}
 .wi .hl{fill:none;stroke:var(--ink);stroke-width:var(--sw);stroke-linecap:round;opacity:.35}
-.wi .mline{stroke:var(--soft);stroke-width:var(--swa);stroke-linecap:round}
+.wi .mline{stroke:var(--soft);stroke-width:var(--swp);stroke-linecap:round}
 .wi .bolt{fill:var(--sun);stroke:var(--sun);stroke-width:1.6;stroke-linejoin:round}
-.wi .flake{stroke:var(--water);stroke-width:var(--swa);stroke-linecap:round}
+.wi .flake{stroke:var(--water);stroke-width:var(--swp);stroke-linecap:round}
 @keyframes wi-spin{to{transform:rotate(360deg)}}
 @keyframes wi-drift{0%,100%{transform:translate(-2.5px,0)}50%{transform:translate(2.5px,-1.5px)}}
 @keyframes wi-fall{0%{transform:translate(1.5px,-3.5px);opacity:0}30%{opacity:1}100%{transform:translate(-1.5px,3.5px);opacity:0}}
