@@ -1,7 +1,7 @@
 # Journal de progression — MétéoSpot
 
 Ce dossier regroupe les captures illustrant l'avancement visuel du projet.
-Le suivi détaillé des tickets se fait sur le GitHub Project [https://github.com/users/CharlotteQuentin-Froignant/projects/1].
+Le suivi détaillé des tickets se fait sur le GitHub Project ([voir le projet](https://github.com/users/CharlotteQuentin-Froignant/projects/1)).
 
 ---
 

@@ -1,5 +1,5 @@
 # MétéoSpot — Système de design
->Archive. Spécification initiale avant implémentation. De nombreux changements ont été réalisés lors du développement.Voir le fichier [design-system.md](../design-system.md) pour obtenir la spécification de l'application actuelle.
+>Archive. Spécification initiale avant implémentation. De nombreux changements ont été réalisés lors du développement. Voir le fichier [design-system.md](../design-system.md) pour obtenir la spécification de l'application actuelle.
 
 Document de référence pour l'implémentation concrète du mockup mobile. Contient la palette couleur liée à la température, la typographie, les icônes SVG, et les tokens de mise en page.
 

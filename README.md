@@ -4,17 +4,17 @@ MétéoSpot est une application météo mobile-first, développée en HTML, CSS 
 
 ## Fonctionnalités
 
-- Recherche d'une ville et météo actuelle
-- Prévisions de la journée (par créneaux) et des 4 prochains jours
-- Arc représentant la trajectoire du soleil
+- Météo actuelle
+- Prévisions des prochaines heures et des 4 prochains jours
+- Recherche d'une ville
 - Géolocalisation
-- Onglets des villes recherchées, conservés dans le navigateur
+- Onglets des villes recherchées conservés dans le navigateur
 - Palette de couleurs qui varie selon la température
 - Gestion des états : bienvenue, localisation désactivée, erreur de l'API
 
 ## Contexte
 
-Ce projet part d'un exercice de ma formation CDA (Concepteur Développeur d'Applications) portant sur la manipulation du DOM et les appels API fetch. Le périmètre initial étant limité, j'ai choisi d'en faire un vrai projet personnel complet avec une maquette, un backlog structuré et un workflow git, afin de développer une petite application de A à Z et de la déployer, plutôt que de coder une fonctionnalité isolée.
+Ce projet part d'un exercice de ma formation CDA (Concepteur Développeur d'Applications) portant sur la manipulation du DOM et les appels API fetch. Le périmètre initial étant limité, j'ai choisi d'en faire un vrai projet personnel complet avec un design, un backlog structuré et un workflow git, pour développer une petite application de A à Z et la déployer, plutôt que de coder une fonctionnalité isolée.
 
 Ce travail est réalisé en dehors des heures de formation, avec une disponibilité variable selon la charge des cours.
 
@@ -71,24 +71,6 @@ meteospot/
 
 Le code est organisé selon une architecture modulaire afin de séparer les responsabilités. Chaque fichier JavaScript a ainsi un rôle unique afin de rendre le projet plus lisible, plus facile à tester et à faire évoluer.
 
-## Design
-
-La maquette a été conçue par itérations successives avec l'aide de l'IA, sans passer par Figma. La direction de départ, de type dashboard bleu en glassmorphism m'a semblé trop générique. Je l'ai donc retravaillée vers une identité plus sobre: fond clair, typographies Newsreader et Manrope, palette de couleurs évolutive.
-
-Le détail du processus de conception est décrit dans [docs/design/process.md](docs/design/process.md). Ce document est historique, car le design et l'esthétique ont évolué au cours du projet et les maquettes qu'il présente ne correspondent plus à l'application.
-La référence actuelle (couleurs, typographie, icônes) est résumée dans le fichier [docs/design/design-system.md](docs/design/design-system.md)
-
-L'application se distingue par un arc qui représente la trajectoire du soleil entre le lever et le coucher du soleil. La nuit, le soleil reste en position fixe au centre de l'arc et l'heure du prochain lever est indiquée. Egalement, la couleur du fond de la carte météo, de sa bordure et du chiffre de la température varie selon la température affichée, afin de donner une indication visuelle immédiate du ressenti climatique.
-
-## Place de l'IA dans le projet
-
-J'ai eu recours à l'IA (Claude, Anthropic) tout au long du projet, comme un "tuteur" pour comprendre de nouvelles notions, diagnostiquer et résoudre des bugs, ou comparer des options de conception. Certaines solutions m'ont été proposées par l'IA, le plus souvent avec une explication ligne par ligne afin de pouvoir bien comprendre ce que fait le code (et pourquoi) et savoir l'expliquer.
-
-L'IA a également été utilisée pour le rendu visuel des maquettes, la création des icônes et des tests unitaires de la palette des couleurs ; et sur une grande partie de la documentation, afin d'accélérer le processus d'écriture. Toute la documentation a été relue, complétée et modifiée par mes soins avant intégration.
-
-## Avancement
-Un journal de suivi a été mis en place, afin d'avoir un historique d'évolution visuelle du projet selon son avancement ([voir le document](docs/progress)).
-
 ## Installation et tests
 ### Installer le projet
 
@@ -115,6 +97,23 @@ Un journal de suivi a été mis en place, afin d'avoir un historique d'évolutio
 
 ### Lancer les tests unitaires
 Le lancement des tests unitaires s'effectue par la ligne de commande `npm test`.
+## Design
+
+La maquette a été conçue par itérations successives avec l'aide de l'IA, sans passer par Figma. La direction de départ, de type dashboard bleu en glassmorphism m'a semblé trop générique. Je l'ai donc retravaillée vers une identité plus sobre: fond clair, typographies Newsreader et Manrope, palette de couleurs évolutive.
+
+Le détail du processus de conception est décrit dans [docs/design/process.md](docs/design/process.md). Ce document est historique, car le design et l'esthétique ont évolué au cours du projet et les maquettes qu'il présente ne correspondent plus à l'application.
+La référence actuelle (couleurs, typographie, icônes) est résumée dans le fichier [docs/design/design-system.md](docs/design/design-system.md)
+
+L'application se distingue par un arc qui représente la trajectoire du soleil entre le lever et le coucher du soleil. La nuit, le soleil reste en position fixe au centre de l'arc et l'heure du prochain lever est indiquée. Egalement, la couleur du fond de la carte météo, de sa bordure et du chiffre de la température varie selon la température affichée, afin de donner une indication visuelle immédiate du ressenti climatique.
+
+## Place de l'IA dans le projet
+
+J'ai eu recours à l'IA (Claude, Anthropic) tout au long du projet, comme un "tuteur" pour comprendre de nouvelles notions, diagnostiquer et résoudre des bugs, ou comparer des options de conception. Certaines solutions m'ont été proposées par l'IA, le plus souvent avec une explication ligne par ligne afin de pouvoir bien comprendre ce que fait le code (et pourquoi) et savoir l'expliquer.
+
+L'IA a également été utilisée pour le rendu visuel des maquettes, la création des icônes et des tests unitaires de la palette des couleurs ; et sur une grande partie de la documentation, afin d'accélérer le processus d'écriture. Toute la documentation a été relue, complétée et modifiée par mes soins avant intégration.
+
+## Avancement
+Un journal de suivi a été mis en place, afin d'avoir un historique d'évolution visuelle du projet selon son avancement ([voir le document](docs/progress)).
 
 ## Crédits
 - Données météo : OpenWeather.

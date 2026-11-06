@@ -16,7 +16,7 @@ Le point de départ initial du projet était de développer une application mét
 
 La première maquette proposée était fonctionnelle mais reconnaissable et très proche du langage visuel de nombreuses applications avec dégradé bleu et icônes génériques. Utile comme base de discussion, mais pas comme identité propre.
 
-![illustration de la maquette initiale](versions/1_prompt-initial.png)
+![Illustration de la maquette initiale](process-images/1_prompt-initial.png)
 
 ## 2. Supprimer les éléments inutiles
 
@@ -26,19 +26,19 @@ Même si le rendu visuel était trop générique, la première projection m'a pe
 
 Une fois la structure posée, de nombreuses itérations ont été nécessaires afin d'essayer de sortir des designs génériques édités par IA. Au final, plutôt que de changer la structure de l'application elle-même, le choix a été fait de partir sur une base un peu plus éditoriale avec l'ajout d'un arc de positionnement du soleil dans la carte principale et un gros chiffre de température.
 
-![Versions 3](versions/2_V3-itération.png)
+![Versions intermédiaire](process-images/2_V3-itération.png)
 
 ## 4. Un système de couleur dynamique
 
 Plutôt qu'une couleur fixe, la couleur du bloc météo principal a été reliée à la température réelle selon 7 tranches, allant de "très froid" à "extrême", chacune avec un dégradé de texte et un fond dédiés. Après plusieures itérations pour trouver les bonnes associations, le rendu des 7 palliers devrait être le suivant:
-![Palette couleurs représentant les 7 transches de températures](versions/3_Palette-couleurs.png)
+![Palette couleurs représentant les 7 transches de températures](process-images/3_Palette-couleurs.png)
 
 ## 5. Un vrai set d'icônes
 
 Pour essayer de s'éloigner un peu plus loin des designs classiques, j'ai décidé de ne pas utiliser une librairie d'icônes, mais de réaliser un set d'icônes personnalisé avec l'IA.
 Les icônes ont connu plusieurs versions avant validation : d'abord de simples formes géométriques (jugées trop pauvres), puis un style inspiré de la bibliothèque Skycons (formes non remplies au contour fin). Le set final compte 14 conditions météo, chacune livrée en deux versions : statique (pour les listes de prévisions) et animée  (pour le bloc principal).
 
-![Visuel des icônes](versions/4_icones.png)
+![Visuel des icônes](process-images/4_icones.png)
 
 ## 6. Typographie
 Pour renforcer le style éditorial de l'application, et pour se différencier des polices actuellement utilisées partout comme Roboto, mon choix s'est arrêté sur **Newsreader** (serif éditoriale) pour les éléments vedettes : nom de ville, température, titres et **Manrope** (sans-serif neutre) pour le reste.
@@ -46,13 +46,13 @@ Pour renforcer le style éditorial de l'application, et pour se différencier de
 ## 7. Nom
 Une fois les sections et le design validés, une reflexion a été menée sur le nom et la phrase d'accroche de l'application. Le choix s'est finalement arrêté sur " **MéteoSpot**, la météo d'ici et d'ailleurs"
 
-![version finale](versions/5_version-finale.png)
+![Version finale](process-images/5_version-finale.png)
 
 ## 8. Les cas limites
 
 Afin d'améliorer l'expérience utilisateur, j'ai souhaité intégrer des écrans d'état afin d'avertir l'utilisateur en cas d'erreur d'api ou de problème de localisation.
 
-![visuels pour les différents états + version finale](versions/6_états.png)
+![Visuels des différents états](process-images/6_états.png)
 
 ## 9. Desktop et tablette
 
