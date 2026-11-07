@@ -409,13 +409,11 @@ export function findTab(townName) {
 export function insertNewTab(townName, onClick, onLongPress) {
     // création et insertion de l'onglet
     let targetTab = document.querySelector(".searched-towns");
-    let searchedTowns = document.createElement("div");
     let tab = document.createElement("button");
     tab.className = "town-tab";
     tab.textContent = townName;
     tab.setAttribute("aria-label", townName + ". Touche entrée lance la recherche météo, touches supp/retour arrière supprime l'onglet");
-    searchedTowns.appendChild(tab);
-    targetTab.appendChild(searchedTowns);
+    targetTab.appendChild(tab);
 
     // ajout de l'écouteur d'évènement sur le clic
     // fonction onClick à configurer dans main.js
