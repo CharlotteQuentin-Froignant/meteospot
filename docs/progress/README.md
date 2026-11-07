@@ -73,9 +73,9 @@ Quelques changements par rapport aux maquettes :
 - la couleur des boutons a été assombrie pour améliorer l'accessibilité
 - la section météo des extrêmes n'ayant pas encore été traitée, elle n'est pas visible sur le rendu
 
-Lors de la création de ces états, je me suis rendue compte qu'il serait également plus agréable pour l'utilisateur de voir l'état de chargement de la météo. Une carte de chargement a ainsi été ajoutée (ticket #23).[voir la capture](8_app_T12-etats.png)
+Lors de la création de ces états, je me suis rendue compte qu'il serait également plus agréable pour l'utilisateur de voir l'état de chargement de la météo. Une carte de chargement a ainsi été ajoutée (ticket #23). [voir la capture](8_app_T12-etats.png)
 
-**Update** : lors de l'enregistrement des villes dans le local storage et l'affichage des onglets au chargement de la page, les cartes "Bienvenue" et "Localisation désactivée" ont été adaptées et couvrent désormais les deux possibilités.[voir la capture](12_app_T12-etats-onglets.png).
+**Update** : lors de l'enregistrement des villes dans le local storage et l'affichage des onglets au chargement de la page, les cartes "Bienvenue" et "Localisation désactivée" ont été adaptées et couvrent désormais les deux possibilités. [voir la capture](12_app_T12-etats-onglets.png).
 
 Egalement, le tutoiement de toutes les cartes d'état a été remplacé par le vouvoiement afin d'être en harmonie avec les informations légales et les alertes du navigateur.
 
@@ -149,15 +149,17 @@ Le test détecte le bug exactement sur la borne concernée, les 21 autres condit
 
 Les 22 tests passent sur le code final.
 
----
 
 # Ticket 16 - Local Storage
 La mise en place de ce ticket permet d'afficher au chargement les onglets des villes recherchées préalablement pour faciliter l'accès aux données météo. Ce ticket n'entrraîne pas de modifications visuelles.
 
----
 
 # Ticket 24 - Pied de page et informations légales
 Lors de ce ticket, les éléments du pied de pages ont été mis en place. Pour faciliter l'utilisation, les informations légales sont disponibles sous la forme d'une dialogsheet qui se superpose à l'écran d'origine. [voir la capture](11_app_T24-footer.png)
+
+
+# Mise à jour du set d'icônes
+Avant le déploiement, le set d'icônes a été retravaillé : certaines icônes ont été redessinnées pour améliorer leur rendu, puis leur trait a été affiné. [voir la comparaison](13_app_ST_nouvelles-icones.png)
 
 ---
 
