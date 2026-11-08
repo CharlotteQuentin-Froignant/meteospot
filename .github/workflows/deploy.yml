@@ -1,0 +1,82 @@
+# 1. Lance les tests unitaires.
+# 2. Si les tests passent, crée js/config.js à partir d'un secret du dépôt
+#    (la clé d'API n'est jamais écrite dans le code versionné).
+# 3. Publie uniquement les fichiers du site sur GitHub Pages.
+#
+
+name: Tester et déployer sur GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# Droits par défaut : lecture seule du code.
+permissions:
+  contents: read
+
+# Un seul déploiement à la fois, sans annuler celui en cours.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # --- Tests unitaires ---
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v6
+
+      - name: Installer Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Lancer les tests unitaires
+        run: npm test
+
+  # --- Déploiement (seulement si les tests passent) ---
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    # Droits supplémentaires, réservés à ce job
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v6
+
+      - name: Copier uniquement les fichiers du site
+        run: |
+          mkdir _site
+          cp -r index.html css js assets partials _site/
+
+      - name: Créer js/config.js à partir du secret
+        env:
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+        run: |
+          if [ -z "$OPENWEATHER_API_KEY" ]; then
+            echo "Le secret OPENWEATHER_API_KEY est absent ou vide." >&2
+            exit 1
+          fi
+          # Le nom exporté (APIKEY) doit être identique à celui de js/config.example.js
+          printf 'export const APIKEY = "%s";\n' "$OPENWEATHER_API_KEY" > _site/js/config.js
+
+      - name: Configurer Pages
+        uses: actions/configure-pages@v5
+
+      - name: Préparer l'archive à publier
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Publier
+        id: deployment
+        uses: actions/deploy-pages@v4
