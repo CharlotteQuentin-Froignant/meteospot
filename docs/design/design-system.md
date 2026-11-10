@@ -28,7 +28,7 @@ Aucune ressource externe n'est chargée : les polices et les icônes sont héber
 ### Boutons
 
 | Variable | Valeur |
-|---|---|---|
+|---|---|
 | `--info-button` | `#C05407` |
 | `--alert-button` | `#b70b0b` |
 
@@ -36,7 +36,7 @@ Aucune ressource externe n'est chargée : les polices et les icônes sont héber
 
 La palette est appliquée par l'attribut `data-temp-palette` posé sur `.weather-card`. Chaque palier définit trois couleurs :
 
-- `--temp-tint` : la teinte fin du dégradé de fond de la carte (`linear-gradient(160deg, #FFFFFF 0%, tint 100%)`) ;
+- `--temp-tint` : la teinte de fin du dégradé de fond de la carte (`linear-gradient(160deg, #FFFFFF 0%, tint 100%)`) ;
 - `--temp-accent` : la bordure de la carte (mélangée à 20 % de blanc) et les rayons du soleil ;
 - `--temp-num` : le grand chiffre de la température.
 

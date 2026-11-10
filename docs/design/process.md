@@ -31,6 +31,7 @@ Une fois la structure posée, de nombreuses itérations ont été nécessaires a
 ## 4. Un système de couleur dynamique
 
 Plutôt qu'une couleur fixe, la couleur du bloc météo principal a été reliée à la température réelle selon 7 tranches, allant de "très froid" à "extrême", chacune avec un dégradé de texte et un fond dédiés. Après plusieures itérations pour trouver les bonnes associations, le rendu des 7 palliers devrait être le suivant:
+
 ![Palette couleurs représentant les 7 transches de températures](process-images/3_Palette-couleurs.png)
 
 ## 5. Un vrai set d'icônes
@@ -58,7 +59,7 @@ Afin d'améliorer l'expérience utilisateur, j'ai souhaité intégrer des écran
 
 La quasi-totalité du travail a porté sur mobile. Les versions tablette et desktop ont été abordées plus tard, avec plusieurs allers-retours sur la disposition (breakpoint corrigé de 1280px à 1024px après remarque sur les tailles d'écran réelles de laptop, plusieurs répartitions de colonnes testées et rejetées avant la version retenue : ville actuelle en pleine hauteur à gauche, prévisions et extrêmes empilés à droite). La version tablette adoptera la même disposition que la vue mobile, tandis que la disposition en desktop sera réorganisée.
 
-![design desktop](versions/7_desktop.png)
+![design desktop](process-images/7_desktop.png)
 
 ## Limites assumées de cette approche
 
