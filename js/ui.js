@@ -259,7 +259,7 @@ export function renderHourlyForecast(hourlyForecastData) {
     let hourlyForecastCard = document.createElement("div");
     hourlyForecastCard.className = "hourly-forecast-card";
 
-    for (let item in hourlyData) {
+    for (let item of hourlyData) {
         let hour = document.createElement("div");
         hour.className = "hour";
         hourlyForecastCard.appendChild(hour);
@@ -268,7 +268,7 @@ export function renderHourlyForecast(hourlyForecastData) {
         hourlyTime.className = "hourly-time";
 
         // récupération du timestamp
-        let timestamp = hourlyData[item]["dt"];
+        let timestamp = item["dt"];
         let timezoneOffset = hourlyForecastData["city"]["timezone"];
 
         let hours = getHoursOnly(timestamp, timezoneOffset);
@@ -278,15 +278,15 @@ export function renderHourlyForecast(hourlyForecastData) {
 
         let hourlyIcon = document.createElement("img");
         hourlyIcon.className = "hourly-icon";
-        let staticWeatherID = hourlyData[item]["weather"][0]["id"];
-        let staticIconCode = hourlyData[item]["weather"][0]["icon"];
+        let staticWeatherID = item["weather"][0]["id"];
+        let staticIconCode = item["weather"][0]["icon"];
         hourlyIcon.src = getStaticIcon(staticWeatherID, staticIconCode);
-        hourlyIcon.alt = hourlyData[item]["weather"][0]["description"];
+        hourlyIcon.alt = item["weather"][0]["description"];
         hour.appendChild(hourlyIcon);
 
         let hourlyTemperature = document.createElement("p");
         hourlyTemperature.className = "hourly-temperature";
-        hourlyTemperature.textContent = Math.round(hourlyData[item]["main"]["temp"]) + "°C";
+        hourlyTemperature.textContent = Math.round(item["main"]["temp"]) + "°C";
         hour.appendChild(hourlyTemperature);
     };
 
