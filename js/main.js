@@ -38,6 +38,35 @@ function saveLastData(data) {
     };
 };
 
+
+// == Afficher la météo, enregistrer la ville et gérer la limite d'onglets
+// reçoit les données de la météo actuelle et des prévisions
+// renvoie le nom de la vilel et le résultat de l'enregistrement
+function showWeather(data, hourlyForecastData){
+    let townName = data["name"].toLowerCase().trim();
+
+    // intégration visuelle des données météo
+    renderCurrentWeather(data);
+    renderHourlyForecast(hourlyForecastData);
+    renderNextDays(hourlyForecastData);
+
+    // enregistrement du nom de la ville, de la température et de l'heure
+    saveLastData(data);
+
+    // enregistrement du nom de la ville dans le localStorage si la limite n'est pas atteinte
+    let storageResult = saveToLocalStorage(townName,TAB_LIMIT);
+    if (storageResult === "limit") {
+        alert("Limite d'onglets atteinte. Votre recherche s'affichera mais ne disposera pas d'un onglet comme raccourci. Supprimez des onglets pour enregistrer des nouvelles villes");
+
+        // lorsque la limite est atteinte, la ville recherchée ne disposera pas d'onglet mais sa météo sera affichée, il faut donc désactiver le dernier onglet actif pour ne pas tromper l'utilisateur sur la ville affichée
+        // utilisation de null pour désactiver l'ancien onglet sans en activer un nouveu
+        setActiveTab(null);
+    };
+    return {
+        "name" :townName,
+        "storageResult" : storageResult,
+    };
+};
 // == Obtenir et afficher la météo d'une ville ==
 async function loadCity(cityName) {
     // création des urls pour les requêtes
@@ -58,30 +87,9 @@ async function loadCity(cityName) {
         let data = await fetchWeatherData(url);
         let hourlyForecastData = await fetchWeatherData(urlNextHours);
 
-        let townName = data["name"].toLowerCase().trim();
-
-        // intégration visuelle des données météo
-        renderCurrentWeather(data);
-        renderHourlyForecast(hourlyForecastData);
-        renderNextDays(hourlyForecastData);
-
-        // enregistrement du nom de la ville, de la température et de l'heure
-        saveLastData(data);
-
-        // enregistrement du nom de la ville dans le localStorage si la limite n'est pas atteinte
-        let storageResult = saveToLocalStorage(townName,TAB_LIMIT);
-        if (storageResult === "limit") {
-            alert("Limite d'onglets atteinte. Votre recherche s'affichera mais ne disposera pas d'un onglet comme raccourci. Supprimez des onglets pour enregistrer des nouvelles villes");
-
-            // lorsque la limite est atteinte, la ville recherchée ne disposera pas d'onglet mais sa météo sera affichée, il faut donc désactiver le dernier onglet actif pour ne pas tromper l'utilisateur sur la ville affichée
-            // utilisation de null pour désactiver l'ancien onglet sans en activer un nouveu
-            setActiveTab(null);
-        };
-
-    return {
-        "name" :townName,
-        "storageResult" : storageResult,
-    };
+        // chargement des données
+        let weatherResult = showWeather(data, hourlyForecastData);
+        return weatherResult;
     } finally {
         clearTimeout(loadingTimer);
         clearCard(".loading-overlay");
@@ -221,24 +229,14 @@ async function loadCityByCoords(lat,lon) {
     try {
         let data = await fetchWeatherData(currentUrlByCoords);
         let hourlyForecastData = await fetchWeatherData(hourlyForecastUrlByCoords);
-        let townName = data["name"].toLowerCase().trim();
 
-        // récupération et affichage des données du bloc météo actuelle
-        renderCurrentWeather(data);
-        renderHourlyForecast(hourlyForecastData);
-        renderNextDays(hourlyForecastData);
-
-        // enregistrement du nom de la ville, de la température et de l'heure
-        saveLastData(data);
-
-        // enregistrement du nom de la ville dans le localStorage
-        let storageResult = saveToLocalStorage(townName,TAB_LIMIT);
-        if (storageResult === "limit") {
-            alert("Limite d'onglets atteinte. Votre recherche s'affichera mais ne disposera pas d'un onglet comme raccourci. Supprimez des onglets pour enregistrer des nouvelles villes");
-            setActiveTab(null);
+        // chargement des données
+        let weatherResult = showWeather(data, hourlyForecastData);
+        if (weatherResult["storageResult"] === "limit"){
             return;
         };
-        showCityTab(townName);
+
+        showCityTab(weatherResult["name"]);
 
     } finally {
         clearTimeout(loadingTimer);
