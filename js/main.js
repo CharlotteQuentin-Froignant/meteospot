@@ -1,4 +1,4 @@
-// === IMPORTATIONS ===
+// === IMPORTS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData,  fetchLegalDialog } from "./api.js";
 import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays, fillContactMail, renderLegalContent, showLegalError, initLegalDialog} from "./ui.js";
 import { importLocalStorage, removeFromLocalStorage, saveToLocalStorage} from "./utils.js";
@@ -27,21 +27,11 @@ let lastRequest = null;
 let legalLoaded = false;
 
 // === FONCTIONS ===
+// == CHARGEMENT DE LA METEO ==
 
-// == Enregistrer certaines données de la dernière recherche météo ==
-function saveLastData(data) {
-    lastData = {
-        "city" : data["name"],
-        "temp" : data["main"]["temp"],
-        "dt" : data["dt"],
-        "timezoneOffset" : data["timezone"],
-    };
-};
-
-
-// == Afficher la météo, enregistrer la ville et gérer la limite d'onglets
+// = Afficher la météo, enregistrer la ville et gérer la limite d'onglets =
 // reçoit les données de la météo actuelle et des prévisions
-// renvoie le nom de la vilel et le résultat de l'enregistrement
+// renvoie le nom de la ville et le résultat de l'enregistrement
 function showWeather(data, hourlyForecastData){
     let townName = data["name"].toLowerCase().trim();
 
@@ -59,7 +49,7 @@ function showWeather(data, hourlyForecastData){
         alert("Limite d'onglets atteinte. Votre recherche s'affichera mais ne disposera pas d'un onglet comme raccourci. Supprimez des onglets pour enregistrer des nouvelles villes");
 
         // lorsque la limite est atteinte, la ville recherchée ne disposera pas d'onglet mais sa météo sera affichée, il faut donc désactiver le dernier onglet actif pour ne pas tromper l'utilisateur sur la ville affichée
-        // utilisation de null pour désactiver l'ancien onglet sans en activer un nouveu
+        // utilisation de null pour désactiver l'ancien onglet sans en activer un nouveau
         setActiveTab(null);
     };
     return {
@@ -67,7 +57,8 @@ function showWeather(data, hourlyForecastData){
         "storageResult" : storageResult,
     };
 };
-// == Obtenir et afficher la météo d'une ville ==
+
+// = Obtenir et afficher la météo d'une ville recherchée par son nom =
 async function loadCity(cityName) {
     // création des urls pour les requêtes
     let url = getCurrentWeatherUrl(cityName, APIKEY, LANG, UNIT);
@@ -96,7 +87,67 @@ async function loadCity(cityName) {
     };
 };
 
-// == Lancer la dernière requête ==
+// = Charger et afficher la météo par coordonnées, puis activer ou créer l'onglet =
+// les erreurs sont gérées par la fonction d'appel handleGeolocationSuccess
+async function loadCityByCoords(lat,lon) {
+
+    let currentUrlByCoords = getCurrentWeatherUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
+    let hourlyForecastUrlByCoords = getHourlyForecastUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
+
+    // sauvegarde des paramètres de la requête
+    lastRequest = {
+        "type" : "coords",
+        "lat" : lat,
+        "lon" : lon,
+    };
+
+    let loadingTimer = setTimeout(renderLoadingCard, 300);
+
+    try {
+        let data = await fetchWeatherData(currentUrlByCoords);
+        let hourlyForecastData = await fetchWeatherData(hourlyForecastUrlByCoords);
+
+        // chargement des données
+        let weatherResult = showWeather(data, hourlyForecastData);
+        if (weatherResult["storageResult"] === "limit"){
+            return;
+        };
+
+        showCityTab(weatherResult["name"]);
+
+    } finally {
+        clearTimeout(loadingTimer);
+        clearCard(".loading-overlay");
+    };
+};
+
+// = Enregistrer certaines données de la dernière recherche météo =
+function saveLastData(data) {
+    lastData = {
+        "city" : data["name"],
+        "temp" : data["main"]["temp"],
+        "dt" : data["dt"],
+        "timezoneOffset" : data["timezone"],
+    };
+};
+
+// == ERREURS ET RELANCE ==
+// = Afficher les erreurs de requêtes =
+function showRequestError(error) {
+    // message personnalisé si la ville n'est pas trouvée pour que l'utilisateur comprenne l'erreur
+    if (error.message === "CITY_NOT_FOUND") {
+        // délai avant l'affichage de l'alerte pour laisser le temps au navigateur de retirer la carte de chargement
+        setTimeout( () => alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe"), 50);
+    } else {
+        console.log("Erreur: ", error.name, error.message);
+        // création de la carte d'état, lancement de la dernière requête avec désactivation du bouton de relance
+        // si la requête échoue de nouveau, une nouvelle carte est créee avec un bouton actif
+        // pas de parenthèse pour retryLastRequest car appelée par click sur bouton
+        downAPI(lastData, retryLastRequest);
+    };
+};
+
+// = Lancer la dernière requête =
 async function retryLastRequest() {
     // gérer la déclaration de null pour éviter l'interception d'erreur
     if (lastRequest === null) {
@@ -130,23 +181,8 @@ async function retryLastRequest() {
     };
 };
 
-// == Afficher les erreurs de requêtes ==
-function showRequestError(error) {
-    // message personnalisé si la ville n'est pas trouvée pour que l'utilisateur comprenne l'erreur
-    if (error.message === "CITY_NOT_FOUND") {
-        // délai avant l'affichage de l'alerte pour laisser le temps au navigateur de retirer la carte de chargement
-        setTimeout( () => alert(" La ville recherchée est introuvable, veuillez vérifier l'orthographe"), 50);
-    } else {
-        console.log("Erreur: ", error.name, error.message);
-        // création de la carte d'état, lancement de la dernière requête avec désactivation du bouton de relance
-        // si la requête échoue de nouveau, une nouvelle carte est créee avec un bouton actif
-        // pas de parenthèse pour retryLastRequest car appelée par click sur bouton
-        downAPI(lastData, retryLastRequest);
-    };
-};
-
-// == Onglets ==
-// = Changement de l'onglet actif ou création d'un nouvel onglet
+// == ONGLETS ==
+// = Changement de l'onglet actif ou création d'un nouvel onglet =
 function showCityTab(townName) {
     // certaines données de géolocalisation n'étant pas rattachées à une ville, l'onglet créé serait vide (coordonnées en mer par exemple)
     // si townName est vide, il n'y a pas de création d'onglets
@@ -171,13 +207,17 @@ async function handleTabClick(townName) {
     };
 };
 
-// == Supprimer un onglet ==
+// = Supprimer un onglet =
 // supprime la ville du localStorage et l'onglet correspondant
 // la suppresion d'un onglet affiche les données de la première ville du localStorage
 // la suppression du dernier onglet, renvoie l'écran de bienvenue
 async function deleteTownTab(townName) {
     removeFromLocalStorage(townName);
     let tab = findTab(townName);
+    if (tab === null){
+        return;
+    };
+
     removeTab(tab);
     if (tab.classList.contains("active")) {
         let storedTowns = importLocalStorage();
@@ -200,48 +240,36 @@ async function deleteTownTab(townName) {
     };
 };
 
-//== Savoir si des villes sont enregistrées comme onglets ==
+// = Savoir si des villes sont enregistrées comme onglets =
 function hasSavedTowns(){
     if (importLocalStorage().length > 0) {
         return true;
     };
+    return false;
 };
 
-
-// == Géolocalisation ==
-
-// = Charge et affiche la météo par coordonnées, puis active ou crée l'onglet =
-// les erreurs sont gérées par la fonction d'appel handleGeolocationSuccess
-async function loadCityByCoords(lat,lon) {
-
-    let currentUrlByCoords = getCurrentWeatherUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
-    let hourlyForecastUrlByCoords = getHourlyForecastUrlByCoords(lat,lon, APIKEY, LANG, UNIT);
-
-    // sauvegarde des paramètres de la requête
-    lastRequest = {
-        "type" : "coords",
-        "lat" : lat,
-        "lon" : lon,
-    };
-
-    let loadingTimer = setTimeout(renderLoadingCard, 300);
-
-    try {
-        let data = await fetchWeatherData(currentUrlByCoords);
-        let hourlyForecastData = await fetchWeatherData(hourlyForecastUrlByCoords);
-
-        // chargement des données
-        let weatherResult = showWeather(data, hourlyForecastData);
-        if (weatherResult["storageResult"] === "limit"){
-            return;
+// == GEOLOCALISATION ==
+// = Récupérer le statut d'utilisation de la localisation =
+async function getPermissionStatus() {
+    if ("geolocation" in navigator) {
+        try {
+            let result = await navigator.permissions.query({name:"geolocation"});
+            return result.state;
+        } catch (error) {
+            console.log("Statut de permission non défini : ", error.message);
+            // si le statut n'est pas défini, utilisation de prompt par défaut pour laisser le choix à l'utilisateur
+            return "prompt";
         };
-
-        showCityTab(weatherResult["name"]);
-
-    } finally {
-        clearTimeout(loadingTimer);
-        clearCard(".loading-overlay");
+    } else {
+        return "unavailable";
     };
+};
+
+// = Demander la position au navigateur et afficher la météo correspondante =
+function loadGeolocation() {
+    // si le statut est "prompt" : appelle la fenêtre d'autorisation
+    // si le statut est "granted" : affiche la météo directement sans fenêtre
+    navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, GEOLOCATION_OPTIONS);
 };
 
 // = Récupérer les données de géolocalisation, lancer la requête, afficher le rendu et attraper les erreurs =
@@ -280,30 +308,7 @@ function handleGeolocationError(error) {
     };
 };
 
-// == Récupérer le statut d'utilisation de la localisation ==
-async function getPermissionStatus() {
-    if ("geolocation" in navigator) {
-        try {
-            let result = await navigator.permissions.query({name:"geolocation"});
-            return result.state;
-        } catch (error) {
-            console.log("Statut de permission non défini : ", error.message);
-            // si le statut n'est pas défini, utilisation de prompt par défaut pour laisser le choix à l'utilisateur
-            return "prompt";
-        };
-    } else {
-        return "unavailable";
-    };
-};
-
-// == Demander la position au navigateur et afficher la météo correspondante ==
-function loadGeolocation() {
-    // si le statut est "prompt" : appelle la fenêtre d'autorisation
-    // si le statut est "granted" : affiche la météo directement sans fenêtre
-    navigator.geolocation.getCurrentPosition(handleGeolocationSuccess, handleGeolocationError, GEOLOCATION_OPTIONS);
-};
-
-// == Gestion des requêtes et de l'affichage selon les autorisations ==
+// = Gestion des requêtes et de l'affichage selon les autorisations =
 async function initGeolocation() {
     // obtenir le statut d'autorisation
     let permission = await getPermissionStatus();
