@@ -22,4 +22,7 @@ export function clearMainContent() {
     for (let section of sections) {
         section.hidden = true;
     };
+
+    // retour au fond « ciel » pour les cartes d'état
+    document.body.removeAttribute("data-temp-palette");
 };
