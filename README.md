@@ -48,30 +48,37 @@ Ce travail est réalisé en dehors des heures de formation, avec une disponibili
 meteospot/
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml         # tests unitaires puis déploiement sur GitHub Pages
-├── index.html
+│       └── deploy.yml          # tests unitaires puis déploiement sur GitHub Pages
+├── index.html                  # page affichée
 ├── css/
-│   └── style.css
+│   └── style.css               # mise en forme
 ├── js/
-│   ├── main.js            # orchestration : événements, enchaînement des appels
-│   ├── api.js             # construction des URL et requêtes (fetch), sans accès au DOM
-│   ├── ui.js              # tout ce qui touche au DOM (cartes, arc solaire, onglets)
-│   ├── utils.js           # fonctions pures (icônes, heures locales, arc, palette)
-│   ├── config.js          # clé API personnelle (ignoré par Git)
-│   └── config.example.js  # modèle de config.js, versionné
+│   ├── main.js                 # orchestration : événements, enchaînement des appels
+│   ├── api.js                  # construction des URL et requêtes (fetch), sans accès au DOM
+│   ├── ui.js                   # point d'entrée de l'interface : ré-exporte les fonctions de js/ui/
+│   ├── ui/                     # affichage : création et modification des éléments de la page (DOM)
+│   │   ├── weather.js          # météo actuelle, prévisions par heures et par jours
+│   │   ├── solar-bow.js        # génération du svg de l'arc solaire
+│   │   ├── tabs.js             # onglets des villes
+│   │   ├── states.js           # cartes d'état (bienvenue, chargement, localisation bloquée, API indisponible)
+│   │   ├── clear.js            # suppression de cartes
+│   │   └── footer.js           # informations légales
+│   ├── utils.js                # fonctions utilitaires sans affichage (icônes, heures locales, calcul de l'arc, palette, localStorage)
+│   ├── config.js               # clé API personnelle (ignoré par Git)
+│   └── config.example.js       # modèle de config.js, versionné
 ├── partials/
-│   └── legal.html         # contenu des informations légales
+│   └── legal.html              # contenu des informations légales
 ├── tests/
-│   └── palette.test.js    # tests unitaires de la palette de température
+│   └── palette.test.js         # tests unitaires de la palette de température
 ├── assets/
 │   ├── favicon.ico
-│   ├── fonts/             # Newsreader et Manrope, avec leurs licences (OFL)
+│   ├── fonts/                  # Newsreader et Manrope, avec leurs licences (OFL)
 │   ├── icons/
-│   │   ├── static/        # icônes des listes de prévisions
-│   │   └── animated/      # icônes animées de la météo actuelle
-│   └── images/            # logo OpenWeather
+│   │   ├── static/             # icônes des listes de prévisions
+│   │   └── animated/           # icônes animées de la météo actuelle
+│   └── images/                 # logo OpenWeather
 ├── docs/
-│   ├── apercu.png         # aperçu affiché en tête du README
+│   ├── apercu.png              # aperçu affiché en tête du README
 │   ├── design/
 │   │   ├── process.md          # historique de la conception (maquettes anciennes)
 │   │   ├── design-system.md    # référence actuelle (palette, typographie, icônes)
