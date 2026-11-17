@@ -57,6 +57,66 @@
     --font-weight-semibold: 600;
 
     /* = Tailles du texte (mobile), rem base 16px = */
+    --font-size-xs: 0.75rem;   /* 12px : date de l'arc, heures, mentions */
+    --font-size-sm: 0.875rem;  /* 14px : libellés, onglets, pied de page */
+    --font-size-md: 1rem;      /* 16px : texte courant, recherche, boutons */
+    --font-size-lg: 1.125rem;  /* 18px : chiffres secondaires */
+    --font-size-xl: 1.375rem;  /* 22px : titres de section, valeurs des mesures */
+    --font-size-xxl: 1.75rem;  /* 28px : nom de l'app, ville, titres des cartes d'état */
+    --font-size-hero: 5rem;    /* 80px : température principale */
+
+    /* == Lignes, rayons, ombres, espacements == */
+    /* = Lignes = */
+    --line: rgba(26, 26, 24, 0.12);
+    --line-soft: rgba(26, 26, 24, 0.08);
+    --button-border: rgba(26, 26, 24, 0.5);
+
+    /* = Rayons = */
+    --radius-card: 16px;
+    --radius-state: 20px;
+    --radius-control: 14px;
+    --radius-app: 14px;
+
+    /* = Ombres = */
+    --shadow-card: 0 1px 2px rgba(26, 26, 24, 0.05), 0 6px 20px rgba(26, 26, 24, 0.04);
+    --shadow-control: 0 1px 2px rgba(26, 26, 24, 0.06), 0 6px 20px rgba(26, 26, 24, 0.04);
+
+    /* = Espaces = */
+    --spacing-page: 16px;      /* marges latérales */
+    --spacing-gap: 12px;       /* en-tête / recherche / onglets, titre / carte */
+    --spacing-block: 28px;     /* espace courant entre blocs */
+    --spacing-section: 44px;   /* entre météo actuelle, 24 heures et 4 jours */
+
+    /* == Couleurs == */
+    /* = Couleurs fixes = */
+    --surface: #FFFFFF;
+    --neutral-base: #F8F9F9;
+    --pastille: #F0F1F3;
+    --sun: #FFC233;
+    --error: #B70B0B;
+    --error-soft: #F8E7E7;
+    --focus: #1F3A5F;
+
+    /* = Fond de page = */
+    /* fond « ciel » par défaut : cartes d'état, chargement, erreur */
+    --page-bg: linear-gradient(180deg, #E4ECF2 0px, #EEF3F6 360px, #F8FAFB 844px);
+
+    /* = Couleurs de température (valeurs par défaut) = */
+    /* Chaque palier définit les 3 couleurs de la tranche :
+        - --temp-tint   : haut du dégradé de fond de page
+        - --temp-accent : onglet actif
+        - --temp-num    : grand chiffre de température
+        - elles sont remplacées par les blocs :root:has(.weather-card[data-temp-palette="..."]) plus bas */
+    --temp-tint: #F9E3D4;
+    --temp-accent: #F18432;
+    --temp-num: #CB6710;
+
+
+
+    /* == ANCIENNES VARIABLES ==*/
+
+
+    /* = Tailles du texte (mobile), rem base 16px = */
     --font-size-app-name: 1.4rem;
     --font-size-city-name: 0.9rem;
     --font-size-hero: 4.7rem;
@@ -69,11 +129,6 @@
     --border: #f5f5f4;
     --line:#eaeae6;
     --border-width-accent: 3px;
-
-    /* = Rayons = */
-    --radius-card: 12px;
-    --radius-block: 16px;
-    --radius-app: 14px;
 
     /* = Espaces = */
     --spacing-block: 22px;
