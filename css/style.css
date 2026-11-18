@@ -229,38 +229,41 @@ header{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 15px;
-    margin-bottom: var(--spacing-block);
-    gap: 1px;
+    margin-top: 20px;
+    margin-bottom: var(--spacing-gap);
 }
 
 #app-title{
     font-family: var(--font-family-titles);
-    font-size: var(--font-size-app-name);
+    font-size: var(--font-size-xxl);
     font-weight: var(--font-weight-semibold);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
     color: var(--text-primary);
 }
 
 .app-slogan{
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-ui);
-    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
     color: var(--text-secondary);
 }
 
+#header-titles .app-slogan{
+    display: none;
+}
+
 #search{
-    display: inline-flex;
-    justify-content: flex-start;
+    display: flex;
     align-items: center;
-    margin: var(--spacing-app);
-    margin-bottom: var(--spacing-block);
+    margin: 0 var(--spacing-page) var(--spacing-gap);
     position: relative;
 }
 
 #search::before{
     content: "";
     position: absolute;
-    left: 15px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
     width: 18px;
@@ -270,19 +273,21 @@ header{
 
 #search-bar{
     width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding-left: 45px;
+    height: 40px;
+    border: none;
+    border-radius: var(--radius-control);
+    padding: 0 16px 0 46px;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-section-title);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-regular);
-    color: var(--text-secondary);
-    background-color: var(--background-section);
+    color: var(--text-primary);
+    background-color: var(--surface);
+    box-shadow: var(--shadow-control);
 }
 
 #search-bar::placeholder{
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-section-title);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-regular);
     color: var(--text-secondary);
 }
@@ -293,18 +298,24 @@ header{
     flex-direction: row;
     justify-content: flex-start;
     align-content: center;
-    gap: 5px;
-    margin: var(--spacing-app);
-    margin-bottom: var(--spacing-block);
+    gap: 20px;
+    margin: 0 var(--spacing-page) var(--spacing-block);
+    border-bottom: 1px solid var(--line);
+}
+
+.searched-towns:empty {
+    display: none;
 }
 
 .town-tab{
     /*enlever les propriétés button par défaut*/
     border: none;
     background-color: transparent;
-    min-height: 24px;
+    min-height: 30px;
+    padding: 0 2px;
+    margin-bottom: -1px;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-ui);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
     cursor: pointer;
@@ -317,7 +328,9 @@ header{
 }
 
 .town-tab.active{
-    border-bottom: 2px solid #FF9A44;
+    border-bottom-color: var(--temp-accent);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
 }
 
 /* === CARTE PRINCIPALE === */
