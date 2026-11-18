@@ -185,11 +185,21 @@
         --temp-num: #7A1D4D;
     }
 
-    body[data-temp-palette]{
-    --page-bg: linear-gradient(180deg,
-        var(--temp-bg) 0px,
-        color-mix(in oklab, var(--temp-bg) 55%, var(--neutral-base)) 600px,
-        var(--neutral-base) 1200px);
+    /* Repli : dégradé simple, sans mélange, compris partout */
+    body[data-temp-palette] {
+        --page-bg: linear-gradient(180deg,
+            var(--temp-bg) 0px,
+            var(--neutral-base) 1200px);
+    }
+
+    /* Version finale, seulement si le navigateur connaît color-mix() */
+    @supports (color: color-mix(in oklab, red, blue)) {
+        body[data-temp-palette] {
+            --page-bg: linear-gradient(180deg,
+                var(--temp-bg) 0px,
+                color-mix(in oklab, var(--temp-bg) 55%, var(--neutral-base)) 600px,
+                var(--neutral-base) 1200px);
+        }
     }
 
 body{
