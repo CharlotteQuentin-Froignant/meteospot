@@ -99,7 +99,7 @@
 
     /* = Fond de page = */
     /* fond « ciel » par défaut : cartes d'état, chargement, erreur */
-    --page-bg: linear-gradient(180deg, #E4ECF2 0px, #EEF3F6 360px, #F8FAFB 844px);
+    --page-bg: linear-gradient(180deg, #EBECEE 0px, #F2F3F4 360px, #F9F9FA 844px);
 
     /* = Couleurs de température (valeurs par défaut) = */
     /* Chaque palier définit les 3 couleurs de la tranche :
@@ -149,53 +149,57 @@
 }
 
 /* == PALETTE DE COULEURS == */
-    body[data-temp-palette = "tres-froid"]{
-        --temp-tint: #E3F7FA;
-        --temp-accent: #4FD1E8;
-        --temp-num: #2F98A8;
+    body[data-temp-palette="tres-froid"]{
+    --temp-bg: #E0F9FA;
+    --temp-accent: #4FD1E8;
+    --temp-num: #2F98A8;
     }
-    body[data-temp-palette = "froid"]{
-        --temp-tint: #E6F1FB;
-        --temp-accent: #185FA5;
-        --temp-num: #185FA5;
+    body[data-temp-palette="froid"]{
+        --temp-bg: #E9F4FE;
+        --temp-accent: #1387CC;
+        --temp-num: #0078BC;
     }
-    body[data-temp-palette = "frais"]{
-        --temp-tint: #DFF1EC;
+    body[data-temp-palette="frais"]{
+        --temp-bg: #EEF7F0;
         --temp-accent: #3AA898;
         --temp-num: #258F80;
     }
-    body[data-temp-palette = "doux"]{
-        --temp-tint: #FDF6E0;
+    body[data-temp-palette="doux"]{
+        --temp-bg: #FAF5E3;
         --temp-accent: #D9A62E;
         --temp-num: #BD810A;
     }
-    body[data-temp-palette = "chaud"]{
-        --temp-tint: #F9E3D4;
+    body[data-temp-palette="chaud"]{
+        --temp-bg: #FDF1E6;
         --temp-accent: #F18432;
         --temp-num: #CB6710;
     }
-    body[data-temp-palette ="tres-chaud"]{
-        --temp-tint: #FCDDD8;
+    body[data-temp-palette="tres-chaud"]{
+        --temp-bg: #FFEFEB;
         --temp-accent: #E63946;
         --temp-num: #E63946;
     }
-    body[data-temp-palette = "extreme"]{
-        --temp-tint: #F1DFE4;
+    body[data-temp-palette="extreme"]{
+        --temp-bg: #FBEDF3;
         --temp-accent: #7A1D4D;
         --temp-num: #7A1D4D;
     }
 
     body[data-temp-palette]{
-        --page-bg: linear-gradient(180deg,
-            var(--temp-tint) 0px,
-            color-mix(in srgb, var(--temp-tint) 75%, var(--neutral-base)) 360px,
-            color-mix(in srgb, var(--temp-tint) 40%, var(--neutral-base)) 760px,
-            color-mix(in srgb, var(--temp-tint) 15%, var(--neutral-base)) 1340px);
-}
+    --page-bg: linear-gradient(180deg,
+        var(--temp-bg) 0px,
+        color-mix(in oklab, var(--temp-bg) 55%, var(--neutral-base)) 600px,
+        var(--neutral-base) 1200px);
+    }
 
 body{
     max-width: 768px;
+    min-height: 100vh;
+    min-height: 100dvh;
     margin: 0 auto;
+    padding-bottom: var(--spacing-block);
+    font-family: var(--font-family-secondary);
+    color: var(--text-primary);
     background: var(--neutral-base) var(--page-bg) no-repeat;
 }
 
