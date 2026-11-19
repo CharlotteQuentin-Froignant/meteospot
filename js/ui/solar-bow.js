@@ -35,6 +35,7 @@ export function renderSolarBow(data, weatherCard) {
     // 3-configurer le svg : utilisation de setAttribute (méthode standard pour définir tous les attributs d'un svg et utilisable aussi sur du html)
     // utilisation de toggle pour gérer facilement les changements nocturnes
     // si la condition isNight est vraie, alors la classe night-mode est ajoutée automatiquement
+    solarBow.setAttribute("class", "solar-bow");
     solarBow.classList.toggle("night-mode", isNight);
     solarBow.setAttribute("viewBox","0 0 340 90");
     solarBow.setAttribute("role", "img");
@@ -45,6 +46,21 @@ export function renderSolarBow(data, weatherCard) {
     solarBowPath.setAttribute("class","bow");
     solarBowPath.setAttribute("d","M 10 78 Q 170 -20 330 78");
     solarBow.appendChild(solarBowPath);
+
+// Portion déjà parcourue : un second tracé, identique à l'arc, mais partiellement caché
+// pathLength="1" dit au navigateur de considérer ce tracé comme mesurant 1 unité,
+    let solarBowProgress = document.createElementNS(SVG_NS, "path");
+    solarBowProgress.setAttribute("class", "progress-bow");
+    solarBowProgress.setAttribute("d", "M 10 78 Q 170 -20 330 78");
+    solarBowProgress.setAttribute("pathLength", "1");
+    solarBow.appendChild(solarBowProgress);
+
+    // la portion visible va du départ jusqu'à timePoint : on cache le reste
+    let progressRatio = Math.max(0, Math.min(1, timePoint));
+
+    // Transmet au CSS la portion de l'arc déjà parcourue, pour remplir le trait jaune en conséquence
+    solarBowProgress.style.setProperty("--rayon-offset", 1 - progressRatio);
+
 
     let solarBowSunHalo = document.createElementNS(SVG_NS, "circle");
     solarBowSunHalo.setAttribute("class","halo");

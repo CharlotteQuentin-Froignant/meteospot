@@ -335,21 +335,39 @@ header{
 
 /* === CARTE PRINCIPALE === */
 /* == ARC SOLAIRE == */
+.solar-bow{
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    margin-bottom: 18px;
+}
+
 .bow{
     fill: none;
+    stroke: var(--text-secondary);
+    stroke-opacity: 0.28;
+    stroke-width: 1.2;
+    stroke-dasharray: 1 5;
+    stroke-linecap: round;
+}
+
+.progress-bow {
+    fill: none;
     stroke: #FFC233;
-    stroke-width: 1.5;
-    stroke-dasharray: 2.4;
-    opacity: 0.5;
+    stroke-width: 2px;
+    stroke-linecap: round; /* Arrondit le bout des rayons pour un aspect plus doux */
+    stroke-dasharray: 1;
+    stroke-dashoffset: var(--rayon-offset, 1);
 }
 
 .sun{
-    fill: #FFC233;
+    fill: var(--sun);
 }
 
 .halo{
-    fill: #FFC233;
-    opacity: 0.25;
+    fill: var(--sun);
+    opacity: 0.22;
 }
 
 .night-mode .bow{
@@ -365,21 +383,21 @@ header{
     opacity: 0.25;
 }
 
-.night-mode .sunrise-text, .night-mode .sunrise-label, .night-mode .sunset-text, .night-mode .sunset-label {
+.night-mode .sunrise-text, .night-mode .sunrise-label, .night-mode .sunset-text, .night-mode .sunset-label, .night-mode .progress-bow {
     display: none;
-}
-.rayon {
-    stroke: var(--temp-accent);
-    stroke-width: 2px;
-    stroke-linecap: round; /* Arrondit le bout des rayons pour un aspect plus doux */
 }
 
 .solar-bow-text{
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-ui);
+    font-size: 11px;
     font-weight: var(--font-weight-medium);
     fill: var(--text-secondary);
     text-align: center;
+}
+
+.sunrise-text, .sunset-text, .current-label{
+    font-weight: var(--font-weight-semibold);
+    fill: var(--text-primary);
 }
 
 .zzz-text{
