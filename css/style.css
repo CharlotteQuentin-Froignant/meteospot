@@ -411,32 +411,30 @@ header{
 .weather-card{
     display: flex;
     flex-direction: column;
-    border: 1px solid color-mix(in srgb, var(--temp-accent) 20%, white);
-    border-radius: var(--radius-block);
-    background: linear-gradient(160deg, #FFFFFF 0%, var(--temp-tint) 100%);
-    margin: var(--spacing-app);
-    margin-bottom: var(--spacing-block);
-    overflow: hidden; /* permet de couper proprement les angles des éléments enfants*/
+    margin: 0 var(--spacing-page) var(--spacing-section);
+    padding: 0 12px;
 }
 
 /* = Informations principales = */
 .main-infos{
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "city city"
+        "temp icon"
+        "text icon";
+    column-gap: 12px;
     align-items: center;
-    padding: 10px 20px 0px 20px;
 }
 
 .main-text{
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: contents;
 }
 
 .main-icon{
-    width: 50%;
-    transform: scale(1.2) translateX(-10px);
+    grid-area: icon;
+    width: clamp(96px, 34vw, 132px);
+    height: auto;
 }
 
 .city-name, .main-temperature{
@@ -444,47 +442,83 @@ header{
 }
 
 .city-name{
-    font-size: 1.6rem;
+    grid-area: city;
+    margin-bottom: 20px;
+    font-size: var(--font-size-xxl);
     font-weight: var(--font-weight-medium);
+    line-height: 1.1;
     color: var(--text-primary);
 }
 
 .main-temperature{
-    font-size: 3.5rem;
+    grid-area: temp;
+    align-self: end;
+    font-size: clamp(3.5rem, 19vw, var(--font-size-hero));
     font-weight: var(--font-weight-semibold);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: lining-nums;
     color: var(--temp-num);
 }
 
-.secondary-text, .secondary-infos{
+.secondary-text{
+    grid-area: text;
+    align-self: start;
     display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 10px;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-ui);
+    font-size: var(--font-size-sm);
     color: var(--text-secondary);
 }
-.secondary-text{
-    gap : 4px;
-    text-transform: capitalize;
+
+.main-weather{
+    display: block;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+.main-weather::first-letter{
+    text-transform: uppercase;
 }
 
 .main-temperature-felt::before{
-    content: "- ";
+    content: none;
 }
 
 /* = Informations secondaires = */
 .secondary-infos{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
     justify-content: space-between;
-    padding: 10px 20px;
-    position: relative;
+    align-items: stretch;
+    text-align: center;
+    gap: 12px;
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
 }
 
-.secondary-infos::before{
-    content: "";
-    position: absolute;
-    width: 90%;
-    height : 1px;
-    top : 0;
-    left: 5%;
-    background-color:rgb(235, 227, 227);
+.main-humidity, .main-rain, .main-wind{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: center;
+    gap: 4px;
+}
+
+.secondary-infos .value{
+    white-space: nowrap;
+    font-family: var(--font-family-titles);
+    font-size: clamp(var(--font-size-lg), 5.5vw, var(--font-size-xl));
+    font-weight: var(--font-weight-semibold);
+    font-variant-numeric: lining-nums;
+    color: var(--text-primary);
 }
 
 /* == PREVISIONS HORAIRES == */
@@ -884,38 +918,6 @@ header{
 
 /* === MEDIA QUERY PETITS ECRANS <=400px === */
 @media screen and (max-width:400px) {
-
-    .main-text{
-        gap:5px;
-        width: 60%;
-    }
-
-    .main-icon{
-        width: 40%;
-    }
-
-    .city-name{
-        padding-top: 8px;
-    }
-
-    .main-temperature{
-        font-size: 2.8rem;
-    }
-    .secondary-text{
-        flex-direction: column;
-        margin-bottom: 5px;
-    }
-
-    .main-temperature-felt::before{
-    display: none;
-    }
-
-    .main-humidity, .main-rain, .main-wind{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
     .forecast-day{
         grid-template-columns: 1fr 2.6fr 1.5fr 2.4fr;
         column-gap: 4px;
