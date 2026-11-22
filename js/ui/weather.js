@@ -1,4 +1,4 @@
-import {getIconLabel, getIcon, getStaticIcon, applyTempPalette, getHoursOnly, groupNextDays} from "../utils.js";
+import {getIconLabel, getIcon, getStaticIcon, applyTempPalette, getTempPalette, getHoursOnly, groupNextDays} from "../utils.js";
 import { clearCard } from "./clear.js";
 import {renderSolarBow} from "./solar-bow.js";
 import { renderCurve } from "./hourly-curve.js";
@@ -256,10 +256,24 @@ export function renderNextDays(hourlyForecastData) {
         dayIcon.alt = getIconLabel(staticIconCode);
         weatherAndTemp.appendChild(dayIcon);
 
-        let temperature = document.createElement("span");
-        temperature.className = "day-temp";
-        temperature.textContent = Math.round(item["minTemperature"]) +" / "+ Math.round(item["maxTemperature"]) + "°C";
-        weatherAndTemp.appendChild(temperature);
+        let tempGroup = document.createElement("span");
+        tempGroup.className = "day-temp-group";
+
+        let tempMin = document.createElement("span");
+        tempMin.className = "day-temp-min";
+        tempMin.textContent = Math.round(item["minTemperature"]) + " / ";
+        tempGroup.appendChild(tempMin);
+
+        let tempMax = document.createElement("span");
+        tempMax.className = "day-temp-max";
+        tempMax.textContent = Math.round(item["maxTemperature"]) + "°C";
+        let maxPalette = getTempPalette(item["maxTemperature"]);
+        if (maxPalette !== null) {
+            tempMax.setAttribute("data-temp-palette", maxPalette);
+        };
+        tempGroup.appendChild(tempMax);
+
+        weatherAndTemp.appendChild(tempGroup);
 
         let rainProbabilities = document.createElement("span");
         rainProbabilities.className = "day-rain";
@@ -270,6 +284,7 @@ export function renderNextDays(hourlyForecastData) {
         rainProbabilities.appendChild(rainIcon);
 
         let rainText = document.createElement("span");
+        rainText.className = "day-rain-value";
         rainText.textContent = item["maxRainProbability"]+ " %";
         rainProbabilities.appendChild(rainText);
 
@@ -284,6 +299,7 @@ export function renderNextDays(hourlyForecastData) {
         windSpeed.appendChild(windIcon);
 
         let windText = document.createElement("span");
+        windText.className = "day-wind-value";
         windText.textContent = item["maxWindSpeed"] + " km/h";
         windSpeed.appendChild(windText);
 
