@@ -872,7 +872,7 @@ header{
     text-align: center;
     gap: 2px 5px;
     font-family:var(--font-family-secondary);
-    font-size: var(--font-size-ui);
+    font-size: var(--font-size-lg);
     font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
 }
@@ -882,35 +882,37 @@ header{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    margin: var(--spacing-app);
-    margin-top: var(--spacing-block);
-    border-top: solid 1px var(--border);
+    gap: 14px;
+    margin: 0 var(--spacing-page);
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    text-align: center;
 }
 
 .footer-titles{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap:1px;
-    margin-top: var(--spacing-block);
+    gap:2px;
 }
 
 #footer-title{
     font-family: var(--font-family-titles);
-    font-size: var(--font-size-section-title);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
     color: var(--text-primary);
 }
 
 .legal-link{
+    min-height: 44px;
     border: none;
     background-color: transparent;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
-    padding: 6px 0px;
+    padding: 0px 12px;
     cursor: pointer;
 }
 
@@ -919,33 +921,36 @@ header{
     flex-direction: column;
     align-items: center;
 }
+
 .contact-mail{
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
 }
+
 .mail{
     display: flex;
     user-select: all;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
-    margin-bottom: 4px;
 }
 
 .api-attribution{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
 }
 
 .openweather-link{
-    padding-left: 3px;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--text-primary);
     text-decoration: underline;
@@ -954,23 +959,21 @@ header{
 
 #openweather-logo{
     display: block;
-    align-self: center;
     height: 30px;
     width: auto;
-    /* vertical-align: middle; */
-    margin: 4px auto 0;
+    margin: 0 auto;
 }
 
 .copyright{
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
 }
 
 /* === Feuille Informations Légales === */
 #legal-dialog{
-    background-color: var(--background-color);
+    background-color: var(--surface);
     padding: 0 20px;
     margin: 0 auto;
     border: 0;
@@ -997,7 +1000,7 @@ header{
     height: 40px;
     border-radius: 50%;
     background: none;
-    font-size: var(--font-size-app-name);
+    font-size: var(--font-size-xl);
     color: var(--text-primary);
     cursor: pointer;
 }
@@ -1008,28 +1011,29 @@ header{
     align-items: center;
     flex-shrink: 0;
     padding: 10px 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--line);
 }
 
-.legal-header h1{
+.legal-header h2{
     font-family: var(--font-family-titles);
-    font-size: 1.6rem;
-    font-weight: var(--font-weight-medium);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
 }
 
 .legal-body{
     overflow-y: auto;
     overscroll-behavior: contain;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-city-name);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-regular);
     color: var(--text-secondary);
+    line-height: 1.55;
     text-align: justify;
 }
 
 .legal-body h2{
     font-family: var(--font-family-titles);
-    font-size: var(--font-size-app-name);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-medium);
     color: var(--text-primary);
     margin: 28px 0px 10px 0px;
@@ -1037,14 +1041,14 @@ header{
 
 .legal-body h3, .legal-body h4 {
     font-family: var(--font-family-titles);
-    font-size: var(--font-size-forecast-temp);
+    font-size: var(--font-size-lg);
     font-weight: var(--font-weight-medium);
     color: var(--text-primary);
     margin: 20px 0px 6px 0px;
 }
 
 .legal-body h4{
-    font-size: var(--font-size-section-title);
+    font-size: var(--font-size-md);
 }
 
 .legal-body p, .legal-body ul{
