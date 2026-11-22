@@ -651,9 +651,15 @@ header{
 .next-days-card{
     margin: 0 var(--spacing-page) var(--spacing-block);
     padding: 2px 16px;
-    background-color: transparent;
+    background-color: var(--surface);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
+}
+
+@supports (color: color-mix(in oklab, red, blue)) {
+    .next-days-card{
+        background-color: color-mix(in oklab, var(--temp-bg) 50%, var(--neutral-base) 60%);
+    }
 }
 
 .next-days{
@@ -736,14 +742,12 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: var(--spacing-app);
-    margin-top: var(--spacing-app);
-    margin-bottom: var(--spacing-block);
+    margin: 0 var(--spacing-page) var(--spacing-block);
     padding: 20px 12px;
     gap: 10px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-card);
-    background-color: var(--background-section);
+    border-radius: var(--radius-state);
+    background-color: var(--surface);
+    box-shadow: var(--shadow-card);
 }
 
 .state-icon{
@@ -753,7 +757,7 @@ header{
 .state-card-title{
     text-align: center;
     font-family: var(--font-family-titles);
-    font-size: 1.4rem;
+    font-size: var(--font-size-xxl);
     font-weight: var(--font-weight-semibold);
     color: var(--text-primary);
 }
@@ -761,56 +765,100 @@ header{
 .state-card-text{
     text-align: center;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-section-title);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-medium);
     color: var(--text-secondary);
     margin-bottom: 15px;
 }
 
 .state-button{
-    border: none;
-    border-radius: 30px;
+    border: 1.5px solid var(--button-border);
+    border-radius: var(--radius-control);
     padding: 10px 20px;
-    background-color: var(--info-button);
+    background-color: transparent;
     font-family: var(--font-family-secondary);
-    font-size: var(--font-size-forecast-temp);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-semibold);
-    letter-spacing: 0.5px;
-    color: var(--state-button-text);
+    color: var(--text-primary);
     align-self: center;
     cursor: pointer;
 }
 
-/* == Bouton alerte == */
-.state-card-error .state-button{
-    background-color: var(--alert-button);
-    color: var(--state-button-text);
-}
-
-/* == Désactivation du bouton == */
 .state-button:disabled{
-    background-color: #c8c8c7;
-    color: rgb(87, 82, 82);
+    border-color: var(--line);
+    color: var(--text-other);
     cursor: not-allowed;
 }
 
 .state-button:hover:not(:disabled){
-    filter: brightness(0.95);
+    background-color: rgba(26, 26, 24, 0.04);
 }
 
-/* == Carte de chargement == */
-.loading-overlay{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    inset : 0;
-    background: rgb(0 0 0 / 0.4);
-    backdrop-filter: blur(4px);
+/* == SQUELETTE DE CHARGEMENT == */
+@keyframes sk-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.45; }
 }
 
-.state-card-loading{
-    background-color: var(--background-color);
+.sk{
+    background-color: rgba(26, 26, 24, 0.08);
+    border-radius: 8px;
+    animation: sk-pulse 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sk{
+        animation: none;
+    }
+}
+
+.sk-city{
+    grid-area: city;
+    width: 140px;
+    height: 24px;
+}
+
+.sk-temp{
+    grid-area: temp;
+    width: 160px;
+    height: 64px;
+}
+
+.sk-text{
+    grid-area: text;
+    align-self: start;
+    width: 180px;
+    height: 36px;
+}
+
+.sk-icon{
+    grid-area: icon;
+    width: clamp(96px, 34vw, 132px);
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+}
+
+.sk-secondary-value{
+    width: 90px;
+    height: 32px;
+}
+
+.sk-section-title{
+    margin: 16px 16px 8px;
+    width: 160px;
+    height: 20px;
+}
+
+.sk-curve-area{
+    margin: 0 16px 16px;
+    height: 160px;
+}
+
+.loading-text{
+    margin: 0 var(--spacing-page) var(--spacing-gap);
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
 }
 
 /* == Dernière données connues , erreur d'api == */

@@ -3,6 +3,6 @@
 
 export { clearCard } from "./ui/clear.js";
 export {fillContactMail, renderLegalContent, showLegalError, initLegalDialog} from "./ui/footer.js";
-export {downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard} from "./ui/states.js";
+export {downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingSkeleton} from "./ui/states.js";
 export {renderCurrentWeather, renderHourlyForecast, renderNextDays} from "./ui/weather.js";
 export {findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab} from "./ui/tabs.js";

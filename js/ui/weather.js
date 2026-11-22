@@ -118,6 +118,9 @@ export function renderCurrentWeather(data) {
     let stateCard = ".state-card";
     clearCard(stateCard);
 
+    let skeleton = ".loading-skeleton";
+    clearCard(skeleton);
+
     // insertion des nouvelles données
     target.appendChild(weatherCard);
 
