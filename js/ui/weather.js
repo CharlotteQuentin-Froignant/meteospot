@@ -1,6 +1,7 @@
 import {getIconLabel, getIcon, getStaticIcon, applyTempPalette, getHoursOnly, groupNextDays} from "../utils.js";
 import { clearCard } from "./clear.js";
 import {renderSolarBow} from "./solar-bow.js";
+import { renderCurve } from "./hourly-curve.js";
 
 // === METEO ACTUELLE ===
 export function renderCurrentWeather(data) {
@@ -126,56 +127,100 @@ export function renderCurrentWeather(data) {
 
 
 // === PREVISIONS HORAIRES ===
-export function renderHourlyForecast(hourlyForecastData) {
-    let hourlyData = hourlyForecastData["list"].slice(0,8);
+// Les points de la courbe : la météo actuelle, puis les créneaux de 3 h sur 24 h
 
-    let hourlyForecastCard = document.createElement("div");
-    hourlyForecastCard.className = "hourly-forecast-card";
+// Nombre de créneaux de 3 h affichés (8 x 3 h = 24 h)
+const HOURLY_SLOTS = 8;
+// Un créneau à moins de 60 minutes de maintenant est ignoré, pour éviter deux points superposés
+const MIN_MINUTES_FROM_NOW = 60;
 
-    for (let item of hourlyData) {
-        let hour = document.createElement("div");
-        hour.className = "hour";
-        hourlyForecastCard.appendChild(hour);
+// == Créer le 1er point : la météo actuelle ("Maint.") ==
+// la probabilité de pluie n'existe pas pour la météo actuelle : null = inconnue, pas de barre
+function buildCurrentPoint(currentData) {
+    let weatherID = currentData["weather"][0]["id"];
+    let iconCode = currentData["weather"][0]["icon"];
 
-        let hourlyTime = document.createElement("p");
-        hourlyTime.className = "hourly-time";
-
-        // récupération du timestamp
-        let timestamp = item["dt"];
-        let timezoneOffset = hourlyForecastData["city"]["timezone"];
-
-        let hours = getHoursOnly(timestamp, timezoneOffset);
-
-        hourlyTime.textContent = hours + "h";
-        hour.appendChild(hourlyTime);
-
-        let hourlyIcon = document.createElement("img");
-        hourlyIcon.className = "hourly-icon";
-        let staticWeatherID = item["weather"][0]["id"];
-        let staticIconCode = item["weather"][0]["icon"];
-        hourlyIcon.src = getStaticIcon(staticWeatherID, staticIconCode);
-        hourlyIcon.alt = item["weather"][0]["description"];
-        hour.appendChild(hourlyIcon);
-
-        let hourlyTemperature = document.createElement("p");
-        hourlyTemperature.className = "hourly-temperature";
-        hourlyTemperature.textContent = Math.round(item["main"]["temp"]) + "°C";
-        hour.appendChild(hourlyTemperature);
+    let point = {
+        heure: "Maint.",
+        minutes: 0,
+        temp: Math.round(currentData["main"]["temp"]),
+        iconeSrc: getStaticIcon(weatherID, iconCode),
+        nuit: iconCode.endsWith("n"),
+        pluie: null,
     };
+    return point;
+};
 
-    // sélectionner bloc prévisions horaires
-    let targetHours = document.querySelector(".hourly-forecast h2");
+// == Créer le point d'un créneau de prévision ==
+// minutes = écart entre le créneau et la météo actuelle
+function buildSlotPoint(slot, nowTimestamp, timezoneOffset) {
+    let weatherID = slot["weather"][0]["id"];
+    let iconCode = slot["weather"][0]["icon"];
 
-    // afficher toute la section (titre + prévisions)
+    let secondsFromNow = slot["dt"] - nowTimestamp;
+    let minutesFromNow = Math.round(secondsFromNow / 60);
+
+    let hours = getHoursOnly(slot["dt"], timezoneOffset);
+
+    let point = {
+        heure: hours + "\u00a0h",
+        minutes: minutesFromNow,
+        temp: Math.round(slot["main"]["temp"]),
+        iconeSrc: getStaticIcon(weatherID, iconCode),
+        nuit: iconCode.endsWith("n"),
+        pluie: slot["pop"],
+    };
+    return point;
+};
+
+// == Rassembler tous les points de la courbe ==
+function buildCurvePoints(currentData, hourlyForecastData) {
+    let nowTimestamp = currentData["dt"];
+    let timezoneOffset = hourlyForecastData["city"]["timezone"];
+    let slots = hourlyForecastData["list"].slice(0, HOURLY_SLOTS);
+
+    let points = [];
+    points.push(buildCurrentPoint(currentData));
+
+    for (let slot of slots) {
+        let point = buildSlotPoint(slot, nowTimestamp, timezoneOffset);
+        if (point.minutes < MIN_MINUTES_FROM_NOW) {
+            continue;
+        };
+        points.push(point);
+    };
+    return points;
+};
+
+// == Afficher la courbe des prochaines heures ==
+// reçoit les données de la météo actuelle ET des prévisions
+export function renderHourlyForecast(currentData, hourlyForecastData) {
+    let points = buildCurvePoints(currentData, hourlyForecastData);
+
+    // afficher toute la section (titre + courbe) avant de dessiner :
+    // la courbe a besoin de connaître la largeur disponible
     let section = document.querySelector(".hourly-forecast");
     section.hidden = false;
 
-    // vider les données précédentes
-    let card = ".hourly-forecast-card";
-    clearCard(card);
+    // phrase d'intro : créée une seule fois, juste après le titre
+    let caption = section.querySelector(".curve-caption");
+    if (caption === null) {
+        caption = document.createElement("p");
+        caption.className = "curve-caption";
+        caption.textContent = "Température en °C, une donnée toutes les 3 h.";
+        let title = section.querySelector("h2");
+        title.after(caption);
+    };
 
-    // insérer les nouvelles données
-    targetHours.parentNode.insertBefore(hourlyForecastCard, targetHours.nextSibling);
+    // conteneur de la courbe : créé une seule fois, juste après la phrase d'intro
+    let curveContainer = section.querySelector(".hourly-curve");
+    if (curveContainer === null) {
+        curveContainer = document.createElement("div");
+        curveContainer.className = "hourly-curve";
+        caption.after(curveContainer);
+    };
+
+    renderCurve(points, curveContainer);
 };
 
 

@@ -37,7 +37,7 @@ function showWeather(data, hourlyForecastData){
 
     // intégration visuelle des données météo
     renderCurrentWeather(data);
-    renderHourlyForecast(hourlyForecastData);
+    renderHourlyForecast(data, hourlyForecastData);
     renderNextDays(hourlyForecastData);
 
     // enregistrement du nom de la ville, de la température et de l'heure

@@ -111,6 +111,15 @@
     --temp-accent: #F18432;
     --temp-num: #CB6710;
 
+    /* = Couleurs de la courbe des 24 heures = */
+    --curve-tres-froid: #4FD1E8;
+    --curve-froid: #1387CC;
+    --curve-frais: #3AA898;
+    --curve-doux: #D9A62E;
+    --curve-chaud: #F18432;
+    --curve-tres-chaud: #E63946;
+    --curve-extreme: #7A1D4D;
+    --rain: #378ADD;
 
 
     /* == ANCIENNES VARIABLES ==*/
@@ -522,61 +531,121 @@ header{
 }
 
 /* == PREVISIONS HORAIRES == */
-
 .forecast-section h2{
-    margin: var(--spacing-app);
-    margin-bottom: 15px;
+    margin: 0 var(--spacing-page) var(--spacing-gap);
     font-family: var(--font-family-titles);
-    font-size: 1.4rem;
-    font-weight: var(--font-weight-medium);
-}
-
-.hourly-forecast-card{
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacing-card-gap);
-    margin: var(--spacing-app);
-    margin-bottom: var(--spacing-block);
-
-    /* ajout barre de scroll horizontale uniquement si nécessaire */
-    overflow-x: auto;
-    scrollbar-width: none; /* firefox*/
-}
-
-/* masquage barre de scroll pour navigateurs webkit*/
-.hourly-forecast-card::-webkit-scrollbar{
-    display: none;
-}
-
-.hour{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    line-height: 1;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-card);
-    background-color: var(--background-section);
-    font-family: var(--font-family-secondary);
-    font-size: var(--font-size-forecast-temp);
-    color: var(--text-secondary);
-    font-weight: var(--font-weight-medium);
-    flex-shrink: 0; /* évite le rétrécissement des cartes*/
-}
-
-.hourly-icon{
-    width: 45px;
-    height: 45px;
-}
-
-.hourly-temperature{
-    font-family: var(--font-family-titles);
-    font-size: var(--font-size-forecast-temp);
+    font-size: var(--font-size-xxl);
     font-weight: var(--font-weight-semibold);
-    color: var(--text-primary);
 }
+
+.hourly-forecast h2{
+    margin-bottom: 4px;
+}
+
+.hourly-curve{
+    margin: 0 var(--spacing-page) var(--spacing-section);
+    background-color: var(--neutral-base);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+}
+
+@supports (color: color-mix(in oklab, red, blue)) {
+    .hourly-curve{
+        background-color: color-mix(in oklab, var(--temp-bg) 70%, var(--surface) 30%);
+    }
+}
+
+.hourly-curve svg{
+    display: block;
+    overflow: visible;
+}
+
+.curve-caption{
+    padding: 0 16px var(--spacing-card-gap);
+    font-family: var(--font-family-secondary);
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+.curve-night{
+    fill: var(--text-primary);
+    fill-opacity: 0.045;
+}
+
+.curve-night-label{
+    font-family: var(--font-family-secondary);
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    fill: var(--text-secondary);
+}
+
+.curve-line{
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.curve-area{
+    opacity: 0.14;
+}
+
+.curve-point{
+    stroke-width: 2;
+}
+
+.curve-ring{
+    fill: none;
+    stroke: var(--text-secondary);
+    stroke-opacity: 0.35;
+    stroke-width: 1.5;
+}
+
+.curve-temp{
+    font-family: var(--font-family-titles);
+    font-size: 16px;
+    font-weight: var(--font-weight-medium);
+    font-variant-numeric: lining-nums tabular-nums;
+    fill: var(--text-primary);
+}
+
+.curve-temp--strong{
+    font-weight: 700;
+}
+
+.curve-hour{
+    font-family: var(--font-family-secondary);
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    fill: var(--text-secondary);
+}
+
+.curve-hour--now{
+    font-weight: 700;
+    fill: var(--text-primary);
+}
+
+.curve-rain-empty{
+    fill: var(--text-secondary);
+    opacity: 0.6;
+}
+
+.curve-rain-empty--night{
+    opacity: 0.35;
+}
+
+.curve-rain-bar{
+    fill: var(--rain);
+    fill-opacity: 0.35;
+}
+
+.curve-rain-text{
+    font-family: var(--font-family-secondary);
+    font-size: 12px;
+    font-weight: var(--font-weight-medium);
+    fill: var(--text-secondary);
+}
+
 
 /* == PREVISIONS 4 JOURS == */
 .next-days-card{
