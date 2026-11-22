@@ -103,11 +103,11 @@
 
     /* = Couleurs de température (valeurs par défaut) = */
     /* Chaque palier définit les 3 couleurs de la tranche :
-        - --temp-tint   : haut du dégradé de fond de page
+        - --temp-bg     : haut du dégradé de fond de page
         - --temp-accent : onglet actif
         - --temp-num    : grand chiffre de température
-        - elles sont remplacées par les blocs :root:has(.weather-card[data-temp-palette="..."]) plus bas */
-    --temp-tint: #F9E3D4;
+        - elles sont remplacées par les blocs [data-temp-palette="..."] plus bas */
+    --temp-bg: #F6E4CB;
     --temp-accent: #F18432;
     --temp-num: #CB6710;
 
@@ -120,36 +120,6 @@
     --curve-tres-chaud: #E63946;
     --curve-extreme: #7A1D4D;
     --rain: #378ADD;
-
-
-    /* == ANCIENNES VARIABLES ==*/
-
-
-    /* = Tailles du texte (mobile), rem base 16px = */
-    --font-size-app-name: 1.4rem;
-    --font-size-city-name: 0.9rem;
-    --font-size-section-title: 1rem;
-    --font-size-forecast-temp: 1.1rem;
-    --font-size-ui: 0.7rem;
-
-    /* == Bordures, rayons, espacements == */
-    /* = Bordures =*/
-    --border: #f5f5f4;
-    --border-width-accent: 3px;
-
-    /* = Espaces = */
-    --spacing-card-gap: 8px;
-    --spacing-app : 0px 15px 8px 15px;
-
-    /* == Couleurs == */
-    /* = Couleurs fixes = */
-    --background-color:#FFFFFF;
-    --background-section :#f3f3f758;
-    --info-button : #C05407;
-    --alert-button: #b70b0b;
-    --state-button-text: white;
-
-    --sun-bow: #F18432;
 }
 
 /* === CSS GENERAL === */
@@ -159,19 +129,19 @@
 
 /* == PALETTE DE COULEURS == */
     [data-temp-palette="tres-froid"]{
-    --temp-bg: #CEF2F7;
-    --temp-accent: #4FD1E8;
-    --temp-num: #2F98A8;
+        --temp-bg: #CEF2F7;
+        --temp-accent: #4FD1E8;
+        --temp-num: #2F98A8;
     }
     [data-temp-palette="froid"]{
-    --temp-bg: #CFE4FA;
-    --temp-accent: #1387CC;
-    --temp-num: #0078BC;
+        --temp-bg: #CFE4FA;
+        --temp-accent: #1387CC;
+        --temp-num: #0078BC;
     }
     [data-temp-palette="frais"]{
-    --temp-bg: #D9EEDE;
-    --temp-accent: #3AA898;
-    --temp-num: #258F80;
+        --temp-bg: #D9EEDE;
+        --temp-accent: #3AA898;
+        --temp-num: #258F80;
     }
     [data-temp-palette="doux"]{
         --temp-bg: #EEE2BE;
