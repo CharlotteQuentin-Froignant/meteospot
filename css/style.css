@@ -85,7 +85,7 @@
     --spacing-page: 16px;      /* marges latérales */
     --spacing-gap: 12px;       /* en-tête / recherche / onglets, titre / carte */
     --spacing-block: 28px;     /* espace courant entre blocs */
-    --spacing-section: 44px;   /* entre météo actuelle, 24 heures et 4 jours */
+    --spacing-section: 36px;   /* entre météo actuelle, 24 heures et 4 jours */
 
     /* == Couleurs == */
     /* = Couleurs fixes = */
@@ -209,7 +209,7 @@ header{
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    margin-bottom: var(--spacing-gap);
+    margin-bottom: var(--spacing-block);
 }
 
 #app-title{
@@ -235,7 +235,7 @@ header{
 #search{
     display: flex;
     align-items: center;
-    margin: 0 var(--spacing-page) var(--spacing-gap);
+    margin: 0 var(--spacing-page) var(--spacing-block);
     position: relative;
 }
 
@@ -278,7 +278,7 @@ header{
     justify-content: flex-start;
     align-content: center;
     gap: 20px;
-    margin: 0 var(--spacing-page) var(--spacing-block);
+    margin: 0 var(--spacing-page) var(--spacing-gap);
     border-bottom: 1px solid var(--line);
 }
 
@@ -512,6 +512,7 @@ header{
     margin-bottom: 4px;
 }
 
+
 .hourly-curve{
     margin: 0 var(--spacing-page) var(--spacing-section);
     background-color: var(--neutral-base);
@@ -531,7 +532,7 @@ header{
 }
 
 .curve-caption{
-    padding: 0 16px var(--spacing-card-gap);
+    padding: 0 var(--spacing-page) var(--spacing-gap);
     font-family: var(--font-family-secondary);
     font-size: var(--font-size-xs);
     color: var(--text-secondary);
@@ -712,7 +713,7 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 0 var(--spacing-page) var(--spacing-block);
+    margin: 0 var(--spacing-gap) var(--spacing-page);
     padding: 20px 12px;
     gap: 10px;
     border-radius: var(--radius-state);
@@ -831,6 +832,10 @@ header{
     color: var(--text-secondary);
 }
 
+.loading-skeleton .hourly-curve{
+    background-color: var(--neutral-base);
+}
+
 /* == Dernière données connues , erreur d'api == */
 .api-last-data{
     display: flex;
@@ -854,7 +859,7 @@ header{
     align-items: center;
     gap: 14px;
     margin: 0 var(--spacing-page);
-    padding-top: 28px;
+    padding-top: var(--spacing-block);
     border-top: 1px solid var(--line);
     text-align: center;
 }

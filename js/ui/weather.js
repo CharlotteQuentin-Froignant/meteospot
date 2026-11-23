@@ -65,7 +65,7 @@ export function renderCurrentWeather(data) {
 
     let humidityLabel = document.createElement("span");
     humidityLabel.className = "label";
-    humidityLabel.textContent = "Humidité: ";
+    humidityLabel.textContent = "Humidité";
     mainHumidity.appendChild(humidityLabel);
 
     let humidityValue = document.createElement("span");
@@ -79,7 +79,7 @@ export function renderCurrentWeather(data) {
 
     let rainLabel = document.createElement("span");
     rainLabel.className = "label";
-    rainLabel.textContent = "Précipitations récentes: ";
+    rainLabel.textContent = "Précipitations récentes";
     mainRain.appendChild(rainLabel);
 
     let rainValue = document.createElement("span");
@@ -98,7 +98,7 @@ export function renderCurrentWeather(data) {
 
     let windLabel = document.createElement("span");
     windLabel.className = "label";
-    windLabel.textContent = "Vent: ";
+    windLabel.textContent = "Vent";
     mainWind.appendChild(windLabel);
 
     let windValue = document.createElement("span");
