@@ -280,6 +280,15 @@ header{
     gap: 20px;
     margin: 0 var(--spacing-page) var(--spacing-gap);
     border-bottom: 1px solid var(--line);
+
+    /* ajout barre de scroll horizontale uniquement si nécessaire */
+    overflow-x: auto;
+    scrollbar-width: none; /* firefox*/
+}
+
+/* masquage barre de scroll pour navigateurs webkit*/
+.searched-towns::-webkit-scrollbar{
+    display: none;
 }
 
 .searched-towns:empty {
@@ -300,6 +309,8 @@ header{
     cursor: pointer;
     border-bottom: 2px solid transparent;
     text-transform: capitalize;
+    white-space: nowrap;
+    flex-shrink: 0;
 
     /*bloquer la sélection de texte*/
     user-select: none;
