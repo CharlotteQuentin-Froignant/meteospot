@@ -1,14 +1,21 @@
-# 1. Lance les tests unitaires.
-# 2. Si les tests passent, crée js/config.js à partir d'un secret du dépôt
-#    (la clé d'API n'est jamais écrite dans le code versionné).
+# 1. Lance les tests unitaires (à chaque push sur main et à chaque tag de version).
+# 2. Seulement sur un tag "v..." placé sur un commit de main, et si les tests passent :
+#    crée js/config.js à partir d'un secret du dépôt (la clé d'API n'est jamais
+#    écrite dans le code versionné).
 # 3. Publie uniquement les fichiers du site sur GitHub Pages.
 #
+# Un push sur main ne déploie pas : le site est mis à jour en poussant un tag
+# (ex. v1.1.0) placé sur un commit de main.
+#
+# NB : la clé d'API se retrouve dans js/config.js, donc lisible par les visiteurs du site.
+# Utiliser une clé gratuite dédiée à ce site, et la régénérer en cas de fuite.
 
 name: Tester et déployer sur GitHub Pages
 
 on:
   push:
     branches: ["main"]
+    tags: ["v*"]
   workflow_dispatch:
 
 # Droits par défaut : lecture seule du code.
@@ -24,9 +31,12 @@ jobs:
   # --- Tests unitaires ---
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Installer Node
         uses: actions/setup-node@v7
@@ -34,13 +44,17 @@ jobs:
           node-version: 24
           package-manager-cache: false
 
+      # Aucune installation de dépendances : les tests ne doivent en utiliser aucune
+      # (ex. "test": "node --test" dans package.json).
       - name: Lancer les tests unitaires
         run: npm test
 
-  # --- Déploiement (seulement si les tests passent) ---
+  # --- Déploiement (seulement sur un tag de version, et si les tests passent) ---
   deploy:
     needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     # Droits supplémentaires, réservés à ce job
     permissions:
       contents: read
@@ -50,13 +64,26 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Récupérer le code
+      - name: Récupérer le code (historique complet pour vérifier le tag)
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Refuse de déployer un tag qui n'est pas sur un commit de main.
+      - name: Vérifier que le tag est sur main
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "Le tag ${GITHUB_REF_NAME} n'est pas sur un commit de main : déploiement refusé." >&2
+            exit 1
+          fi
 
       - name: Copier uniquement les fichiers du site
         run: |
           mkdir _site
           cp -r index.html css js assets partials _site/
+          # Ne pas publier les fichiers de test ni l'exemple de config
+          find _site -type f \( -name '*.test.js' -o -name '*.spec.js' -o -name 'config.example.js' \) -delete
 
       - name: Créer js/config.js à partir du secret
         env:
@@ -64,6 +91,11 @@ jobs:
         run: |
           if [ -z "$OPENWEATHER_API_KEY" ]; then
             echo "Le secret OPENWEATHER_API_KEY est absent ou vide." >&2
+            exit 1
+          fi
+          # La clé ne doit contenir que des caractères simples (évite de casser le JS)
+          if ! printf '%s' "$OPENWEATHER_API_KEY" | grep -Eq '^[A-Za-z0-9_-]{16,64}$'; then
+            echo "Le secret OPENWEATHER_API_KEY a un format inattendu." >&2
             exit 1
           fi
           # Le nom exporté (APIKEY) doit être identique à celui de js/config.example.js
