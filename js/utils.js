@@ -134,10 +134,7 @@ export function getTempPalette(temp) {
 // == Appliquer la couleur selon la température actuelle ==
 export function applyTempPalette(temp) {
     let palette = getTempPalette(temp);
-    let target = document.querySelector(".weather-card");
-    if (target === null) {
-        return;
-    };
+    let target = document.body;
     if (palette === null) {
         target.removeAttribute("data-temp-palette");
         return;

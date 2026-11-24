@@ -35,8 +35,9 @@ export function renderSolarBow(data, weatherCard) {
     // 3-configurer le svg : utilisation de setAttribute (méthode standard pour définir tous les attributs d'un svg et utilisable aussi sur du html)
     // utilisation de toggle pour gérer facilement les changements nocturnes
     // si la condition isNight est vraie, alors la classe night-mode est ajoutée automatiquement
+    solarBow.setAttribute("class", "solar-bow");
     solarBow.classList.toggle("night-mode", isNight);
-    solarBow.setAttribute("viewBox","0 0 340 90");
+    solarBow.setAttribute("viewBox","0 0 340 100");
     solarBow.setAttribute("role", "img");
     solarBow.setAttribute("aria-label", "Lever du soleil " + sunriseDateTime["time"] + ", coucher " + sunsetDateTime["time"] + ", mise à jour " + currentDateTime["time"]);
     weatherCard.appendChild(solarBow);
@@ -45,6 +46,21 @@ export function renderSolarBow(data, weatherCard) {
     solarBowPath.setAttribute("class","bow");
     solarBowPath.setAttribute("d","M 10 78 Q 170 -20 330 78");
     solarBow.appendChild(solarBowPath);
+
+// Portion déjà parcourue : un second tracé, identique à l'arc, mais partiellement caché
+// pathLength="1" dit au navigateur de considérer ce tracé comme mesurant 1 unité,
+    let solarBowProgress = document.createElementNS(SVG_NS, "path");
+    solarBowProgress.setAttribute("class", "progress-bow");
+    solarBowProgress.setAttribute("d", "M 10 78 Q 170 -20 330 78");
+    solarBowProgress.setAttribute("pathLength", "1");
+    solarBow.appendChild(solarBowProgress);
+
+    // la portion visible va du départ jusqu'à timePoint : on cache le reste
+    let progressRatio = Math.max(0, Math.min(1, timePoint));
+
+    // Transmet au CSS la portion de l'arc déjà parcourue, pour remplir le trait jaune en conséquence
+    solarBowProgress.style.setProperty("--rayon-offset", 1 - progressRatio);
+
 
     let solarBowSunHalo = document.createElementNS(SVG_NS, "circle");
     solarBowSunHalo.setAttribute("class","halo");
@@ -64,7 +80,7 @@ export function renderSolarBow(data, weatherCard) {
     let sunriseTime = document.createElementNS(SVG_NS, "text");
     sunriseTime.setAttribute("class", "solar-bow-text sunrise-text");
     sunriseTime.setAttribute("x", "10");
-    sunriseTime.setAttribute("y", "75");
+    sunriseTime.setAttribute("y", "90");
     sunriseTime.setAttribute("text-anchor", "start");
     sunriseTime.textContent = sunriseDateTime["time"];
     solarBow.appendChild(sunriseTime);
@@ -72,7 +88,7 @@ export function renderSolarBow(data, weatherCard) {
     let sunriseLabel = document.createElementNS(SVG_NS, "text");
     sunriseLabel.setAttribute("class", "solar-bow-text sunrise-label");
     sunriseLabel.setAttribute("x", "10");
-    sunriseLabel.setAttribute("y", "85");
+    sunriseLabel.setAttribute("y", "102");
     sunriseLabel.setAttribute("text-anchor", "start");
     sunriseLabel.textContent = "Lever";
     solarBow.appendChild(sunriseLabel);
@@ -80,7 +96,7 @@ export function renderSolarBow(data, weatherCard) {
     let currentTime = document.createElementNS(SVG_NS, "text");
     currentTime.setAttribute("class", "solar-bow-text current-label");
     currentTime.setAttribute("x", "170");
-    currentTime.setAttribute("y", "75");
+    currentTime.setAttribute("y", "90");
     currentTime.setAttribute("text-anchor", "middle");
     currentTime.textContent = currentDateTime["time"];
     solarBow.appendChild(currentTime);
@@ -88,7 +104,7 @@ export function renderSolarBow(data, weatherCard) {
     let currentDate = document.createElementNS(SVG_NS, "text");
     currentDate.setAttribute("class", "solar-bow-text current-text");
     currentDate.setAttribute("x", "170");
-    currentDate.setAttribute("y", "85");
+    currentDate.setAttribute("y", "102");
     currentDate.setAttribute("text-anchor", "middle");
     currentDate.textContent = currentDateTime["date"];
     solarBow.appendChild(currentDate);
@@ -96,7 +112,7 @@ export function renderSolarBow(data, weatherCard) {
     let sunsetTime = document.createElementNS(SVG_NS, "text");
     sunsetTime.setAttribute("class", "solar-bow-text sunset-text");
     sunsetTime.setAttribute("x", "325");
-    sunsetTime.setAttribute("y", "75");
+    sunsetTime.setAttribute("y", "90");
     sunsetTime.setAttribute("text-anchor", "end");
     sunsetTime.textContent = sunsetDateTime["time"];
     solarBow.appendChild(sunsetTime);
@@ -104,7 +120,7 @@ export function renderSolarBow(data, weatherCard) {
     let sunsetLabel = document.createElementNS(SVG_NS, "text");
     sunsetLabel.setAttribute("class", "solar-bow-text sunset-label");
     sunsetLabel.setAttribute("x", "330");
-    sunsetLabel.setAttribute("y", "85");
+    sunsetLabel.setAttribute("y", "102");
     sunsetLabel.setAttribute("text-anchor", "end");
     sunsetLabel.textContent = "Coucher";
     solarBow.appendChild(sunsetLabel);

@@ -166,24 +166,67 @@ export function renderBlockedCard(hasTabs) {
 };
 
 
-// == Etat : En cours de chargement ==
-export function renderLoadingCard() {
-    // paramètre pour la création de la carte d'état bienvenue
-    let loadingOverlay = document.createElement("div");
-    loadingOverlay.className = "loading-overlay";
+// == Etat : En cours de chargement (squelette) ==
+export function renderLoadingSkeleton() {
+    clearMainContent();
 
-    let stateParameters = {
-        "stateType" : "loading",
-        "stateRole" : "status",
-        "stateIcon" : "assets/icons/animated/sunny-animated.svg",
-        "stateTitle" : "Chargement en cours ...",
-        "stateText" : "La météo s'affiche dans un instant",
+    let target = document.querySelector(".current-weather");
+
+    let skeletonWrapper = document.createElement("div");
+    skeletonWrapper.className = "loading-skeleton";
+    target.appendChild(skeletonWrapper);
+
+    let statusText = document.createElement("p");
+    statusText.className = "loading-text";
+    statusText.setAttribute("role", "status");
+    statusText.textContent = "Chargement en cours, la météo s'affiche dans un instant …";
+    skeletonWrapper.appendChild(statusText);
+
+    let weatherCard = document.createElement("div");
+    weatherCard.className = "weather-card";
+    weatherCard.setAttribute("aria-busy", "true");
+    skeletonWrapper.appendChild(weatherCard);
+
+    let mainInfos = document.createElement("div");
+    mainInfos.className = "main-infos";
+    weatherCard.appendChild(mainInfos);
+
+    let skCity = document.createElement("div");
+    skCity.className = "sk sk-city";
+    mainInfos.appendChild(skCity);
+
+    let skTemp = document.createElement("div");
+    skTemp.className = "sk sk-temp";
+    mainInfos.appendChild(skTemp);
+
+    let skText = document.createElement("div");
+    skText.className = "sk sk-text";
+    mainInfos.appendChild(skText);
+
+    let skIcon = document.createElement("div");
+    skIcon.className = "sk sk-icon";
+    mainInfos.appendChild(skIcon);
+
+    let secondaryInfos = document.createElement("div");
+    secondaryInfos.className = "secondary-infos";
+    weatherCard.appendChild(secondaryInfos);
+
+    for (let i = 0; i < 3; i++) {
+        let skValue = document.createElement("div");
+        skValue.className = "sk sk-secondary-value";
+        secondaryInfos.appendChild(skValue);
     };
 
-    let loadCard = createStateCard(stateParameters);
-    loadingOverlay.appendChild(loadCard);
+    // == Squelette section des heures à venir ==
+    let hourlySkeleton = document.createElement("div");
+    hourlySkeleton.className = "hourly-curve";
+    skeletonWrapper.appendChild(hourlySkeleton);
 
-    // Insertion de la carte d'état
-    let target = document.querySelector("main");
-    target.appendChild(loadingOverlay);
+    let skTitle = document.createElement("div");
+    skTitle.className = "sk sk-section-title";
+    hourlySkeleton.appendChild(skTitle);
+
+    let skCurve = document.createElement("div");
+    skCurve.className = "sk sk-curve-area";
+    hourlySkeleton.appendChild(skCurve);
 };

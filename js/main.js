@@ -1,6 +1,6 @@
 // === IMPORTS ===
 import { getCurrentWeatherUrl, getHourlyForecastUrl, getCurrentWeatherUrlByCoords, getHourlyForecastUrlByCoords, fetchWeatherData,  fetchLegalDialog } from "./api.js";
-import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingCard, clearCard, renderNextDays, fillContactMail, renderLegalContent, showLegalError, initLegalDialog} from "./ui.js";
+import { renderCurrentWeather, renderHourlyForecast, findTab, insertNewTab, setActiveTab, insertLocalStorageTab, removeTab, downAPI, renderWelcomeCard, renderBlockedCard, renderLoadingSkeleton, clearCard, renderNextDays, fillContactMail, renderLegalContent, showLegalError, initLegalDialog} from "./ui.js";
 import { importLocalStorage, removeFromLocalStorage, saveToLocalStorage} from "./utils.js";
 
 import {APIKEY} from "./config.js";
@@ -37,7 +37,7 @@ function showWeather(data, hourlyForecastData){
 
     // intégration visuelle des données météo
     renderCurrentWeather(data);
-    renderHourlyForecast(hourlyForecastData);
+    renderHourlyForecast(data, hourlyForecastData);
     renderNextDays(hourlyForecastData);
 
     // enregistrement du nom de la ville, de la température et de l'heure
@@ -71,7 +71,7 @@ async function loadCity(cityName) {
     };
 
     // timer pour la carte de chargement
-    let loadingTimer = setTimeout(renderLoadingCard, 300);
+    let loadingTimer = setTimeout(renderLoadingSkeleton, 300);
 
     try {
         // lancement des requêtes
@@ -101,7 +101,7 @@ async function loadCityByCoords(lat,lon) {
         "lon" : lon,
     };
 
-    let loadingTimer = setTimeout(renderLoadingCard, 300);
+    let loadingTimer = setTimeout(renderLoadingSkeleton, 300);
 
     try {
         let data = await fetchWeatherData(currentUrlByCoords);
