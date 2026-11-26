@@ -275,7 +275,7 @@ function drawRain(points, layout) {
   if (noRain) {
     return drawNoRainLine(points, layout) +
       `<text class="curve-rain-text" x="${WIDTH / 2}" y="${layout.yRainBase - 10}"
-            text-anchor="middle" font-size="12">Pas de pluie prévue</text>`;
+            text-anchor="middle" font-size="12">Aucune précipitation prévue</text>`;
   }
 
   return points.map(function (p, i) {

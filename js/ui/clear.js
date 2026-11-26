@@ -13,6 +13,9 @@ export function clearMainContent() {
     let stateCard = ".state-card";
     clearCard(stateCard);
 
+    // Supprimer l'écran de chargement
+    clearCard(".loading-skeleton");
+
     // Supprimer la carte météo actuelle
     let weatherCard = ".weather-card";
     clearCard(weatherCard);

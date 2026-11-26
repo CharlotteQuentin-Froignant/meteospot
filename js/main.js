@@ -70,7 +70,7 @@ async function loadCity(cityName) {
         "town" : cityName,
     };
 
-    // timer pour la carte de chargement
+    // timer pour le squelette de chargement
     let loadingTimer = setTimeout(renderLoadingSkeleton, 300);
 
     try {
@@ -83,7 +83,7 @@ async function loadCity(cityName) {
         return weatherResult;
     } finally {
         clearTimeout(loadingTimer);
-        clearCard(".loading-overlay");
+        clearCard(".loading-skeleton");
     };
 };
 
@@ -117,7 +117,7 @@ async function loadCityByCoords(lat,lon) {
 
     } finally {
         clearTimeout(loadingTimer);
-        clearCard(".loading-overlay");
+        clearCard(".loading-skeleton");
     };
 };
 
